@@ -1,6 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.Chalet;
 
 import java.util.UUID;
 

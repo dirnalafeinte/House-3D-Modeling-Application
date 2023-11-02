@@ -2,11 +2,12 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 import java.util.*;
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
 
 public abstract class Drawable {
     private UUID id ;
-    private Map<Vue, List<Coordonnee>> sommets;
+    private Map<Vue, ArrayList<Coordonnee>> sommets;
     private Color couleur;
     private Chalet chalet;
 
@@ -22,7 +23,7 @@ public abstract class Drawable {
         return id;
     }
 
-    public Map<Vue, List<Coordonnee>> getSommets() {
+    public Map<Vue, ArrayList<Coordonnee>> getSommets() {
         return sommets;
     }
 
@@ -59,52 +60,55 @@ public abstract class Drawable {
 
     private void calculateSommets(){
 
-        if chalet.getToit().getSensDuToit() == Orientation.FACADE || chalet.getToit().getSensDuToit() == Orientation.ARRIERE{
+        if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE){
             sommets.put(Vue.PLAN, calculateSommetsPlan1());
             sommets.put(Vue.FACADE, calculateSommetsFacade());
             sommets.put(Vue.GAUCHE, calculateSommetsGauche());
             sommets.put(Vue.ARRIERE, calculateSommetsArriere());
-            sommets.put(Vue.DROITE, calculateSommetsDroite());
+            sommets.put(Vue.DROIT, calculateSommetsDroite());
         }
-        else if chalet.getToit().getSensDuToit() == Orientation.DROITE || chalet.getToit().getSensDuToit() == Orientation.GAUCHE{
+        else if (chalet.getSensDuToit() == Orientation.DROITE || chalet.getSensDuToit() == Orientation.GAUCHE){
             sommets.put(Vue.PLAN, calculateSommetsPlan2());
             sommets.put(Vue.FACADE, calculateSommetsFacade());
             sommets.put(Vue.GAUCHE, calculateSommetsGauche());
             sommets.put(Vue.ARRIERE, calculateSommetsArriere());
-            sommets.put(Vue.DROITE, calculateSommetsDroite());
+            sommets.put(Vue.DROIT, calculateSommetsDroite());
         }
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
-    private List<Coordonnee> calculateSommetsPlan1(){
-        new ArrayList<Coordonnee>();
-
-    }
-
-    //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
-    private List<Coordonnee> calculateSommetsPlan2(){
-        new ArrayList<Coordonnee>();
-
-    }
-
-    private List<Coordonnee> calculateSommetsFacade(){
+    private ArrayList<Coordonnee> calculateSommetsPlan1(){
         ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
-        myList.add(new Coordonnee(0,0));
-        myList.add(new Coordonnee(chalet.getLongueur().toInt(), 0));
-        myList.add(new Coordonnee(0, chalet.getHauteur().toInt()));
-        myList.add(new Coordonnee(chalet.getLongueur().toInt(), chalet.getHauteur().toInt()));
         return myList;
     }
 
-    private List<Coordonnee> calculateSommetsGauche(){
+    //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
+    private ArrayList<Coordonnee> calculateSommetsPlan2(){
+        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        return myList;
+
+    }
+
+    private ArrayList<Coordonnee> calculateSommetsFacade(){
+        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial (chalet.getLongueur().toInt()), new Imperial(chalet.getHauteur().toInt())));
+        return myList;
+    }
+
+    private ArrayList<Coordonnee> calculateSommetsGauche(){
         new ArrayList<Coordonnee>();
     }
 
-    private List<Coordonnee> calculateSommetsArriere(){
-        new ArrayList<Coordonnee>();
+    private ArrayList<Coordonnee> calculateSommetsArriere(){
+        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        return myList;
     }
 
-    private List<Coordonnee> calculateSommetsDroite(){
-        new ArrayList<Coordonnee>();
+    private ArrayList<Coordonnee> calculateSommetsDroite(){
+        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        return myList;
     }
 }

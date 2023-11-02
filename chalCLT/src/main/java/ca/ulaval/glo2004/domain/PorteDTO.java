@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.util.Imperial;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
+import java.util.UUID;
 
 public class PorteDTO {
     public Imperial Largeur;
