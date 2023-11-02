@@ -2,6 +2,8 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
+
 import ca.ulaval.glo2004.domain.Vue;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
