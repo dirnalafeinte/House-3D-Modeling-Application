@@ -2,35 +2,35 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
-
-import ca.ulaval.glo2004.domain.Vue;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
-
-
+import ca.ulaval.glo2004.domain.*;
 
 public abstract class Drawable {
     private UUID id ;
     private Map<Vue, List<Coordonnee>> sommets;
     private Color couleur;
+    private Chalet chalet;
 
-    public Drawable() {
+    public Drawable(Chalet chalet) {
         this.id = UUID.randomUUID();
         this.sommets = new HashMap<>();
         this.couleur = Color.BLACK;
-    }
-
-    public Map<Vue, List<Coordonnee>> getSommets() {
-        return sommets;
+        this.chalet = chalet;
     }
 
     public UUID getId() {
         return id;
     }
 
+    public Map<Vue, List<Coordonnee>> getSommets() {
+        return sommets;
+    }
+
     public Color getCouleur() {
         return couleur;
+    }
+
+    public Chalet getChalet() {
+        return chalet;
     }
 
     public void setCouleur(Color couleur) {

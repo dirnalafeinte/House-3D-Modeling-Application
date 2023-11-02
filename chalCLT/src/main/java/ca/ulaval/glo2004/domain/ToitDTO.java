@@ -2,10 +2,16 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.*;
 
+import java.util.UUID;
+
 public class ToitDTO {
-    private Chalet Chalet;
+    public int HauteurToit;
+    public int LargeurToit;
+    public UUID id;
 
     public void ToitDTO(Toit toit){
-        this.Chalet = toit.getChalet();
+        HauteurToit = toit.getHauteurToit();
+        LargeurToit = toit.getLargeurToit();
+        id = toit.getId();
     }
 }

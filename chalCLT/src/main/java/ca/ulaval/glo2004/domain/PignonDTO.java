@@ -2,17 +2,21 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.*;
 
+import java.util.UUID;
+
 public class PignonDTO {
-    private Chalet Chalet;
-    private boolean EstPignonDroit;
-    private int LargeurPignon;
-    private int HauteurPignon;
+    public Chalet Chalet;
+    public boolean EstPignonDroit;
+    public int LargeurPignon;
+    public int HauteurPignon;
+    public UUID id;
 
     public void PignonDTO(Pignon pignon){
-        this.Chalet = pignon.getChalet();
-        this.EstPignonDroit = pignon.getEstPignonDroit();
-        this.LargeurPignon = pignon.getLargeurPignon();
-        this.HauteurPignon = pignon.getHauteurPignon();
+        Chalet = pignon.getChalet();
+        EstPignonDroit = pignon.getEstPignonDroit();
+        LargeurPignon = pignon.getLargeurPignon();
+        HauteurPignon = pignon.getHauteurPignon();
+        id = pignon.getId();
 
     }
 }

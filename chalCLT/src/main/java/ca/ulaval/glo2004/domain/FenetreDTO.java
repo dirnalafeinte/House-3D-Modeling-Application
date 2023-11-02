@@ -2,15 +2,19 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.*;
 
+import java.util.UUID;
+
 public class FenetreDTO {
-    private Imperial Largeur;
-    private Imperial Hauteur;
-    private Coordonnee Coordonnee;
+    public Imperial Largeur;
+    public Imperial Hauteur;
+    public Coordonnee Coordonnee;
+    public UUID id;
 
     public FenetreDTO(Fenetre fenetre){
-        this.Largeur = fenetre.getLargeur();
-        this.Hauteur = fenetre.getHauteur();
-        this.Coordonnee = fenetre.getCoordonnee();
+        Largeur = fenetre.getLargeur();
+        Hauteur = fenetre.getHauteur();
+        Coordonnee = fenetre.getCoordonnee();
+        id = fenetre.getId();
     }
 
 }

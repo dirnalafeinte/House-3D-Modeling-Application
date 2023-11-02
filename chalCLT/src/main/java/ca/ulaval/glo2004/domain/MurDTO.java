@@ -3,15 +3,18 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public class MurDTO {
-    private Orientation Cote;
-    private List<Accessoire> Accessoires;
-    private Chalet Chalet;
+    public Orientation Cote;
+    public List<Accessoire> Accessoires;
+    public Chalet Chalet;
+    public UUID id;
 
     public void MurDTO(Mur mur){
-        this.Cote = mur.getCote();
-        this.Accessoires = mur.getAccessoires();
-        this.Chalet = mur.getChalet();
+        Cote = mur.getCote();
+        Accessoires = mur.getAccessoires();
+        Chalet = mur.getChalet();
+        id = mur.getId();
     }
 }

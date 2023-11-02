@@ -2,12 +2,16 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.*;
 
+import java.util.UUID;
+
 public class RallongeDTO {
-    private int HauteurRallonge;
-    private Chalet Chalet;
+    public int HauteurRallonge;
+    public Chalet Chalet;
+    public UUID id;
 
     public void RallongeDTO(Rallonge rallonge){
-        this.HauteurRallonge = rallonge.getHauteurRallonge();
-        this.Chalet = rallonge.getChalet();
+        HauteurRallonge = rallonge.getHauteurRallonge();
+        Chalet = rallonge.getChalet();
+        id = rallonge.getId();
     }
 }

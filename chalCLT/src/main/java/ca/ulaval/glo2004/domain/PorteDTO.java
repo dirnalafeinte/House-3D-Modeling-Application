@@ -3,14 +3,17 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.*;
 
 public class PorteDTO {
-    private Imperial Largeur;
-    private Imperial Hauteur;
-    private Coordonnee Coordonnee;
+    public Imperial Largeur;
+    public Imperial Hauteur;
+    public Coordonnee Coordonnee;
+    public UUID id;
 
     public PorteDTO(Porte porte){
-        this.Largeur = porte.getLargeur();
-        this.Hauteur = porte.getHauteur();
-        this.Coordonnee = porte.getCoordonnee();
+        Largeur = porte.getLargeur();
+        Hauteur = porte.getHauteur();
+        Coordonnee = porte.getCoordonnee();
+        id = porte.getId();
+
     }
 
 }

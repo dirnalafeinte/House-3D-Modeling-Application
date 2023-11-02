@@ -7,32 +7,32 @@ import java.util.Map;
 
 
 public class ChaletDTO {
-    private Imperial Largeur;
-    private Imperial Longueur;
-    private Imperial Hauteur;
-    private Imperial DeltaRainure;
-    private Orientation SensDuToit;
-    private int AngleToit;
-    private Imperial EpaisseurMur;
-    private Map<Orientation, Mur> MapMur;
-    private Toit Toit;
-    private Pignon PignonDroit;
-    private Pignon PignonGauche;
-    private Rallonge Rallonge;
+    public Imperial Largeur;
+    public Imperial Longueur;
+    public Imperial Hauteur;
+    public Imperial DeltaRainure;
+    public Orientation SensDuToit;
+    public int AngleToit;
+    public Imperial EpaisseurMur;
+    public Map<Orientation, Mur> MapMur;
+    public Toit Toit;
+    public Pignon PignonDroit;
+    public Pignon PignonGauche;
+    public Rallonge Rallonge;
 
     public ChaletDTO(Chalet chalet){
-        this.Largeur = chalet.getLargeur();
-        this.Longueur = chalet.getLongueur();
-        this.Hauteur = chalet.getHauteur();
-        this.DeltaRainure = chalet.getDeltaRainure();
-        this.SensDuToit = chalet.getSensDuToit();
-        this.AngleToit = chalet.getAngleToit();
-        this.EpaisseurMur = chalet.getEpaisseurMur();
-        this.MapMur = chalet.getMapMur();
-        this.Toit = chalet.getToit();
-        this.PignonDroit = chalet.getPignonDroit();
-        this.PignonGauche = chalet.getPignonGauche();
-        this.Rallonge = chalet.getRallonge();
+        Largeur = chalet.getLargeur();
+        Longueur = chalet.getLongueur();
+        Hauteur = chalet.getHauteur();
+        DeltaRainure = chalet.getDeltaRainure();
+        SensDuToit = chalet.getSensDuToit();
+        AngleToit = chalet.getAngleToit();
+        EpaisseurMur = chalet.getEpaisseurMur();
+        MapMur = chalet.getMapMur();
+        Toit = chalet.getToit();
+        PignonDroit = chalet.getPignonDroit();
+        PignonGauche = chalet.getPignonGauche();
+        Rallonge = chalet.getRallonge();
     }
 
 
