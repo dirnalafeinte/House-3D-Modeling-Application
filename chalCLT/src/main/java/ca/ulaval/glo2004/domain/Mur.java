@@ -1,24 +1,38 @@
 package ca.ulaval.glo2004.domain;
 
-public class Mur extends Chalet{
-    protected int nbPorte;
-    protected int nbFenetre;
-    public Mur(int largeur, int longueur, int hauteur, int deltaRainure, int epaisseurMur, String sensToit, int nbPorte, int nbFenetre) {
-        super(largeur, longueur, hauteur, deltaRainure, epaisseurMur, sensToit);
-        this.nbPorte = nbPorte;
-        this.nbFenetre = nbFenetre;
+import apple.laf.JRSUIConstants;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
+
+import java.util.List;
+
+public class Mur {
+    private Orientation cote;
+    private List<Accessoire> accessoires;
+    private Chalet chalet;
+
+    public Mur(Orientation cote, Chalet chalet) {
+        this.cote = cote;
+        this.chalet = chalet;
     }
 
-    public int getNbPorte() {
-        return nbPorte;
+
+    public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
+
+    }
+    public void ajouterPorte(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
+
     }
 
-    public int getNbFenetre() {
-        return nbFenetre;
+    public Orientation getCote() {
+        return cote;
     }
 
-    /**
-     * À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA À PARLER DE CA
-     * @param nbPorte the nbPorte to set
-     */
+    public void setCote(Orientation cote) {
+        this.cote = cote;
+    }
+
+    public List<Accessoire> getAccessoires() {
+        return accessoires;
+    }
 }

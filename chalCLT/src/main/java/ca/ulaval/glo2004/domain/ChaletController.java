@@ -5,13 +5,7 @@ import java.util.List;
 
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
-    private static final ChaletController instance = new ChaletController();
-
-    private ChaletController() {}
-
-    public static ChaletController getInstance() {
-        return instance;
-    }
+    private static final ChaletController chaletController = new ChaletController();
 
     @Override
     public void registerObserver(Observer newObserver) {
