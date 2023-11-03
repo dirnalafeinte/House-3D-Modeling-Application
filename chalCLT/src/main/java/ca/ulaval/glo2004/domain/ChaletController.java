@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
-    private String vue;
+    private static final ChaletController chaletController = new ChaletController();
 
     @Override
     public void registerObserver(Observer newObserver) {
@@ -21,13 +21,5 @@ public class ChaletController implements Observable {
         for (Observer observer : observers) {
             observer.update();
         }
-    }
-
-    public void setVue(String vue) {
-        this.vue = vue;
-    }
-
-    public String getVue() {
-        return this.vue;
     }
 }

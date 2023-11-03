@@ -34,11 +34,9 @@ public class Afficheur {
     }
 
     private void drawMur(Graphics g) {
-
     }
 
     private void drawPlan(Graphics g) {
-
     }
 
 
