@@ -21,9 +21,9 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private Map<Orientation, Mur> mapMur;
-    private Pignon pignonDroit;
-    private Pignon pignonGauche;
-    private Rallonge rallonge;
+//    private Pignon pignonDroit;
+//    private Pignon pignonGauche;
+//    private Rallonge rallonge;
 
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
@@ -45,15 +45,6 @@ public class Chalet {
         this.epaisseurMur = epaisseurMur;
     }
 
-    public Chalet(){
-        this.largeur = new Imperial(10);
-        this.longueur = new Imperial(10);
-        this.hauteur = new Imperial(8);
-        this.deltaRainure = new Imperial(0);
-        this.sensDuToit = Orientation.FACADE;
-        this.angleToit = 45;
-        this.epaisseurMur = new Imperial(3);
-    }
 
     public Imperial getLargeur() {
         return largeur;
@@ -110,6 +101,22 @@ public class Chalet {
         this.epaisseurMur = epaisseurMur;
         //setDeltaRainure((epaisseurMur.toInt()/2)); // on doit creer une fonction toImperial()
     }
+
+    public Map<Orientation, Mur> getMapMur() {
+        return mapMur;
+    }
+
+//    public Pignon getPignonDroit() {
+//        return pignonDroit;
+//    }
+//
+//    public Pignon getPignonGauche() {
+//        return pignonGauche;
+//    }
+//
+//    public Rallonge getRallonge() {
+//        return rallonge;
+//    }
 
     public List<Drawable> getComposanteVisible(Vue vue){
 
