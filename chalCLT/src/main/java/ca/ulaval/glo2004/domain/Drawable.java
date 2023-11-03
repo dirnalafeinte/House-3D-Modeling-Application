@@ -78,7 +78,7 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
     private ArrayList<Coordonnee> calculateSommetsPlan1(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 
         // 8 sommets de la facade en plan
@@ -126,7 +126,7 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
     private ArrayList<Coordonnee> calculateSommetsPlan2(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 
         // 8 sommets de la facade en plan
@@ -184,7 +184,7 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is FACADE and the sensDuToit is DROITE or GAUCHE
     private ArrayList<Coordonnee> calculateSommetsFacade2(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 
         // 4 sommets des bordures de gauche
@@ -210,7 +210,7 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is GAUCHE and the sensDuToit is FACADE or ARRIERE
     private ArrayList<Coordonnee> calculateSommetsGauche1(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 
         // 4 sommets des bordures de gauche
@@ -264,5 +264,11 @@ public abstract class Drawable {
     //briefly, this method is used to calculate the sommets when the Vue is DROIT and the sensDuToit is DROITE or GAUCHE
     private ArrayList<Coordonnee> calculateSommetsDroite2(){
         return calculateSommetsGauche2();
+    }
+
+    public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {
+        //sommet1 = accessoire.getCoordonnee();
+        //sommets.get(currentVue).add();
+
     }
 }
