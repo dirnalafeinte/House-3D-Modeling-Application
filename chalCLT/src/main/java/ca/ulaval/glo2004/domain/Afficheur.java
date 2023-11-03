@@ -16,7 +16,7 @@ public class Afficheur {
 
     public Afficheur() {
         this.controller = controller;
-        this.intitialDimension = initialDimension;
+        //this.intitialDimension = initialDimension;
         this.vue = vue;
     }
 
