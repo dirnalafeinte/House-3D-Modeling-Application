@@ -62,53 +62,207 @@ public abstract class Drawable {
 
         if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE){
             sommets.put(Vue.PLAN, calculateSommetsPlan1());
-            sommets.put(Vue.FACADE, calculateSommetsFacade());
-            sommets.put(Vue.GAUCHE, calculateSommetsGauche());
-            sommets.put(Vue.ARRIERE, calculateSommetsArriere());
-            sommets.put(Vue.DROIT, calculateSommetsDroite());
+            sommets.put(Vue.FACADE, calculateSommetsFacade1());
+            sommets.put(Vue.GAUCHE, calculateSommetsGauche1());
+            sommets.put(Vue.ARRIERE, calculateSommetsArriere1());
+            sommets.put(Vue.DROIT, calculateSommetsDroite1());
         }
         else if (chalet.getSensDuToit() == Orientation.DROITE || chalet.getSensDuToit() == Orientation.GAUCHE){
             sommets.put(Vue.PLAN, calculateSommetsPlan2());
-            sommets.put(Vue.FACADE, calculateSommetsFacade());
-            sommets.put(Vue.GAUCHE, calculateSommetsGauche());
-            sommets.put(Vue.ARRIERE, calculateSommetsArriere());
-            sommets.put(Vue.DROIT, calculateSommetsDroite());
+            sommets.put(Vue.FACADE, calculateSommetsFacade2());
+            sommets.put(Vue.GAUCHE, calculateSommetsGauche2());
+            sommets.put(Vue.ARRIERE, calculateSommetsArriere2());
+            sommets.put(Vue.DROIT, calculateSommetsDroite2());
         }
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
     private ArrayList<Coordonnee> calculateSommetsPlan1(){
-        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        ArrayList<Coordonnee> myList = new ArrayList<>();
+
+        // 8 sommets de la facade en plan
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(0)));
+
+        // 8 sommets de l'arriere en plan
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getLargeur().toInt())));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur*2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(chalet.getLargeur().toInt())));
+
+        // 8 sommets de la gauche en plan
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur*2)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+
+        // 8 sommets de la droite en plan
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur*2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+
         return myList;
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
     private ArrayList<Coordonnee> calculateSommetsPlan2(){
-        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
-        return myList;
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        ArrayList<Coordonnee> myList = new ArrayList<>();
 
-    }
+        // 8 sommets de la facade en plan
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(0)));
 
-    private ArrayList<Coordonnee> calculateSommetsFacade(){
-        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        // 8 sommets de l'arriere en plan
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt())));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt())));
+
+        // 8 sommets de la gauche en plan
         myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getLargeur().toInt())));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getLargeur().toInt())));
+
+        // 8 sommets de la droite en plan
         myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getLargeur().toInt())));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(chalet.getLargeur().toInt())));
+
+        return myList;
+    }
+
+    //briefly, this method is used to calculate the sommets when the Vue is FACADE and the sensDuToit is FACADE or ARRIERE
+    private ArrayList<Coordonnee> calculateSommetsFacade1(){
+        ArrayList<Coordonnee> myList = new ArrayList<>();
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0))); // sommet 1
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(0))); // sommet 2
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getHauteur().toInt()))); // sommet 3
+        myList.add(new Coordonnee(new Imperial (chalet.getLongueur().toInt()), new Imperial(chalet.getHauteur().toInt()))); // sommet 4
+        return myList;
+    }
+
+    //briefly, this method is used to calculate the sommets when the Vue is FACADE and the sensDuToit is DROITE or GAUCHE
+    private ArrayList<Coordonnee> calculateSommetsFacade2(){
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        ArrayList<Coordonnee> myList = new ArrayList<>();
+
+        // 4 sommets des bordures de gauche
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
         myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getHauteur().toInt())));
-        myList.add(new Coordonnee(new Imperial (chalet.getLongueur().toInt()), new Imperial(chalet.getHauteur().toInt())));
+
+        // 4 sommets du mur de facade
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+
+        // 4 sommets des bordures de droite
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt()), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+
         return myList;
     }
 
-    private ArrayList<Coordonnee> calculateSommetsGauche(){
-        new ArrayList<Coordonnee>();
-    }
+    //briefly, this method is used to calculate the sommets when the Vue is GAUCHE and the sensDuToit is FACADE or ARRIERE
+    private ArrayList<Coordonnee> calculateSommetsGauche1(){
+        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
+        ArrayList<Coordonnee> myList = new ArrayList<>();
 
-    private ArrayList<Coordonnee> calculateSommetsArriere(){
-        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+        // 4 sommets des bordures de gauche
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getHauteur().toInt())));
+
+        // 4 sommets du mur de cote
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial(moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+
+        // 4 sommets des bordures de droite
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt()), new Imperial(0)));
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt()), new Imperial(chalet.getHauteur().toInt())));
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur), new Imperial(chalet.getHauteur().toInt())));
+
         return myList;
     }
 
-    private ArrayList<Coordonnee> calculateSommetsDroite(){
-        ArrayList<Coordonnee> myList = new ArrayList<Coordonnee>();
+    //briefly, this method is used to calculate the sommets when the Vue is GAUCHE and the sensDuToit is DROITE or GAUCHE
+    private ArrayList<Coordonnee> calculateSommetsGauche2(){
+        ArrayList<Coordonnee> myList = new ArrayList<>();
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(0))); // sommet 1
+        myList.add(new Coordonnee(new Imperial(chalet.getLargeur().toInt()), new Imperial(0))); // sommet 2
+        myList.add(new Coordonnee(new Imperial(0), new Imperial(chalet.getHauteur().toInt()))); // sommet 3
+        myList.add(new Coordonnee(new Imperial (chalet.getLargeur().toInt()), new Imperial(chalet.getHauteur().toInt()))); // sommet 4
         return myList;
+    }
+
+    //briefly, this method is used to calculate the sommets when the Vue is ARRIERE and the sensDuToit is FACADE or ARRIERE
+    private ArrayList<Coordonnee> calculateSommetsArriere1(){
+        return calculateSommetsFacade1();
+    }
+
+    //briefly, this method is used to calculate the sommets when the Vue is ARRIERE and the sensDuToit is DROITE or GAUCHE
+    private ArrayList<Coordonnee> calculateSommetsArriere2(){
+        return calculateSommetsFacade2();
+    }
+
+    // Same as calculateSommetsGauche1() but when we will implement Toit, we will need to adapt it
+    //briefly, this method is used to calculate the sommets when the Vue is DROIT and the sensDuToit is FACADE or ARRIERE
+    private ArrayList<Coordonnee> calculateSommetsDroite1(){
+        return calculateSommetsGauche1();
+    }
+
+    // Same as calculateSommetsGauche2() but when we will implement Toit, we will need to add to it
+    //briefly, this method is used to calculate the sommets when the Vue is DROIT and the sensDuToit is DROITE or GAUCHE
+    private ArrayList<Coordonnee> calculateSommetsDroite2(){
+        return calculateSommetsGauche2();
     }
 }
