@@ -1,37 +1,42 @@
 package ca.ulaval.glo2004.domain;
 
-public class ToitSurface extends Toit{
+import ca.ulaval.glo2004.domain.util.Imperial;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
-    private int hauteurToit;
-    private int largeurToit;
-    public ToitSurface(int largeur, int longueur, int hauteur, int deltaRainure, int epaisseurMur, String sensToit,int angleToit, int hauteurToit, int largeurToit) {
-        super(largeur, longueur, hauteur, deltaRainure, epaisseurMur, sensToit, angleToit);
-        this.hauteurToit = hauteurToit;
-        this.largeurToit = largeurToit;
+public class ToitSurface {
+
+    private Imperial hauteurToit;
+    private Imperial largeurToit;
+
+    private ChaletDTO chalet;
+    public ToitSurface(ChaletDTO chalet) {
+        calculerHauteurToit(chalet.SensDuToit);
+        calculerLongueurToit(chalet.SensDuToit);
+        this.chalet = chalet;
     }
 
-    private void calculerHauteurToit(String sensToit) {
+    private void calculerHauteurToit(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            this.hauteurToit = (int) (this.longueur / Math.cos(Math.toRadians(this.angleToit)));
+            this.hauteurToit =  new Imperial(chalet.Longueur.toInt()/(Math.cos(Math.toRadians(chalet.AngleToit))));
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            this.hauteurToit = (int) (this.largeur / Math.cos(Math.toRadians(this.angleToit)));
+            this.hauteurToit =  new Imperial(chalet.Largeur.toInt() / Math.cos(Math.toRadians(chalet.AngleToit)));
         }
     }
-    private void calculerLongueurToit(String sensToit) {
+    private void calculerLongueurToit(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            this.largeurToit = this.largeur;
+            this.largeurToit = chalet.Largeur;
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            this.largeurToit = this.longueur;
+            this.largeurToit = chalet.Longueur;
         }
     }
 
-    public int getHauteurToit() {
+    public Imperial getHauteurToit() {
         return hauteurToit;
     }
 
-    public int getLongueurToit() {
+    public Imperial getLargeurToit() {
         return largeurToit;
     }
 }

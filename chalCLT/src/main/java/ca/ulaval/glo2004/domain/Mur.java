@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.domain;
 
-import apple.laf.JRSUIConstants;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -9,12 +8,13 @@ import java.util.List;
 public class Mur {
     private Orientation cote;
     private List<Accessoire> accessoires;
-    private Chalet chalet;
+    private ChaletDTO chalet;
 
-    public Mur(Orientation cote, Chalet chalet) {
+    public Mur(Orientation cote, ChaletDTO chalet) {
         this.cote = cote;
         this.chalet = chalet;
     }
+
 
 
     public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){

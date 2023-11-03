@@ -2,41 +2,40 @@ package ca.ulaval.glo2004.domain;
 
 // A revoir avec anas
 
+import ca.ulaval.glo2004.domain.util.Imperial;
+
 public class Pignon {
-    private Chalet chalet;
-    private boolean estPignonDroit;
-    private int largeurPignon;
-    private int hauteurPignon;
-    public Pignon(Chalet chalet, boolean estPignonDroit, int largeurPignon, int hauteurPignon) {
+    private ChaletDTO chalet;
+    private Imperial largeurPignon;
+    private Imperial hauteurPignon;
+    public Pignon(ChaletDTO chalet,  int largeurPignon, int hauteurPignon) {
         this.chalet = chalet;
-        this.estPignonDroit = estPignonDroit;
-        this.largeurPignon = largeurPignon;
-        this.hauteurPignon = hauteurPignon;
+        calculerLargeurPignon(chalet.SensDuToit);
+        calculerHauteurPignon(chalet.SensDuToit);
     }
 
-//    private void calculerHauteurPignon() {
-//        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-//            this.hauteurPignon = (int) (Math.tan(Math.toRadians(this.angleToit))/this.longueur);
-//        }
-//        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-//            this.hauteurPignon = (int) (Math.tan(Math.toRadians(this.angleToit))/this.largeur);
-//        }
-//    }
-//
-//    private void calculerLargeurPignon(String sensToit) {
-//        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-//            this.largeurPignon = this.longueur;
-//        }
-//        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-//            this.largeurPignon = this.largeur;
-//        }
-//    }
+   private void calculerHauteurPignon(Orientation sensToit) {
+       if ("GAUCHE".equals(chalet.SensDuToit) || "DROITE".equals(sensToit)){
+           this.hauteurPignon = new Imperial (Math.tan(Math.toRadians(chalet.AngleToit))/chalet.Longueur.toInt());
+       }
+       if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
+           this.hauteurPignon =  new Imperial(Math.tan(Math.toRadians(chalet.AngleToit))/chalet.Largeur.toInt());
+       }
+   }
+   private void calculerLargeurPignon(Orientation sensToit) {
+       if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
+           this.largeurPignon = chalet.Longueur;
+       }
+       if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
+           this.largeurPignon = chalet.Largeur;
+       }
+   }
 
-    public int getHauteurPignon() {
+    public Imperial getHauteurPignon() {
         return hauteurPignon;
     }
 
-    public int getLargeurPignon() {
+    public Imperial getLargeurPignon() {
         return largeurPignon;
     }
 }

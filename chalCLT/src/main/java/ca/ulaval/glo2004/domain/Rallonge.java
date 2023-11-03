@@ -1,34 +1,39 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.util.Imperial;
+
 public class Rallonge {
 
-    private int hauteurRallonge;
-    private Chalet chalet;
+    private Imperial hauteurRallonge;
+    private Imperial longueurRallonge;
 
-    public Rallonge(int hauteurRallonge, Chalet chalet) {
-        this.hauteurRallonge = hauteurRallonge;
+    private ChaletDTO chalet;
+
+    public Rallonge(Imperial hauteurRallonge, Imperial longueurRallonge, ChaletDTO chalet) {
+        calculerHauteurRallonge(chalet.SensDuToit);
+        calculerLongueurRallonge(chalet.SensDuToit);
         this.chalet = chalet;
     }
 
-//    private void calculerLongueurRallonge(String sensToit) {
-//        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-//            this.longueurRallonge = this.largeur;
-//        }
-//        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-//            this.longueurRallonge = this.longueur;
-//        }
-//    }
-//
-//    private void calculerHauteurRallonge(String sensToit) {
-//        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-//            this.hauteurRallonge = (int) (this.longueur * Math.tan(Math.toRadians(this.angleToit)));
-//        }
-//        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-//            this.hauteurRallonge = (int) (this.largeur * Math.tan(Math.toRadians(this.angleToit)));
-//        }
-//    }
+    private void calculerLongueurRallonge(Orientation sensToit) {
+        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
+            this.longueurRallonge = chalet.Largeur;
+        }
+        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
+            this.longueurRallonge = chalet.Longueur;
+        }
+    }
 
-    public int getHauteurRallonge() {
+    private void calculerHauteurRallonge(Orientation sensToit) {
+        if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
+            this.hauteurRallonge =  new Imperial(longueurRallonge.toInt() * Math.tan(Math.toRadians(chalet.AngleToit)));
+        }
+        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
+            this.hauteurRallonge =  new Imperial(longueurRallonge.toInt() * Math.tan(Math.toRadians(chalet.AngleToit)));
+        }
+    }
+
+    public Imperial getHauteurRallonge() {
         return hauteurRallonge;
     }
 
