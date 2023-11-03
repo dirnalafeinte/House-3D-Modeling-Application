@@ -14,8 +14,8 @@ public class VueMenu extends JMenu {
     private final VueMenuItem vueGaucheMenuItem = new VueMenuItem(TEXT_VUE_GAUCHE, Vue.GAUCHE);
     private static final String TEXT_VUE_ARRIERE = "Arrière";
     private final VueMenuItem vueArriereMenuItem = new VueMenuItem(TEXT_VUE_ARRIERE, Vue.ARRIERE);
-    private static final String TEXT_VUE_DROIT = "Droit";
-    private final VueMenuItem vueDroitMenuItem = new VueMenuItem(TEXT_VUE_DROIT, Vue.DROIT);
+    private static final String TEXT_VUE_DROITE = "Droit";
+    private final VueMenuItem vueDroiteMenuItem = new VueMenuItem(TEXT_VUE_DROITE, Vue.DROITE);
 
     public VueMenu() {
         super(TEXT_VUE_MENU);
@@ -27,6 +27,6 @@ public class VueMenu extends JMenu {
         add(vueFacadeMenuItem);
         add(vueGaucheMenuItem);
         add(vueArriereMenuItem);
-        add(vueDroitMenuItem);
+        add(vueDroiteMenuItem);
     }
 }

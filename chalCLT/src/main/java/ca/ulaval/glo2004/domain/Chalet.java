@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Chalet {
+    private static final Imperial DEFAULT_LARGEUR = Imperial.fromFeet(10);
+    private static final Imperial DEFAULT_LONGUEUR = Imperial.fromFeet(10);
+    private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
+    private static final Imperial DEFAULT_DELTA_RAINURE = new Imperial();
+    private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
+    private static final int DEFAULT_ANGLE_TOIT = 15;
+    private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
     private Imperial largeur;
     private Imperial longueur;
     private Imperial hauteur;
@@ -14,10 +21,19 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private Map<Orientation, Mur> mapMur;
-    private Toit toit;
     private Pignon pignonDroit;
     private Pignon pignonGauche;
     private Rallonge rallonge;
+
+    public Chalet() {
+        this.largeur = DEFAULT_LARGEUR;
+        this.longueur = DEFAULT_LONGUEUR;
+        this.hauteur = DEFAULT_HAUTEUR;
+        this.deltaRainure = DEFAULT_DELTA_RAINURE;
+        this.sensDuToit = DEFAULT_SENS_DU_TOIT;
+        this.angleToit = DEFAULT_ANGLE_TOIT;
+        this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
+    }
 
     public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur) {
         this.largeur = largeur;
@@ -27,6 +43,16 @@ public class Chalet {
         this.sensDuToit = sensDuToit;
         this.angleToit = angleToit;
         this.epaisseurMur = epaisseurMur;
+    }
+
+    public Chalet(){
+        this.largeur = new Imperial(10);
+        this.longueur = new Imperial(10);
+        this.hauteur = new Imperial(8);
+        this.deltaRainure = new Imperial(0);
+        this.sensDuToit = Orientation.FACADE;
+        this.angleToit = 45;
+        this.epaisseurMur = new Imperial(3);
     }
 
     public Imperial getLargeur() {

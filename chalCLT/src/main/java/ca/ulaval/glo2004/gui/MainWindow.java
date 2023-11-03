@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.gui;
 
+import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.mainPanel.MainPanel;
 import ca.ulaval.glo2004.gui.menu.MenuBar;
 
@@ -7,9 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private final ca.ulaval.glo2004.gui.menu.MenuBar menuBar = new MenuBar();
-
+    private final MenuBar menuBar = new MenuBar();
     private final MainPanel mainPanel = new MainPanel();
+    private final ChaletController chaletController = new ChaletController();
 
     public MainWindow() {
         init();
