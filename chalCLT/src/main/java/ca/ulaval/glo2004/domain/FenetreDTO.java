@@ -15,7 +15,7 @@ public class FenetreDTO {
         Largeur = fenetre.getLargeur();
         Hauteur = fenetre.getHauteur();
         Coordonnee = fenetre.getCoordonnee();
-        id = fenetre.getId();
+        //id = fenetre.getId();
     }
 
 }

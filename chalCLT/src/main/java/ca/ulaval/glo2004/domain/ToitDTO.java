@@ -9,9 +9,9 @@ public class ToitDTO {
     public int LargeurToit;
     public UUID id;
 
-    public void ToitDTO(Toit toit){
+    /*public void ToitDTO(Toit toit){
         HauteurToit = toit.getHauteurToit();
         LargeurToit = toit.getLargeurToit();
         id = toit.getId();
-    }
+    }*/
 }

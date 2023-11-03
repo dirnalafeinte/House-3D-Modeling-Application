@@ -1,6 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
-import apple.laf.JRSUIConstants;
+
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 

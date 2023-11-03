@@ -14,7 +14,7 @@ public class MurDTO {
     public void MurDTO(Mur mur){
         Cote = mur.getCote();
         Accessoires = mur.getAccessoires();
-        Chalet = mur.getChalet();
-        id = mur.getId();
+        //Chalet = mur.getChalet();
+        //id = mur.getId();
     }
 }

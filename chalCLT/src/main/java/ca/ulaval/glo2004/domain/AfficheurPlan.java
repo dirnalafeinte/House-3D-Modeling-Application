@@ -9,13 +9,15 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 
 
 public class AfficheurPlan extends Afficheur {
-    private Drawable chalet;
+    private Chalet chalet;
+    private Drawable drawable;
 
 
-    public AfficheurPlan(Drawable chalet) {
+    public AfficheurPlan(Drawable drawable, Chalet chalet) {
         super();
+        this.drawable = drawable;
         this.chalet = chalet;
-        //String vue = chalet.getVue();
+        //String vue = chalet.getVue();chalet
         //drawPlan();
     }
 
@@ -28,10 +30,10 @@ public class AfficheurPlan extends Afficheur {
             //throw new Exception("L'orientation du toit doit être définie");
         //}
         if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE) {
-            sommetsPlan = chalet.calculateSommetsPlan1();
+            sommetsPlan = drawable.calculateSommetsPlan1();
         }
         else {
-            sommetsPlan = chalet.calculateSommetsPlan2();
+            sommetsPlan = drawable.calculateSommetsPlan2();
 
             //On boucle pour les 4 murs
             for (int i = 0; i < 4; i++) {

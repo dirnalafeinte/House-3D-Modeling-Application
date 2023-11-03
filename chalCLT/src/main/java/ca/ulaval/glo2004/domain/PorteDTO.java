@@ -14,7 +14,7 @@ public class PorteDTO {
         Largeur = porte.getLargeur();
         Hauteur = porte.getHauteur();
         Coordonnee = porte.getCoordonnee();
-        id = porte.getId();
+        //id = porte.getId();
 
     }
 

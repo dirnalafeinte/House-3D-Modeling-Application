@@ -77,7 +77,7 @@ public abstract class Drawable {
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
-    private ArrayList<Coordonnee> calculateSommetsPlan1(){
+    ArrayList<Coordonnee> calculateSommetsPlan1(){
         int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 
@@ -125,7 +125,7 @@ public abstract class Drawable {
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
-    private ArrayList<Coordonnee> calculateSommetsPlan2(){
+    ArrayList<Coordonnee> calculateSommetsPlan2(){
         int moitie_epaisseur = (chalet.getEpaisseurMur().toInt())/2;
         ArrayList<Coordonnee> myList = new ArrayList<>();
 

@@ -28,11 +28,11 @@ public class ChaletDTO {
         SensDuToit = chalet.getSensDuToit();
         AngleToit = chalet.getAngleToit();
         EpaisseurMur = chalet.getEpaisseurMur();
-        MapMur = chalet.getMapMur();
-        Toit = chalet.getToit();
-        PignonDroit = chalet.getPignonDroit();
-        PignonGauche = chalet.getPignonGauche();
-        Rallonge = chalet.getRallonge();
+        //MapMur = chalet.getMapMur();
+        //Toit = chalet.getToit();
+        //PignonDroit = chalet.getPignonDroit();
+        //PignonGauche = chalet.getPignonGauche();
+        //Rallonge = chalet.getRallonge();
     }
 
 

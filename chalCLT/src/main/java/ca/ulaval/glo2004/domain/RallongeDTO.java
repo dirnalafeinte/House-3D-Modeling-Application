@@ -11,7 +11,7 @@ public class RallongeDTO {
 
     public void RallongeDTO(Rallonge rallonge){
         HauteurRallonge = rallonge.getHauteurRallonge();
-        Chalet = rallonge.getChalet();
-        id = rallonge.getId();
+        //Chalet = rallonge.getChalet();
+        //id = rallonge.getId();
     }
 }
