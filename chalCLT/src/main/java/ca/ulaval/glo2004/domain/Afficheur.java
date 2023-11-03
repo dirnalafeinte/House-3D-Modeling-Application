@@ -1,8 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
-import java.util.*;
-import ca.ulaval.glo2004.domain.Vue;
+
 
 public class Afficheur {
 
@@ -15,7 +14,7 @@ public class Afficheur {
     private boolean isGrilleVisible;
 
 
-    public Afficheur(ChaletController controller, Dimension initialDimension, Vue vue) {
+    public Afficheur() {
         this.controller = controller;
         this.intitialDimension = initialDimension;
         this.vue = vue;

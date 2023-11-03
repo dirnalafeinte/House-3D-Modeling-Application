@@ -3,7 +3,7 @@ package ca.ulaval.glo2004.domain;
 import java.awt.*;
 import java.util.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
+
 
 
 
@@ -14,9 +14,10 @@ public class AfficheurPlan extends Afficheur {
     public AfficheurPlan(Drawable chalet) {
         super();
         this.chalet = chalet;
-        String vue = chalet.getVue();
-        drawPlan(g, vue);
+        //String vue = chalet.getVue();
+        //drawPlan();
     }
+
 
     public void drawPlan(Graphics g) throws Exception {
         ArrayList<Coordonnee> sommetsPlan;
@@ -25,7 +26,7 @@ public class AfficheurPlan extends Afficheur {
         //if (chalet.getSensDuToit() == null) {
             //throw new Exception("L'orientation du toit doit être définie");
         //}
-        else if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE) {
+        if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE) {
             sommetsPlan = chalet.calculateSommetsPlan1();
         }
         else {
@@ -37,7 +38,7 @@ public class AfficheurPlan extends Afficheur {
 
                 //On boucle cette fois-ci sur chacun des sommets(8)
                 for (int j = 0; j < 8; j++) {
-                    poly.addPoint(sommetsPlan.get(i + j).getoffsetX(), sommetsPlan.get(i + j).getoffsetY());
+                    //poly.addPoint(sommetsPlan.get(i + j).getoffsetX(), sommetsPlan.get(i + j).getoffsetY());
                 }
 
                 // Murs Façades
