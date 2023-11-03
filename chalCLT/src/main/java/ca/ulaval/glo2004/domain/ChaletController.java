@@ -5,7 +5,12 @@ import java.util.List;
 
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
-    private static final ChaletController chaletController = new ChaletController();
+    private final ChaletFactory chaletFactory = new ChaletFactory();
+    private Chalet chalet;
+
+    public void ChaletController() {
+        chalet = chaletFactory.createDefaultChalet();
+    }
 
     @Override
     public void registerObserver(Observer newObserver) {

@@ -5,5 +5,5 @@ public enum Vue {
     FACADE,
     GAUCHE,
     ARRIERE,
-    DROIT
+    DROITE
 }

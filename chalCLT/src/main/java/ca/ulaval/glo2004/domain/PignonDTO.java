@@ -1,22 +1,22 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.Chalet;
+import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.UUID;
 
-/**public class PignonDTO {
+public class PignonDTO {
     public Chalet Chalet;
     public boolean EstPignonDroit;
-    public int LargeurPignon;
-    public int HauteurPignon;
-    //public UUID id;
+    public Imperial LargeurPignon;
+    public Imperial HauteurPignon;
+    public UUID id;
 
-    /*public void PignonDTO(Pignon pignon){
+    public void PignonDTO(Pignon pignon){
         Chalet = pignon.getChalet();
-        EstPignonDroit = pignon.getEstPignonDroit();
         LargeurPignon = pignon.getLargeurPignon();
         HauteurPignon = pignon.getHauteurPignon();
         id = pignon.getId();
 
     }
-}**/
+}
