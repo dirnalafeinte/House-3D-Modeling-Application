@@ -7,7 +7,7 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 
 public abstract class Drawable {
     private UUID id ;
-    private Map<Vue, ArrayList<Coordonnee>> sommets;
+    private Map<Vue, ArrayList<ArrayList<Imperial>>> sommets; // { Vue, [[x], [y]] }
     private Color couleur;
     private Chalet chalet;
 
@@ -16,7 +16,7 @@ public abstract class Drawable {
         this.sommets = new HashMap<>();
         this.couleur = Color.BLACK;
         this.chalet = chalet;
-        calculateSommets(); // Remplir la hashmap avec les Vues et sommets
+        //calculateSommets(); // Remplir la hashmap avec les Vues et sommets
     }
 
     public UUID getId() {
@@ -77,9 +77,11 @@ public abstract class Drawable {
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
-    private ArrayList<Coordonnee> calculateSommetsPlan1(){
+    private ArrayList<ArrayList<Imperial>> calculateSommetsPlan1(){
         int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
-        ArrayList<Coordonnee> myList = new ArrayList<>();
+        ArrayList<ArrayList<Imperial>> myList = new ArrayList<>();
+        ArrayList<Imperial> myListX = new ArrayList<>();
+        ArrayList<Imperial> myListY = new ArrayList<>();
 
         // 8 sommets de la facade en plan
         myList.add(new Coordonnee(new Imperial(0), new Imperial(0)));
