@@ -3,16 +3,16 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Mur {
+public class Mur extends Drawable{
     private Orientation cote;
     private List<Accessoire> accessoires;
-    private ChaletDTO chalet;
 
-    public Mur(Orientation cote, ChaletDTO chalet) {
+    public Mur(Orientation cote, Chalet chalet) {
+        super(chalet);
         this.cote = cote;
-        this.chalet = chalet;
     }
 
 
