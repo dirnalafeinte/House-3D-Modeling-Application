@@ -24,19 +24,19 @@ public class Afficheur {
     public void draw(Graphics g) {
 
         switch(vue) {
-            case Vue.FACADE:
+            case FACADE:
                 drawMur(g);
                 break;
-            case Vue.ARRIERE:
+            case ARRIERE:
                 drawMur(g);
                 break;
-            case Vue.GAUCHE:
+            case GAUCHE:
                 drawMur(g);
                 break;
-            case Vue.DROIT:
+            case DROIT:
                 drawMur(g);
                 break;
-            case vue.PLAN:
+            case PLAN:
                 drawPlan(g);
                 break;
 
