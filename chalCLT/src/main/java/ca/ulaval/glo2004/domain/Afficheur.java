@@ -1,7 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+
 public class Afficheur {
 
     private ChaletController controller;
