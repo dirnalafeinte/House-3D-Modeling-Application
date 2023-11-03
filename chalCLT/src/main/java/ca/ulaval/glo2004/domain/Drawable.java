@@ -65,14 +65,14 @@ public abstract class Drawable {
             sommets.put(Vue.FACADE, calculateSommetsFacade1());
             sommets.put(Vue.GAUCHE, calculateSommetsGauche1());
             sommets.put(Vue.ARRIERE, calculateSommetsArriere1());
-            sommets.put(Vue.DROIT, calculateSommetsDroite1());
+            sommets.put(Vue.DROITE, calculateSommetsDroite1());
         }
         else if (chalet.getSensDuToit() == Orientation.DROITE || chalet.getSensDuToit() == Orientation.GAUCHE){
             sommets.put(Vue.PLAN, calculateSommetsPlan2());
             sommets.put(Vue.FACADE, calculateSommetsFacade2());
             sommets.put(Vue.GAUCHE, calculateSommetsGauche2());
             sommets.put(Vue.ARRIERE, calculateSommetsArriere2());
-            sommets.put(Vue.DROIT, calculateSommetsDroite2());
+            sommets.put(Vue.DROITE, calculateSommetsDroite2());
         }
     }
 

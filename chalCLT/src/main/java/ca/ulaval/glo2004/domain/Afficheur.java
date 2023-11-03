@@ -32,7 +32,7 @@ public class Afficheur {
             case GAUCHE:
                 drawMur(g);
                 break;
-            case DROIT:
+            case DROITE:
                 drawMur(g);
                 break;
             case PLAN:

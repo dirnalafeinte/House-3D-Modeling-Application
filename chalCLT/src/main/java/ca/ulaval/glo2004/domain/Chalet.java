@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Chalet {
+    private static final Imperial DEFAULT_LARGEUR = Imperial.fromFeet(10);
+    private static final Imperial DEFAULT_LONGUEUR = Imperial.fromFeet(10);
+    private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
+    private static final Imperial DEFAULT_DELTA_RAINURE = new Imperial();
+    private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
+    private static final int DEFAULT_ANGLE_TOIT = 15;
+    private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
     private Imperial largeur;
     private Imperial longueur;
     private Imperial hauteur;
@@ -18,6 +25,16 @@ public class Chalet {
     private Pignon pignonDroit;
     private Pignon pignonGauche;
     private Rallonge rallonge;
+
+    public Chalet() {
+        this.largeur = DEFAULT_LARGEUR;
+        this.longueur = DEFAULT_LONGUEUR;
+        this.hauteur = DEFAULT_HAUTEUR;
+        this.deltaRainure = DEFAULT_DELTA_RAINURE;
+        this.sensDuToit = DEFAULT_SENS_DU_TOIT;
+        this.angleToit = DEFAULT_ANGLE_TOIT;
+        this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
+    }
 
     public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur) {
         this.largeur = largeur;
