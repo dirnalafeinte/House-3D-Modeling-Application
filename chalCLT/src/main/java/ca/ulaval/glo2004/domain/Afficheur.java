@@ -2,6 +2,7 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 import java.util.*;
+import ca.ulaval.glo2004.domain.Vue;
 
 public class Afficheur {
 
@@ -23,11 +24,22 @@ public class Afficheur {
     public void draw(Graphics g) {
 
         switch(vue) {
-            case "Mur":
+            case Vue.FACADE:
                 drawMur(g);
-            case "Dessus":
+                break;
+            case Vue.ARRIERE:
+                drawMur(g);
+                break;
+            case Vue.GAUCHE:
+                drawMur(g);
+                break;
+            case Vue.DROIT:
+                drawMur(g);
+                break;
+            case vue.PLAN:
                 drawPlan(g);
                 break;
+
             default:
                 break;
         }
