@@ -8,12 +8,13 @@ import java.util.List;
 public class Mur {
     private Orientation cote;
     private List<Accessoire> accessoires;
-    private Chalet chalet;
+    private ChaletDTO chalet;
 
-    public Mur(Orientation cote, Chalet chalet) {
+    public Mur(Orientation cote, ChaletDTO chalet) {
         this.cote = cote;
         this.chalet = chalet;
     }
+
 
 
     public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){

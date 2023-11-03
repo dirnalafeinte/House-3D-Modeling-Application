@@ -15,7 +15,7 @@ public class ChaletDTO {
     public int AngleToit;
     public Imperial EpaisseurMur;
     public Map<Orientation, Mur> MapMur;
-    public Toit Toit;
+    public ToitSurface Toit;
     public Pignon PignonDroit;
     public Pignon PignonGauche;
     public Rallonge Rallonge;
@@ -29,7 +29,6 @@ public class ChaletDTO {
         AngleToit = chalet.getAngleToit();
         EpaisseurMur = chalet.getEpaisseurMur();
         MapMur = chalet.getMapMur();
-        Toit = chalet.getToit();
         PignonDroit = chalet.getPignonDroit();
         PignonGauche = chalet.getPignonGauche();
         Rallonge = chalet.getRallonge();

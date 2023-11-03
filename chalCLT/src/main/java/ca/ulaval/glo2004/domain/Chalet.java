@@ -21,7 +21,6 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private Map<Orientation, Mur> mapMur;
-    private Toit toit;
     private Pignon pignonDroit;
     private Pignon pignonGauche;
     private Rallonge rallonge;
@@ -44,6 +43,16 @@ public class Chalet {
         this.sensDuToit = sensDuToit;
         this.angleToit = angleToit;
         this.epaisseurMur = epaisseurMur;
+    }
+
+    public Chalet(){
+        this.largeur = new Imperial(10);
+        this.longueur = new Imperial(10);
+        this.hauteur = new Imperial(8);
+        this.deltaRainure = new Imperial(0);
+        this.sensDuToit = Orientation.FACADE;
+        this.angleToit = 45;
+        this.epaisseurMur = new Imperial(3);
     }
 
     public Imperial getLargeur() {

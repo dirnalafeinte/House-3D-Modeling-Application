@@ -3,6 +3,8 @@ package ca.ulaval.glo2004.domain.util;
 // Toutes les dimensions sont en valeurs réelles ( **la gestion des nombres fractionnaires n’est pas demandée pour l’instant **)
 // Puisqu'on gere seulement les entiers pour l'instant les fonctions utilise juste les entiers. Ca sera a modifier.
 
+import java.lang.reflect.Array;
+
 public class Imperial {
     private int feet;
     private int inches;
@@ -36,6 +38,34 @@ public class Imperial {
         return new Imperial(feet, inches, 0, 1);
     }
 
+    //private int doubleToInt(double d){
+    //    return (int) Math.round(d);
+    //}
+
+    //public Imperial (double chiffre) {
+    //    double df;
+    //    long lUpperPart = 1;
+    //    long lLowerPart = 1;
+    //    int entier = doubleToInt(chiffre);
+    //    double f = chiffre - entier;
+
+    //    df = (double) lUpperPart / lLowerPart;
+
+    //    while (df != f) {
+    //        if (df < f) {
+    //            lUpperPart = lUpperPart + 1;
+    //        } else {
+    //            lLowerPart = lLowerPart + 1;
+    //            lUpperPart = (long) (f * lLowerPart);
+    //        }
+    //        df = (double) lUpperPart / lLowerPart;
+    //    }
+    //    this.entier = entier;
+    //    this.numerateur = doubleToInt(lUpperPart);
+    //    this.denominateur = doubleToInt(lLowerPart);
+    //}
+
+
     public Imperial add(Imperial that) {
         return new Imperial(feet + that.feet, inches + that.inches, numerator + that.numerator, denominator + that.denominator);
     }
@@ -48,6 +78,12 @@ public class Imperial {
         // TODO
         return new Imperial();
     }
+    //If I wanna do this: this.hauteurToit =  (chalet.Largeur / Math.cos(Math.toRadians(chalet.AngleToit))); How can I do it?
+    //answer: this.hauteurToit =  (chalet.Largeur / Math.cos(Math.toRadians(chalet.AngleToit)));
+
+    //public Imperial divide(Imperial that) {
+    //    return new Imperial(this.entier/that.entier);
+    //}
 
     public Imperial divide(Imperial that) {
         // TODO
