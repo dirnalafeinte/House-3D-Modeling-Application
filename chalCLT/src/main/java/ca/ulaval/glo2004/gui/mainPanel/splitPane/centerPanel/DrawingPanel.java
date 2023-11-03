@@ -13,4 +13,9 @@ public class DrawingPanel extends JPanel {
     private void init() {
         setBackground(BACKGROUD_COLOR);
     }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+    }
 }
