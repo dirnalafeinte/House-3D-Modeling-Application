@@ -1,15 +1,14 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Imperial;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
-public class ToitSurface {
+public class Toit {
 
     private Imperial hauteurToit;
     private Imperial largeurToit;
 
     private ChaletDTO chalet;
-    public ToitSurface(ChaletDTO chalet) {
+    public Toit(ChaletDTO chalet) {
         calculerHauteurToit(chalet.SensDuToit);
         calculerLongueurToit(chalet.SensDuToit);
         this.chalet = chalet;
@@ -17,11 +16,10 @@ public class ToitSurface {
 
     private void calculerHauteurToit(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            //this.hauteurToit =  new Imperial(chalet.Longueur.toInt()/(Math.cos(Math.toRadians(chalet.AngleToit))));
+            this.hauteurToit =  chalet.Longueur.divide(Imperial.DoubleToFeetAndInchesAndFractions(Math.cos(Math.toRadians(chalet.AngleToit))));
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            //
-            // this.hauteurToit =  new Imperial(chalet.Largeur.toInt() / Math.cos(Math.toRadians(chalet.AngleToit)));
+            this.hauteurToit =  chalet.Largeur.divide ( Imperial.DoubleToFeetAndInchesAndFractions( Math.cos(Math.toRadians(chalet.AngleToit))));
         }
     }
     private void calculerLongueurToit(Orientation sensToit) {

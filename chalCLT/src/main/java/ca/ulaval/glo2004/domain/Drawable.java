@@ -59,7 +59,7 @@ public abstract class Drawable {
     }
 
     public void calculateSommets(){
-
+//definition:
         if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE){
             sommets.put(Vue.PLAN, calculateSommetsPlan1());
             sommets.put(Vue.FACADE, calculateSommetsFacade1());
@@ -77,83 +77,83 @@ public abstract class Drawable {
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
-    private ArrayList<ArrayList<Imperial>> calculateSommetsPlan1(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
+    public ArrayList<ArrayList<Imperial>> calculateSommetsPlan1(){
+        int moitie_epaisseur = (int)(Imperial.feetAndInchesAndFractionsToDouble(chalet.getEpaisseurMur().add(chalet.getDeltaRainure().divide(2))));
         ArrayList<ArrayList<Imperial>> myList = new ArrayList<>();
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
         // 8 sommets de la facade en plan
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur * 2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur * 2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add((chalet.getLongueur()));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
 
         // 8 sommets de l'arriere en plan
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getLargeur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getLargeur());
 
         // 8 sommets de la gauche en plan
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
 
         // 8 sommets de la droite en plan
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
+        myListX.add(chalet.getLongueur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
 
 
         myList.add(myListX);
@@ -162,84 +162,84 @@ public abstract class Drawable {
     }
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is DROITE or GAUCHE
-    private ArrayList<ArrayList<Imperial>> calculateSommetsPlan2(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
+    public ArrayList<ArrayList<Imperial>> calculateSommetsPlan2(){
+        int moitie_epaisseur = (int)(Imperial.feetAndInchesAndFractionsToDouble(chalet.getEpaisseurMur().add(chalet.getDeltaRainure().divide(2))));
         ArrayList<ArrayList<Imperial>> myList = new ArrayList<>();
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
         // 8 sommets de la facade en plan
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
 
         // 8 sommets de l'arriere en plan
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur * 2));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur());
 
         // 8 sommets de la gauche en plan
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getLargeur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getLargeur());
 
         // 8 sommets de la droite en plan
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur * 2));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getLargeur().toInt()));
-        
+        myListX.add(chalet.getLongueur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur*2)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getLargeur());
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getLargeur());
+
         myList.add(myListX);
         myList.add(myListY);
         return myList;
@@ -251,14 +251,14 @@ public abstract class Drawable {
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getHauteur());
 
         myList.add(myListX);
         myList.add(myListY);
@@ -267,40 +267,40 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is FACADE and the sensDuToit is DROITE or GAUCHE
     private ArrayList<ArrayList<Imperial>> calculateSommetsFacade2(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
+        int moitie_epaisseur = (int)(Imperial.feetAndInchesAndFractionsToDouble(chalet.getEpaisseurMur().add(chalet.getDeltaRainure().divide(2))));
         ArrayList<ArrayList<Imperial>> myList = new ArrayList<>();
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
         // 4 sommets des bordures de gauche
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getHauteur());
 
         // 4 sommets du mur de facade
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getHauteur());
 
         // 4 sommets des bordures de droite
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLongueur().toInt()));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(chalet.getLongueur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLongueur());
+        myListY.add(chalet.getHauteur());
+        myListX.add(chalet.getLongueur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getHauteur());
 
         myList.add(myListX);
         myList.add(myListY);
@@ -309,40 +309,40 @@ public abstract class Drawable {
 
     //briefly, this method is used to calculate the sommets when the Vue is GAUCHE and the sensDuToit is FACADE or ARRIERE
     private ArrayList<ArrayList<Imperial>> calculateSommetsGauche1(){
-        int moitie_epaisseur = (chalet.getEpaisseurMur().toInt() + chalet.getDeltaRainure().toInt())/2;
+        int moitie_epaisseur = (int)(Imperial.feetAndInchesAndFractionsToDouble(chalet.getEpaisseurMur().add(chalet.getDeltaRainure().divide(2))));
         ArrayList<ArrayList<Imperial>> myList = new ArrayList<>();
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
         // 4 sommets des bordures de gauche
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getHauteur());
 
         // 4 sommets du mur de cote
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur));
+        myListY.add(chalet.getHauteur());
 
         // 4 sommets des bordures de droite
-        myListX.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt()));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt()));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(chalet.getLargeur().toInt() - moitie_epaisseur));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur());
+        myListY.add(chalet.getHauteur());
+        myListX.add(chalet.getLargeur().substract(Imperial.DoubleToFeetAndInchesAndFractions(moitie_epaisseur)));
+        myListY.add(chalet.getHauteur());
 
         myList.add(myListX);
         myList.add(myListY);
@@ -355,14 +355,14 @@ public abstract class Drawable {
         ArrayList<Imperial> myListX = new ArrayList<>();
         ArrayList<Imperial> myListY = new ArrayList<>();
 
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt()));
-        myListY.add(new Imperial(0));
-        myListX.add(new Imperial(chalet.getLargeur().toInt()));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
-        myListX.add(new Imperial(0));
-        myListY.add(new Imperial(chalet.getHauteur().toInt()));
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur());
+        myListY.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListX.add(chalet.getLargeur());
+        myListY.add(chalet.getHauteur());
+        myListX.add(Imperial.DoubleToFeetAndInchesAndFractions(0));
+        myListY.add(chalet.getHauteur());
 
         myList.add(myListX);
         myList.add(myListY);

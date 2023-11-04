@@ -9,34 +9,37 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 
 
 public class AfficheurPlan extends Afficheur {
-    private Chalet chalet;
-    private Drawable drawable;
+    private Drawable chalet;
 
 
-    public AfficheurPlan(Drawable drawable, Chalet chalet) {
+    public AfficheurPlan(Drawable chalet) {
         super();
-        this.drawable = drawable;
         this.chalet = chalet;
-        //String vue = chalet.getVue();chalet
+        //String vue = chalet.getVue();
         //drawPlan();
     }
 
 
     public void drawPlan(Graphics g) throws Exception {
-        ArrayList<Coordonnee> sommetsPlan;
+        ArrayList<Coordonnee> sommetsPlan = new ArrayList<Coordonnee>();
+        int i;
 
         //On jugera de la pertinence de cette exception ensemble
         //if (chalet.getSensDuToit() == null) {
             //throw new Exception("L'orientation du toit doit être définie");
         //}
-        if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE) {
-            sommetsPlan = drawable.calculateSommetsPlan1();
+        if (chalet.getChalet().getSensDuToit() == Orientation.FACADE || chalet.getChalet().getSensDuToit() == Orientation.ARRIERE) {
+            for (i=0;i<chalet.calculateSommetsPlan1().size();i++){
+                sommetsPlan.add(new Coordonnee( chalet.calculateSommetsPlan1().get(i).get(0),chalet.calculateSommetsPlan1().get(i).get(1)));
+            }
         }
         else {
-            sommetsPlan = drawable.calculateSommetsPlan2();
+            for (i=0;i<chalet.calculateSommetsPlan2().size();i++){
+                sommetsPlan.add(new Coordonnee( chalet.calculateSommetsPlan2().get(i).get(0),chalet.calculateSommetsPlan2().get(i).get(1)));
+            }
 
             //On boucle pour les 4 murs
-            for (int i = 0; i < 4; i++) {
+            for (int k = 0; k < 4; k++) {
                 Polygon poly = new Polygon();
 
                 //On boucle cette fois-ci sur chacun des sommets(8)
