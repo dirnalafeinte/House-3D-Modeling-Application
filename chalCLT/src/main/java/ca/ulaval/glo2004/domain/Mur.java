@@ -39,6 +39,27 @@ public class Mur extends Drawable{
     public void calculateSommets() {
         sommets.clear();
         calculateSommetsPlan();
+        calculateSommetsMur();
+    }
+
+    private void calculateSommetsMur() {
+        calculateSommetsMurInSameView();
+        if (isCoteLong()) {
+            calculateSommetsMurOverflowGauche();
+            calculateSommetsMurOverflowDroite();
+        }
+    }
+
+    private void calculateSommetsMurInSameView() {
+
+    }
+
+    private void calculateSommetsMurOverflowGauche() {
+
+    }
+
+    private void calculateSommetsMurOverflowDroite() {
+
     }
 
     private void calculateSommetsPlan() {
