@@ -16,10 +16,10 @@ public class Pignon {
 
    private void calculerHauteurPignon(Orientation sensToit) {
        if ("GAUCHE".equals(chalet.SensDuToit) || "DROITE".equals(sensToit)){
-           this.hauteurPignon = new Imperial (Math.tan(Math.toRadians(chalet.AngleToit))/chalet.Longueur.toInt());
+           this.hauteurPignon = (Imperial.DoubleToFeetAndInchesAndFractions( Math.tan(Math.toRadians(chalet.AngleToit))).divide(chalet.Longueur));
        }
        if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-           this.hauteurPignon =  new Imperial(Math.tan(Math.toRadians(chalet.AngleToit))/chalet.Largeur.toInt());
+           this.hauteurPignon = (Imperial.DoubleToFeetAndInchesAndFractions( Math.tan(Math.toRadians(chalet.AngleToit))).divide(chalet.Largeur));
        }
    }
    private void calculerLargeurPignon(Orientation sensToit) {

@@ -26,10 +26,10 @@ public class Rallonge {
 
     private void calculerHauteurRallonge(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            this.hauteurRallonge =  new Imperial(longueurRallonge.toInt() * Math.tan(Math.toRadians(chalet.AngleToit)));
+            this.hauteurRallonge =  longueurRallonge.multiply ( Imperial.DoubleToFeetAndInchesAndFractions( Math.tan(Math.toRadians(chalet.AngleToit))));
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            this.hauteurRallonge =  new Imperial(longueurRallonge.toInt() * Math.tan(Math.toRadians(chalet.AngleToit)));
+            this.hauteurRallonge =  longueurRallonge.multiply ( Imperial.DoubleToFeetAndInchesAndFractions( Math.tan(Math.toRadians(chalet.AngleToit))));
         }
     }
 
