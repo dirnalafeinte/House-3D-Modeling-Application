@@ -35,11 +35,13 @@ public class Mur extends Drawable {
     }
 
     public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
-
+        Fenetre fenetre = new Fenetre(chalet, largeur, hauteur, coordonnee, this);
+        accessoires.add(fenetre);
     }
 
     public void ajouterPorte(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
-
+        Porte porte = new Porte(chalet, largeur, hauteur, coordonnee, this);
+        accessoires.add(porte);
     }
 
     public Orientation getCote() {
