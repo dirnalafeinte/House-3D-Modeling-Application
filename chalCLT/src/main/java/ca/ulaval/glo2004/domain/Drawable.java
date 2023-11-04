@@ -46,9 +46,9 @@ public abstract class Drawable {
         return false;
     }
 
-    public Imperial getDistanceMinEntre(Drawable that){
+    public boolean getDistanceMinEntre(Drawable that){
         // TODO
-        return null;
+        return false;
     }
 
     public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {
