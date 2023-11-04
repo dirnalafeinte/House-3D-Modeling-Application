@@ -4,9 +4,6 @@ public class Coordonnee {
     private Imperial x;
     private Imperial y;
 
-    public Coordonnee() {
-    }
-
     public Coordonnee(Imperial x, Imperial y) {
         this.x = x;
         this.y = y;

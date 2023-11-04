@@ -2,18 +2,19 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
+
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 public abstract class Drawable {
     private UUID id ;
-    private Map<Vue, ArrayList<ArrayList<Imperial>>> sommets; // { Vue: [[x], [y]] }
+    protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
     private Color couleur;
-    private Chalet chalet;
+    protected Chalet chalet;
 
     public Drawable(Chalet chalet) {
         this.id = UUID.randomUUID();
-        this.sommets = new HashMap<>();
         this.couleur = Color.BLACK;
         this.chalet = chalet;
         //calculateSommets(); // Remplir la hashmap avec les Vues et sommets
@@ -23,7 +24,7 @@ public abstract class Drawable {
         return id;
     }
 
-    public Map<Vue, ArrayList<ArrayList<Imperial>>> getSommets() {
+    public Map<Vue, List<Coordonnee>> getSommets() {
         return sommets;
     }
 
@@ -58,23 +59,25 @@ public abstract class Drawable {
         return null;
     }
 
-    public void calculateSommets(){
+    public abstract void calculateSommets();
+
+    //public void calculateSommets(){
 //definition:
-        if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE){
-            sommets.put(Vue.PLAN, calculateSommetsPlan1());
-            sommets.put(Vue.FACADE, calculateSommetsFacade1());
-            sommets.put(Vue.GAUCHE, calculateSommetsGauche1());
-            sommets.put(Vue.ARRIERE, calculateSommetsArriere1());
-            sommets.put(Vue.DROITE, calculateSommetsDroite1());
-        }
-        else if (chalet.getSensDuToit() == Orientation.DROITE || chalet.getSensDuToit() == Orientation.GAUCHE){
-            sommets.put(Vue.PLAN, calculateSommetsPlan2());
-            sommets.put(Vue.FACADE, calculateSommetsFacade2());
-            sommets.put(Vue.GAUCHE, calculateSommetsGauche2());
-            sommets.put(Vue.ARRIERE, calculateSommetsArriere2());
-            sommets.put(Vue.DROITE, calculateSommetsDroite2());
-        }
-    }
+    //    if (chalet.getSensDuToit() == Orientation.FACADE || chalet.getSensDuToit() == Orientation.ARRIERE){
+    //        sommets.put(Vue.PLAN, calculateSommetsPlan1());
+    //        sommets.put(Vue.FACADE, calculateSommetsFacade1());
+    //        sommets.put(Vue.GAUCHE, calculateSommetsGauche1());
+    //        sommets.put(Vue.ARRIERE, calculateSommetsArriere1());
+    //        sommets.put(Vue.DROITE, calculateSommetsDroite1());
+    //    }
+    //    else if (chalet.getSensDuToit() == Orientation.DROITE || chalet.getSensDuToit() == Orientation.GAUCHE){
+    //        sommets.put(Vue.PLAN, calculateSommetsPlan2());
+    //        sommets.put(Vue.FACADE, calculateSommetsFacade2());
+    //        sommets.put(Vue.GAUCHE, calculateSommetsGauche2());
+    //        sommets.put(Vue.ARRIERE, calculateSommetsArriere2());
+    //        sommets.put(Vue.DROITE, calculateSommetsDroite2());
+    //    }
+    //}
 
     //briefly, this method is used to calculate the sommets when the Vue is PLAN and the sensDuToit is FACADE or ARRIERE
     public ArrayList<ArrayList<Imperial>> calculateSommetsPlan1(){
