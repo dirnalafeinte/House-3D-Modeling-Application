@@ -26,6 +26,7 @@ public class Imperial {
         simplify();
     }
 
+
     public static Imperial fromInches(int inches) {
         return new Imperial(0, inches, 0, 1);
     }
@@ -38,32 +39,46 @@ public class Imperial {
         return new Imperial(feet, inches, 0, 1);
     }
 
-    //private int doubleToInt(double d){
-    //    return (int) Math.round(d);
-    //}
+    private int doubleToInt(double d){
+        return (int) Math.round(d);
+    }
+    /*
+    DoubleToFeetAndInchesAndFractions: prend en paramètre un chiffre de type double et retourne un objet de type Imperial
+     */
+    public static Imperial DoubleToFeetAndInchesAndFractions(double chiffre) {
+        double df;
+        long lUpperPart = 1;
+        long lLowerPart = 1;
+        int entier = (int)(chiffre);
+        double f = chiffre - entier;
+        df = (double) lUpperPart / lLowerPart;
+        while (df != f) {
+            if (df < f) {
+                lUpperPart = lUpperPart + 1;
+            } else {
+                lLowerPart = lLowerPart + 1;
+                lUpperPart = (long) (f * lLowerPart);
+            }
+            df = (double) lUpperPart / lLowerPart;
+        }
+        int feet = entier/12;
+        int inches = entier%12;
+        int numerateur = (int)lUpperPart;
+        int denominateur = (int)lLowerPart;
+        return new Imperial(feet, inches, numerateur, denominateur);
+    }
+    /*
+    FeetToInt: prend en paramètre un objet de type Imperial et retourne un chiffre de type double
+     */
+    public static double feetAndInchesAndFractionsToDouble(Imperial imperial) {
+        int feet = imperial.feet;
+        int inches = imperial.inches;
+        int numerator = imperial.numerator;
+        int denominator = imperial.denominator;
+        int totalInches = feet * 12 + inches;
+        return totalInches + (double) numerator /denominator;
+    }
 
-    //public Imperial (double chiffre) {
-    //    double df;
-    //    long lUpperPart = 1;
-    //    long lLowerPart = 1;
-    //    int entier = doubleToInt(chiffre);
-    //    double f = chiffre - entier;
-
-    //    df = (double) lUpperPart / lLowerPart;
-
-    //    while (df != f) {
-    //        if (df < f) {
-    //            lUpperPart = lUpperPart + 1;
-    //        } else {
-    //            lLowerPart = lLowerPart + 1;
-    //            lUpperPart = (long) (f * lLowerPart);
-    //        }
-    //        df = (double) lUpperPart / lLowerPart;
-    //    }
-    //    this.entier = entier;
-    //    this.numerateur = doubleToInt(lUpperPart);
-    //    this.denominateur = doubleToInt(lLowerPart);
-    //}
 
 
     public Imperial add(Imperial that) {
@@ -75,19 +90,17 @@ public class Imperial {
     }
 
     public Imperial multiply(Imperial that) {
-        // TODO
-        return new Imperial();
+        double x =feetAndInchesAndFractionsToDouble(this)*feetAndInchesAndFractionsToDouble(that);
+        return DoubleToFeetAndInchesAndFractions(x);
     }
-    //If I wanna do this: this.hauteurToit =  (chalet.Largeur / Math.cos(Math.toRadians(chalet.AngleToit))); How can I do it?
-    //answer: this.hauteurToit =  (chalet.Largeur / Math.cos(Math.toRadians(chalet.AngleToit)));
-
-    //public Imperial divide(Imperial that) {
-    //    return new Imperial(this.entier/that.entier);
-    //}
 
     public Imperial divide(Imperial that) {
-        // TODO
-        return new Imperial();
+        double x =feetAndInchesAndFractionsToDouble(this)/feetAndInchesAndFractionsToDouble(that);
+        return DoubleToFeetAndInchesAndFractions(x);
+    }
+    public Imperial divide(int that) {
+        double x =feetAndInchesAndFractionsToDouble(this)/that;
+        return DoubleToFeetAndInchesAndFractions(x);
     }
 
     @Override
@@ -144,7 +157,9 @@ public class Imperial {
         String fractionString = numerator == 0 ? "" : numerator + "/" + denominator;
         return (feetString + inchesString + fractionString).trim();
     }
-
+/*
+simplify
+ */
     private void simplify() {
         int gcd = gcd(numerator, denominator);
         numerator /= gcd;
