@@ -3,10 +3,22 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
-public class Porte extends Accessoire {
+import java.awt.*;
 
-    public Porte(Imperial largeur, Imperial hauteur, Coordonnee coordonnee) {
-        super(largeur, hauteur, coordonnee);
+public class Porte extends Accessoire {
+    private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
+
+    public Porte(Chalet chalet, Imperial largeur, Imperial hauteur, Coordonnee coordonnee) {
+        super(chalet, largeur, hauteur, coordonnee);
     }
 
+    @Override
+    protected void setColor() {
+        color = DEFAULT_COLOR;
+    }
+
+    @Override
+    public void calculateSommets() {
+
+    }
 }

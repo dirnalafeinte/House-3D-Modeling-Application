@@ -1,9 +1,5 @@
 package ca.ulaval.glo2004.domain.util;
 
-// Toutes les dimensions sont en valeurs réelles ( **la gestion des nombres fractionnaires n’est pas demandée pour l’instant **)
-// Puisqu'on gere seulement les entiers pour l'instant les fonctions utilise juste les entiers. Ca sera a modifier.
-
-import java.lang.reflect.Array;
 
 public class Imperial {
     private int feet;
@@ -39,17 +35,11 @@ public class Imperial {
         return new Imperial(feet, inches, 0, 1);
     }
 
-    private int doubleToInt(double d){
-        return (int) Math.round(d);
-    }
-    /*
-    DoubleToFeetAndInchesAndFractions: prend en paramètre un chiffre de type double et retourne un objet de type Imperial
-     */
-    public static Imperial DoubleToFeetAndInchesAndFractions(double chiffre) {
+    public static Imperial fromInches(double chiffre) {
         double df;
         long lUpperPart = 1;
         long lLowerPart = 1;
-        int entier = (int)(chiffre);
+        int entier = (int) chiffre;
         double f = chiffre - entier;
         df = (double) lUpperPart / lLowerPart;
         while (df != f) {
@@ -61,25 +51,12 @@ public class Imperial {
             }
             df = (double) lUpperPart / lLowerPart;
         }
-        int feet = entier/12;
-        int inches = entier%12;
-        int numerateur = (int)lUpperPart;
-        int denominateur = (int)lLowerPart;
+        int feet = entier / 12;
+        int inches = entier % 12;
+        int numerateur = (int) lUpperPart;
+        int denominateur = (int) lLowerPart;
         return new Imperial(feet, inches, numerateur, denominateur);
     }
-    /*
-    FeetToInt: prend en paramètre un objet de type Imperial et retourne un chiffre de type double
-     */
-    public static double feetAndInchesAndFractionsToDouble(Imperial imperial) {
-        int feet = imperial.feet;
-        int inches = imperial.inches;
-        int numerator = imperial.numerator;
-        int denominator = imperial.denominator;
-        int totalInches = feet * 12 + inches;
-        return totalInches + (double) numerator /denominator;
-    }
-
-
 
     public Imperial add(Imperial that) {
         return new Imperial(feet + that.feet, inches + that.inches, numerator + that.numerator, denominator + that.denominator);
@@ -90,17 +67,18 @@ public class Imperial {
     }
 
     public Imperial multiply(Imperial that) {
-        double x =feetAndInchesAndFractionsToDouble(this)*feetAndInchesAndFractionsToDouble(that);
-        return DoubleToFeetAndInchesAndFractions(x);
+        double inches = this.toInches() * this.toInches();
+        return Imperial.fromInches(inches);
     }
 
     public Imperial divide(Imperial that) {
-        double x =feetAndInchesAndFractionsToDouble(this)/feetAndInchesAndFractionsToDouble(that);
-        return DoubleToFeetAndInchesAndFractions(x);
+        double inches = this.toInches()* this.toInches();
+        return Imperial.fromInches(inches);
     }
-    public Imperial divide(int that) {
-        double x =feetAndInchesAndFractionsToDouble(this)/that;
-        return DoubleToFeetAndInchesAndFractions(x);
+
+    public Imperial divideBy(int divisor) {
+        double inches = this.toInches() / divisor;
+        return Imperial.fromInches(inches);
     }
 
     @Override
@@ -157,9 +135,7 @@ public class Imperial {
         String fractionString = numerator == 0 ? "" : numerator + "/" + denominator;
         return (feetString + inchesString + fractionString).trim();
     }
-/*
-simplify
- */
+
     private void simplify() {
         int gcd = gcd(numerator, denominator);
         numerator /= gcd;

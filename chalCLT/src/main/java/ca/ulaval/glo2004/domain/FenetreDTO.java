@@ -6,10 +6,10 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 import java.util.UUID;
 
 public class FenetreDTO {
+    public UUID id;
     public Imperial Largeur;
     public Imperial Hauteur;
     public Coordonnee Coordonnee;
-    public UUID id;
 
     public FenetreDTO(Fenetre fenetre){
         Largeur = fenetre.getLargeur();
