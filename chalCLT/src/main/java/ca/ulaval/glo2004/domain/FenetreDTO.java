@@ -10,7 +10,7 @@ public class FenetreDTO {
     public Imperial Hauteur;
     public Coordonnee Coordonnee;
     public UUID id;
-
+qe
     public FenetreDTO(Fenetre fenetre){
         Largeur = fenetre.getLargeur();
         Hauteur = fenetre.getHauteur();

@@ -17,10 +17,11 @@ public class ToitSurface {
 
     private void calculerHauteurToit(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            this.hauteurToit =  new Imperial(chalet.Longueur.toInt()/(Math.cos(Math.toRadians(chalet.AngleToit))));
+            //this.hauteurToit =  new Imperial(chalet.Longueur.toInt()/(Math.cos(Math.toRadians(chalet.AngleToit))));
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            this.hauteurToit =  new Imperial(chalet.Largeur.toInt() / Math.cos(Math.toRadians(chalet.AngleToit)));
+            //
+            // this.hauteurToit =  new Imperial(chalet.Largeur.toInt() / Math.cos(Math.toRadians(chalet.AngleToit)));
         }
     }
     private void calculerLongueurToit(Orientation sensToit) {
