@@ -12,9 +12,10 @@ public class Mur extends Drawable {
     private static final Color DEFAULT_COLOR_2 = Color.ORANGE;
     private final Orientation cote;
     private final List<Accessoire> accessoires = new ArrayList<>();
+    private final Chalet chalet;
 
-    public Mur(Orientation cote, Chalet chalet) {
-        super(chalet);
+    public Mur(Chalet chalet, Orientation cote) {
+        this.chalet = chalet;
         this.cote = cote;
     }
 
@@ -35,7 +36,7 @@ public class Mur extends Drawable {
     }
 
     public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
-        Fenetre fenetre = new Fenetre(chalet, largeur, hauteur, coordonnee, this);
+        Fenetre fenetre = new Fenetre(largeur, hauteur, coordonnee, this);
         accessoires.add(fenetre);
     }
 

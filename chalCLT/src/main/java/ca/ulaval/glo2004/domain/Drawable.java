@@ -11,11 +11,9 @@ public abstract class Drawable {
     private final UUID id;
     protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
     protected Color color;
-    protected final Chalet chalet;
 
-    public Drawable(Chalet chalet) {
+    public Drawable() {
         this.id = UUID.randomUUID();
-        this.chalet = chalet;
         setColor();
         calculateSommets();
     }

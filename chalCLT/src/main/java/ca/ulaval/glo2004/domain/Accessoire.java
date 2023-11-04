@@ -8,12 +8,9 @@ public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
     protected Imperial hauteur;
     protected Coordonnee coordonnee;
-    protected Mur mur;
+    protected final Mur mur;
 
-    protected List<Coordonnee> sommets_accessoire;
-
-    public Accessoire(Chalet chalet, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
-        super(chalet);
+    public Accessoire(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
@@ -46,10 +43,6 @@ public abstract class Accessoire extends Drawable {
 
     public Mur getMur() {
         return mur;
-    }
-
-    public void setMur(Mur mur) {
-        this.mur = mur;
     }
 
     public void validate() {

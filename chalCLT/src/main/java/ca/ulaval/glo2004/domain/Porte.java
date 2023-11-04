@@ -9,7 +9,7 @@ public class Porte extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
 
     public Porte(Chalet chalet, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
-        super(chalet, largeur, hauteur, coordonnee, mur);
+        super(largeur, hauteur, coordonnee, mur);
     }
 
     @Override
