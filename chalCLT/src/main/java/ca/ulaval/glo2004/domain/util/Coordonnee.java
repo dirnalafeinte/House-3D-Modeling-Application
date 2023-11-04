@@ -1,11 +1,8 @@
 package ca.ulaval.glo2004.domain.util;
 
 public class Coordonnee {
-    private Imperial x;
-    private Imperial y;
-
-    public Coordonnee() {
-    }
+    private final Imperial x;
+    private final Imperial y;
 
     public Coordonnee(Imperial x, Imperial y) {
         this.x = x;
@@ -23,16 +20,8 @@ public class Coordonnee {
         return x;
     }
 
-    public void setX(Imperial x) {
-        this.x = x;
-    }
-
     public Imperial getY() {
         return y;
-    }
-
-    public void setY(Imperial y) {
-        this.y = y;
     }
 }
 

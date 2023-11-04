@@ -2,6 +2,7 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,11 @@ public class Chalet {
     private Orientation sensDuToit;
     private int angleToit;
     private Imperial epaisseurMur;
-    private Map<Orientation, Mur> mapMur;
-//    private Pignon pignonDroit;
-//    private Pignon pignonGauche;
-//    private Rallonge rallonge;
+    private final Map<Orientation, Mur> mapMur = new HashMap<>();
+    private final Toit toit = new Toit(this);
+    private final Pignon pignonDroit = new Pignon(this, true);
+    private final Pignon pignonGauche = new Pignon(this, false);
+    private final Rallonge rallonge = new Rallonge(this);
 
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
@@ -33,6 +35,7 @@ public class Chalet {
         this.sensDuToit = DEFAULT_SENS_DU_TOIT;
         this.angleToit = DEFAULT_ANGLE_TOIT;
         this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
+        init();
     }
 
     public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur) {
@@ -43,8 +46,15 @@ public class Chalet {
         this.sensDuToit = sensDuToit;
         this.angleToit = angleToit;
         this.epaisseurMur = epaisseurMur;
+        init();
     }
 
+    private void init() {
+        mapMur.put(Orientation.FACADE, new Mur(Orientation.FACADE, this));
+        mapMur.put(Orientation.ARRIERE, new Mur(Orientation.ARRIERE, this));
+        mapMur.put(Orientation.GAUCHE, new Mur(Orientation.GAUCHE, this));
+        mapMur.put(Orientation.DROITE, new Mur(Orientation.DROITE, this));
+    }
 
     public Imperial getLargeur() {
         return largeur;
@@ -99,27 +109,30 @@ public class Chalet {
     }
     public void setEpaisseurMur (Imperial epaisseurMur) {
         this.epaisseurMur = epaisseurMur;
-        //setDeltaRainure((epaisseurMur.toInt()/2)); // on doit creer une fonction toImperial()
     }
 
     public Map<Orientation, Mur> getMapMur() {
         return mapMur;
     }
 
-//    public Pignon getPignonDroit() {
-//        return pignonDroit;
-//    }
-//
-//    public Pignon getPignonGauche() {
-//        return pignonGauche;
-//    }
-//
-//    public Rallonge getRallonge() {
-//        return rallonge;
-//    }
+    public Pignon getPignonDroit() {
+        return pignonDroit;
+    }
+
+    public Pignon getPignonGauche() {
+        return pignonGauche;
+    }
+
+    public Rallonge getRallonge() {
+        return rallonge;
+    }
+
+    public Toit getToit() {
+        return toit;
+    }
 
     public List<Drawable> getComposanteVisible(Vue vue){
-
+        // TODO
         return null;
     }
 }

@@ -15,7 +15,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         init();
     }
-p
+
     private void init() {
         setTitle("ChalCLT");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
