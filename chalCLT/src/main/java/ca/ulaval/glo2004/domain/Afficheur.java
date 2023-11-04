@@ -4,7 +4,6 @@ import java.awt.*;
 
 
 public class Afficheur {
-
     private ChaletController controller;
     private Dimension intitialDimension;
     private Vue vue;
@@ -42,6 +41,10 @@ public class Afficheur {
             default:
                 break;
         }
+
+    }
+
+    protected void drawDrawable(Graphics g, Drawable drawable) {
 
     }
 

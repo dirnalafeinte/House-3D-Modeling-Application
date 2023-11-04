@@ -6,8 +6,6 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 
-
-
 public class AfficheurPlan extends Afficheur {
     private Drawable chalet;
 

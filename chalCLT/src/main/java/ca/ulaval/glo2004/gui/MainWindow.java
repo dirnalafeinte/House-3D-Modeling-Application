@@ -8,11 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private final MenuBar menuBar = new MenuBar();
-    private final MainPanel mainPanel = new MainPanel();
-    private final ChaletController chaletController = new ChaletController();
+    private final MenuBar menuBar;
+    private final MainPanel mainPanel;
+    private final ChaletController controller = new ChaletController();
 
     public MainWindow() {
+        menuBar = new MenuBar(controller);
+        mainPanel = new MainPanel(controller);
         init();
     }
 
