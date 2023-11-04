@@ -3,8 +3,6 @@ package ca.ulaval.glo2004.domain.util;
 // Toutes les dimensions sont en valeurs réelles ( **la gestion des nombres fractionnaires n’est pas demandée pour l’instant **)
 // Puisqu'on gere seulement les entiers pour l'instant les fonctions utilise juste les entiers. Ca sera a modifier.
 
-import java.lang.reflect.Array;
-
 public class Imperial {
     private int feet;
     private int inches;
@@ -45,7 +43,7 @@ public class Imperial {
     /*
     DoubleToFeetAndInchesAndFractions: prend en paramètre un chiffre de type double et retourne un objet de type Imperial
      */
-    public static Imperial DoubleToFeetAndInchesAndFractions(double chiffre) {
+    public static Imperial InchesToImperial(double chiffre) {
         double df;
         long lUpperPart = 1;
         long lLowerPart = 1;
@@ -70,7 +68,7 @@ public class Imperial {
     /*
     FeetToInt: prend en paramètre un objet de type Imperial et retourne un chiffre de type double
      */
-    public static double feetAndInchesAndFractionsToDouble(Imperial imperial) {
+    public static double ImperialToInches(Imperial imperial) {
         int feet = imperial.feet;
         int inches = imperial.inches;
         int numerator = imperial.numerator;
@@ -90,17 +88,17 @@ public class Imperial {
     }
 
     public Imperial multiply(Imperial that) {
-        double x =feetAndInchesAndFractionsToDouble(this)*feetAndInchesAndFractionsToDouble(that);
-        return DoubleToFeetAndInchesAndFractions(x);
+        double x = ImperialToInches(this)* ImperialToInches(that);
+        return InchesToImperial(x);
     }
 
     public Imperial divide(Imperial that) {
-        double x =feetAndInchesAndFractionsToDouble(this)/feetAndInchesAndFractionsToDouble(that);
-        return DoubleToFeetAndInchesAndFractions(x);
+        double x = ImperialToInches(this)/ ImperialToInches(that);
+        return InchesToImperial(x);
     }
     public Imperial divide(int that) {
-        double x =feetAndInchesAndFractionsToDouble(this)/that;
-        return DoubleToFeetAndInchesAndFractions(x);
+        double x = ImperialToInches(this)/that;
+        return InchesToImperial(x);
     }
 
     @Override

@@ -16,10 +16,10 @@ public class Toit {
 
     private void calculerHauteurToit(Orientation sensToit) {
         if ("GAUCHE".equals(sensToit) || "DROITE".equals(sensToit)){
-            this.hauteurToit =  chalet.Longueur.divide(Imperial.DoubleToFeetAndInchesAndFractions(Math.cos(Math.toRadians(chalet.AngleToit))));
+            this.hauteurToit =  chalet.Longueur.divide(Imperial.InchesToImperial(Math.cos(Math.toRadians(chalet.AngleToit))));
         }
         if ("FACADE".equals(sensToit) || "ARRIERE".equals(sensToit)){
-            this.hauteurToit =  chalet.Largeur.divide ( Imperial.DoubleToFeetAndInchesAndFractions( Math.cos(Math.toRadians(chalet.AngleToit))));
+            this.hauteurToit =  chalet.Largeur.divide ( Imperial.InchesToImperial( Math.cos(Math.toRadians(chalet.AngleToit))));
         }
     }
     private void calculerLongueurToit(Orientation sensToit) {
