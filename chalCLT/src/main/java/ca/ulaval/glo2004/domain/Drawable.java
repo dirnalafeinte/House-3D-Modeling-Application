@@ -32,6 +32,10 @@ public abstract class Drawable {
         return sommets;
     }
 
+    public List<Coordonnee> getSommetsByVue(Vue vue) {
+        return sommets.get(vue);
+    }
+
     public Color getColor() {
         return color;
     }

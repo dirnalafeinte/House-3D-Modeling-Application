@@ -1,6 +1,10 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Unite;
+
 import java.awt.*;
+import java.util.List;
 
 
 public class Afficheur {
@@ -45,7 +49,10 @@ public class Afficheur {
     }
 
     protected void drawDrawable(Graphics g, Drawable drawable) {
-
+        //g.setColor(drawable.getColor());
+        //List<Coordonnee> sommets = drawable.getSommetsByVue(vue);
+        //int[] sommetsX = sommets.stream().map(coordonnee -> Unite.inchesToPixel(coordonnee.getX().toInches())).;
+        //g.fillPolygon(sommets.stream().map(coordonnee -> Unite.inchesToPixel(coordonnee.getX().toInches())).toArray(), sommets.stream().map(coordonnee -> Unite.inchesToPixel(coordonnee.getY().toInches())).toArray(), sommets.size());
     }
 
     private void drawMur(Graphics g) {
