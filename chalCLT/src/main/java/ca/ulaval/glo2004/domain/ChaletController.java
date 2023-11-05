@@ -7,12 +7,12 @@ import java.util.List;
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
     private final ChaletFactory chaletFactory = new ChaletFactory();
+    private Afficheur afficheur;
     private Chalet chalet;
 
-    private Afficheur afficheur;
-
-    public void ChaletController() {
+    public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
+        afficheur = new Afficheur(chalet, Vue.PLAN);
     }
 
     @Override
@@ -31,8 +31,7 @@ public class ChaletController implements Observable {
         }
     }
 
-    public void setVue (Graphics g) {
-        afficheur.draw(g);
+    public Afficheur getAfficheur() {
+        return afficheur;
     }
-
 }

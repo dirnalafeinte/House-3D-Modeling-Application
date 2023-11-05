@@ -13,16 +13,16 @@ public class VueMenu extends JMenu {
     private static final String TEXT_VUE_GAUCHE = "Gauche";
     private static final String TEXT_VUE_ARRIERE = "Arrière";
     private static final String TEXT_VUE_DROITE = "Droit";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
     private final VueMenuItem vuePlanMenuItem = new VueMenuItem(TEXT_VUE_PLAN, Vue.PLAN);
     private final VueMenuItem vueFacadeMenuItem = new VueMenuItem(TEXT_VUE_FACADE, Vue.FACADE);
     private final VueMenuItem vueGaucheMenuItem = new VueMenuItem(TEXT_VUE_GAUCHE, Vue.GAUCHE);
     private final VueMenuItem vueArriereMenuItem = new VueMenuItem(TEXT_VUE_ARRIERE, Vue.ARRIERE);
     private final VueMenuItem vueDroiteMenuItem = new VueMenuItem(TEXT_VUE_DROITE, Vue.DROITE);
 
-    public VueMenu(ChaletController controller) {
+    public VueMenu(MainWindow mainWindow) {
         super(TEXT_VUE_MENU);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
         init();
     }
 

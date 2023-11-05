@@ -7,11 +7,11 @@ import javax.swing.*;
 
 public class SauvegarderMenuItem extends JMenuItem {
     private static final String TEXT_SAUVEGARDER = "Sauvegarder";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
 
-    public SauvegarderMenuItem(ChaletController controller) {
+    public SauvegarderMenuItem(MainWindow mainWindow) {
         super(TEXT_SAUVEGARDER);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
         init();
     }
 

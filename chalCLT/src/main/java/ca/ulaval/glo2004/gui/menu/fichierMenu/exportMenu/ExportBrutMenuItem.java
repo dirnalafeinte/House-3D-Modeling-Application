@@ -7,11 +7,11 @@ import javax.swing.*;
 
 public class ExportBrutMenuItem extends JMenuItem {
     private static final String TEXT_EXPORT_BRUT = "Panneaux bruts";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
 
-    public ExportBrutMenuItem(ChaletController controller) {
+    public ExportBrutMenuItem(MainWindow mainWindow) {
         super(TEXT_EXPORT_BRUT);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
         init();
     }
 

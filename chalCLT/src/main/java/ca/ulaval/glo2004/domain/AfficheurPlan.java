@@ -16,7 +16,6 @@ public class AfficheurPlan{
         this.mur = mur;
     }
 
-
     public void drawPlan(Graphics g){
 
        List<Coordonnee> coordonnees = mur.getSommets().get(Vue.PLAN);

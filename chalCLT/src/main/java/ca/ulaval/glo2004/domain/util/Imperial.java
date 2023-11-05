@@ -14,7 +14,7 @@ public class Imperial {
         this.denominator = 1;
     }
 
-    public Imperial(int feet, int inches, int numerator, int denominator) {
+    private Imperial(int feet, int inches, int numerator, int denominator) {
         this.feet = feet;
         this.inches = inches;
         this.numerator = numerator;
@@ -63,7 +63,7 @@ public class Imperial {
     }
 
     public Imperial substract(Imperial that) {
-        return new Imperial(feet - that.feet, inches - that.inches, numerator - that.numerator, denominator - that.denominator);
+        return new Imperial(feet - that.feet, inches - that.inches, numerator - that.numerator, denominator - that.denominator == 0 ? 1 : denominator - that.denominator);
     }
 
     public Imperial multiply(Imperial that) {

@@ -17,7 +17,6 @@ public abstract class Drawable {
         this.chalet = chalet;
         this.id = UUID.randomUUID();
         setColor();
-        calculateSommets();
     }
 
     protected abstract void setColor();
@@ -30,6 +29,10 @@ public abstract class Drawable {
 
     public Map<Vue, List<Coordonnee>> getSommets() {
         return sommets;
+    }
+
+    public List<Coordonnee> getSommetsByVue(Vue vue) {
+        return sommets.get(vue);
     }
 
     public Color getColor() {

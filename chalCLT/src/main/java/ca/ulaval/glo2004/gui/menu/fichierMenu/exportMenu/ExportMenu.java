@@ -7,17 +7,17 @@ import javax.swing.*;
 
 public class ExportMenu extends JMenu {
     private static final String TEXT_EXPORT = "Exporter";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
     private final ExportBrutMenuItem exportBrutMenuItem;
     private final ExportFiniMenuItem exportFiniMenuItem;
     private final ExportRetraitMenuItem exportRetraitMenuItem;
     
-    public ExportMenu(ChaletController controller) {
+    public ExportMenu(MainWindow mainWindow) {
         super(TEXT_EXPORT);
-        this.controller = controller;
-        exportBrutMenuItem = new ExportBrutMenuItem(controller);
-        exportFiniMenuItem = new ExportFiniMenuItem(controller);
-        exportRetraitMenuItem = new ExportRetraitMenuItem(controller);
+        this.mainWindow = mainWindow;
+        exportBrutMenuItem = new ExportBrutMenuItem(mainWindow);
+        exportFiniMenuItem = new ExportFiniMenuItem(mainWindow);
+        exportRetraitMenuItem = new ExportRetraitMenuItem(mainWindow);
         init();
     }
 
