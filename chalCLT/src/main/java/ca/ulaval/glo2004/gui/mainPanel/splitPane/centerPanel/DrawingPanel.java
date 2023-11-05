@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DrawingPanel extends JPanel implements Observer {
-    private static final Color BACKGROUD_COLOR = Color.PINK;
+    private static final Color BACKGROUD_COLOR = Color.WHITE;
     private final MainWindow mainWindow;
 
     public DrawingPanel(MainWindow mainWindow) {
