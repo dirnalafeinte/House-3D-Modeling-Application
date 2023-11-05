@@ -13,8 +13,6 @@ public class ChaletController implements Observable {
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new Afficheur(chalet, Vue.PLAN);
-
-        notifyObservers();
     }
 
     @Override
