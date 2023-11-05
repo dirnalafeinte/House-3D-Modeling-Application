@@ -12,9 +12,9 @@ public class Afficheur {
     private final Chalet chalet;
     private Vue vue;
     private final UnitConverter unitConverter = new UnitConverter();
-    private double zoomFactor = 0.5;
+    private double zoomFactor = 0.2;
     private double lastZoomFactor = 1.0;
-    private double xOffset = 10;
+    private double xOffset = 20;
     private double yOffset = 10;
 
     public Afficheur(Chalet chalet, Vue vue) {
