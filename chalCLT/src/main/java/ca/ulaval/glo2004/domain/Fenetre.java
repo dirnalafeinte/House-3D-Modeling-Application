@@ -12,6 +12,25 @@ public class Fenetre extends Accessoire {
 
     public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
         super(largeur, hauteur, coordonnee, mur);
+        validate();
+    }
+
+    @Override
+    public void validate() {
+        if(!this.estContenu(mur)){
+            throw new IllegalArgumentException("La fenêtre doit être contenue dans le mur");
+        }
+        if(getDistanceMinEntre(mur).lessThan(mur.getChalet().getDistanceMin())){
+            throw new IllegalArgumentException("La fenêtre doit être à au moins " + mur.getChalet().getDistanceMin().toString() + " pouces du mur");
+        }
+        for (Accessoire accessoire : mur.getAccessoires()) {
+            if(this.estContenu(accessoire)){
+                throw new IllegalArgumentException("La fenêtre ne doit pas être contenue dans un autre accessoire");
+            }
+            if(getDistanceMinEntre(accessoire).lessThan(mur.getChalet().getDistanceMin())){
+                throw new IllegalArgumentException("La fenêtre doit être à au moins " + mur.getChalet().getDistanceMin().toString() + " pouces de l'accessoire");
+            }
+        }
     }
 
     @Override

@@ -19,6 +19,10 @@ public class Mur extends Drawable {
         this.cote = cote;
     }
 
+    public Chalet getChalet() {
+        return chalet;
+    }
+
     @Override
     protected void setColor() {
         if (cote == Orientation.FACADE || cote == Orientation.ARRIERE) {
@@ -27,6 +31,7 @@ public class Mur extends Drawable {
             color = DEFAULT_COLOR_2;
         }
     }
+
 
     @Override
     public void calculateSommets() {

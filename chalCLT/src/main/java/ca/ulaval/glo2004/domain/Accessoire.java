@@ -45,7 +45,5 @@ public abstract class Accessoire extends Drawable {
         return mur;
     }
 
-    public void validate() {
-
-    }
+    public abstract void validate();
 }

@@ -34,19 +34,19 @@ public abstract class Drawable {
         return color;
     }
 
-    public boolean EstContenu(Vue vue, Coordonnee coordonnee){
+    public boolean estContenu(Vue vue, Coordonnee coordonnee){
         // TODO
         return false;
     }
 
-    public boolean EstContenu(Drawable that){
+    public boolean estContenu(Drawable that){
         // TODO
         return false;
     }
 
-    public boolean getDistanceMinEntre(Drawable that){
+    public Imperial getDistanceMinEntre(Drawable that){
         // TODO
-        return false;
+        return null;
     }
 
     public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {
