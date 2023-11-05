@@ -2,16 +2,14 @@ package ca.ulaval.glo2004.domain;
 
 // A revoir avec anas
 
-import ca.ulaval.glo2004.domain.util.Imperial;
-
 import java.awt.*;
 
 public class Pignon extends Drawable{
     private static final Color DEFAULT_COLOR = Color.GREEN;
     private final boolean isPignonDroit;
-    private final Chalet chalet;
+
     public Pignon(Chalet chalet, boolean isPignonDroit) {
-        this.chalet = chalet;
+        super(chalet);
         this.isPignonDroit = isPignonDroit;
     }
 

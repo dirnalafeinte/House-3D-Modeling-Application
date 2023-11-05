@@ -27,7 +27,6 @@ public class Chalet {
     private final Pignon pignonDroit = new Pignon(this, true);
     private final Pignon pignonGauche = new Pignon(this, false);
     private final Rallonge rallonge = new Rallonge(this);
-
     private Imperial distanceMin;
 
     public Chalet() {

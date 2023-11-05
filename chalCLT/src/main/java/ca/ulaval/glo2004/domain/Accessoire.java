@@ -2,7 +2,6 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
-import java.util.List;
 
 public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
@@ -10,7 +9,8 @@ public abstract class Accessoire extends Drawable {
     protected Coordonnee coordonnee;
     protected final Mur mur;
 
-    public Accessoire(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
+    public Accessoire(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(chalet);
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
