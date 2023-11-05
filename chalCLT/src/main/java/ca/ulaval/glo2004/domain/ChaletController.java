@@ -8,6 +8,8 @@ public class ChaletController implements Observable {
     private final ChaletFactory chaletFactory = new ChaletFactory();
     private Chalet chalet;
 
+    private Afficheur afficheur;
+
     public void ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
     }
@@ -27,4 +29,6 @@ public class ChaletController implements Observable {
             observer.update();
         }
     }
+
+
 }
