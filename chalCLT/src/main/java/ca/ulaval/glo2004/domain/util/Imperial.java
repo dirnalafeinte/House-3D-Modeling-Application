@@ -166,6 +166,18 @@ public class Imperial {
         inches %= 12;
     }
 
+    public static Imperial stringToImperial(String str)
+    {
+        String[] splitInches = str.split(" ");
+        String[] splitFraction = splitInches[1].split("/");
+
+        int inches = Integer.parseInt(splitInches[0]);
+        int numerator = Integer.parseInt(splitFraction[0]);
+        int denominator = Integer.parseInt(splitFraction[1]);
+
+        return new Imperial (0, inches, numerator, denominator);
+    }
+
     private int gcd(int x, int y) {
         return x == 0 ? y : gcd(y % x, x);
     }
