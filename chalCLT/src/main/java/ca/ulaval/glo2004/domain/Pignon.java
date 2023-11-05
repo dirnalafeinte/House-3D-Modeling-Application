@@ -11,6 +11,8 @@ public class Pignon extends Drawable{
     public Pignon(Chalet chalet, boolean isPignonDroit) {
         super(chalet);
         this.isPignonDroit = isPignonDroit;
+        setColor();
+        calculateSommets();
     }
 
     @Override

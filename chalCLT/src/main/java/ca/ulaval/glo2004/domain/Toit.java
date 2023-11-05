@@ -7,6 +7,8 @@ public class Toit extends Drawable{
 
     public Toit(Chalet chalet) {
         super(chalet);
+        setColor();
+        calculateSommets();
     }
 
     @Override
