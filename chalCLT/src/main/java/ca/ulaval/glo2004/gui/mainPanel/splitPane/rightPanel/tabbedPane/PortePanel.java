@@ -13,24 +13,43 @@ import java.util.List;
 
 public class PortePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
-    private JTextField xField, largeurField, hauteurField;
-    private JComboBox orientationField;
+    private JTextField xField, largeurField, hauteurField, modifierXField, modifierLargeurField, modifierHauteurField;
+    private JComboBox orientationComboBox, idComboBox;
 
     private List<PorteDTO> portes;
 
     public PortePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         init();
+
     }
 
     private void init() {
         setLayout(new BorderLayout());
-        JPanel inputPanel = createInputPanel();
+        JPanel inputPanel = ajoutPanel();
         add(inputPanel, BorderLayout.NORTH);
+        addSeparator();
+        JPanel newInputPanel = ModifiePanel();
+        add(newInputPanel, BorderLayout.SOUTH);
+
     }
 
-    private JPanel createInputPanel() {
-        JPanel panel = new JPanel(new FlowLayout());
+    private void addSeparator() {
+        JPanel separatorPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.BLACK);
+                g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+            }
+        };
+        separatorPanel.setPreferredSize(new Dimension(0, 2)); // Set the separator height
+        add(separatorPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel ajoutPanel() {
+
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel xLabel = new JLabel("Position X:");
         xField = new JTextField(5);
@@ -38,11 +57,8 @@ public class PortePanel extends JPanel implements Observer {
         largeurField = new JTextField(5);
         JLabel hauteurLabel = new JLabel("Hauteur:");
         hauteurField = new JTextField(5);
-        JLabel orientationLabel = new JLabel("Mur:");
         String[] orientationMur = {Orientation.FACADE.toString(), Orientation.ARRIERE.toString(), Orientation.GAUCHE.toString(), Orientation.DROITE.toString()};
-        orientationField = new JComboBox(orientationMur);
-
-
+        orientationComboBox = new JComboBox(orientationMur);
         JButton ajouter = new JButton("Ajouter");
 
         panel.add(xLabel);
@@ -51,28 +67,74 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(largeurField);
         panel.add(hauteurLabel);
         panel.add(hauteurField);
-        panel.add(orientationField);
+        panel.add(orientationComboBox);
         panel.add(ajouter);
+
 
 
         ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Imperial x = Imperial.stringToImperial(xField.getText());
-                Imperial y = mainWindow.getController().getChalet().getHauteur();
-                Coordonnee coordonnee = new Coordonnee(x, y);
-                Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
+                try {
+                    Imperial x = Imperial.stringToImperial(xField.getText());
+                    Imperial y = mainWindow.getController().getChalet().getHauteur();
+                    Coordonnee coordonnee = new Coordonnee(x, y);
+                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
+                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
 
-                PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
-                mainWindow.getController().ajouterPorte(porteDTO);
 
-                xField.setText("");
-                largeurField.setText("");
-                hauteurField.setText("");
+                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
+                    mainWindow.getController().ajouterPorte(porteDTO);
+
+                    xField.setText("");
+                    largeurField.setText("");
+                    hauteurField.setText("");
+                }
+                catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
+                }
             }
         });
 
+        return panel;
+    }
+
+    private JPanel ModifiePanel() {
+        JPanel panel = new JPanel(new FlowLayout());
+
+        String[] idAccessoires = {};
+        idComboBox = new JComboBox(idAccessoires);
+        JLabel modifierXLabel = new JLabel("Position X:");
+        modifierXField = new JTextField(5);
+        JLabel modifierLargeurLabel = new JLabel("Largeur:");
+        modifierLargeurField = new JTextField(5);
+        JLabel modifierHauteurLabel = new JLabel("Hauteur:");
+        modifierHauteurField = new JTextField(5);
+        JButton modifier = new JButton("Modifier");
+        JButton supprimer = new JButton("Supprimer");
+
+        panel.add(idComboBox);
+        panel.add(modifierXLabel);
+        panel.add(modifierXField);
+        panel.add(modifierLargeurLabel);
+        panel.add(modifierLargeurField);
+        panel.add(modifierHauteurLabel);
+        panel.add(modifierHauteurField);
+        panel.add(modifier);
+        panel.add(supprimer);
+
+        modifier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add action for the new button
+            }
+        });
+        supprimer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add action for the new button
+            }
+        });
         return panel;
     }
 

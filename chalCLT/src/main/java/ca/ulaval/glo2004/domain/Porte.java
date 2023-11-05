@@ -49,8 +49,8 @@ public class Porte extends Accessoire {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2)))); // y est fixe dans le UI
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2)))); // y est fixe dans le UI
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 
