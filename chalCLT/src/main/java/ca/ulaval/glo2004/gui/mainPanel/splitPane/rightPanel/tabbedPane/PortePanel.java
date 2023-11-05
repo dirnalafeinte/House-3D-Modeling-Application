@@ -75,18 +75,24 @@ public class PortePanel extends JPanel implements Observer {
         ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Imperial x = Imperial.stringToImperial(xField.getText());
-                Imperial y = mainWindow.getController().getChalet().getHauteur();
-                Coordonnee coordonnee = new Coordonnee(x, y);
-                Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
+                try {
+                    Imperial x = Imperial.stringToImperial(xField.getText());
+                    Imperial y = mainWindow.getController().getChalet().getHauteur();
+                    Coordonnee coordonnee = new Coordonnee(x, y);
+                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
+                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
 
-                PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
-                mainWindow.getController().ajouterPorte(porteDTO);
 
-                xField.setText("");
-                largeurField.setText("");
-                hauteurField.setText("");
+                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
+                    mainWindow.getController().ajouterPorte(porteDTO);
+
+                    xField.setText("");
+                    largeurField.setText("");
+                    hauteurField.setText("");
+                }
+                catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
+                }
             }
         });
 
