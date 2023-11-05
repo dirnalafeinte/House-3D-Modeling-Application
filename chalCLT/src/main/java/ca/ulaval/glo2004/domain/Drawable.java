@@ -70,5 +70,9 @@ public abstract class Drawable {
 
         return new Polygon(xPoints, yPoints, my_sommets.size());
     }
+
+    public boolean isVisible(Vue vue) {
+        return sommets.get(vue) != null;
+    }
 }
 
