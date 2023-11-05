@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -10,25 +11,25 @@ import java.util.List;
 public class Fenetre extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.RED;
 
-    public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Mur mur) {
-        super(largeur, hauteur, coordonnee, mur);
+    public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(largeur, hauteur, coordonnee, chalet, mur);
         validate();
     }
 
     @Override
     public void validate() {
         if(!this.estContenu(mur)){
-            throw new IllegalArgumentException("La fenêtre doit être contenue dans le mur");
+            throw new IllegalFenetreException("La fenêtre doit être contenue dans le mur");
         }
-        if(getDistanceMinEntre(mur).lessThan(mur.getChalet().getDistanceMin())){
-            throw new IllegalArgumentException("La fenêtre doit être à au moins " + mur.getChalet().getDistanceMin().toString() + " pouces du mur");
+        if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
+            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
         }
         for (Accessoire accessoire : mur.getAccessoires()) {
             if(this.estContenu(accessoire)){
-                throw new IllegalArgumentException("La fenêtre ne doit pas être contenue dans un autre accessoire");
+                throw new IllegalFenetreException("La fenêtre ne doit pas être contenue dans un autre accessoire");
             }
-            if(getDistanceMinEntre(accessoire).lessThan(mur.getChalet().getDistanceMin())){
-                throw new IllegalArgumentException("La fenêtre doit être à au moins " + mur.getChalet().getDistanceMin().toString() + " pouces de l'accessoire");
+            if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){
+                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
             }
         }
     }
