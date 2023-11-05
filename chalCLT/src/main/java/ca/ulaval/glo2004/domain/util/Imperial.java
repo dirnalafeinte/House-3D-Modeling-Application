@@ -166,7 +166,7 @@ public class Imperial {
         inches %= 12;
     }
 
-    // Jeremy et Anas changer cette partie je prendrais en compte les fractions au livrable 4
+    // Jeremy et Anas changez pas cette partie je prendrais en compte les fractions au livrable 4
     public static Imperial stringToImperial(String str)
     {
         int inches = Integer.parseInt(str);
