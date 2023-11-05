@@ -17,7 +17,6 @@ public abstract class Drawable {
         this.chalet = chalet;
         this.id = UUID.randomUUID();
         setColor();
-        calculateSommets();
     }
 
     protected abstract void setColor();

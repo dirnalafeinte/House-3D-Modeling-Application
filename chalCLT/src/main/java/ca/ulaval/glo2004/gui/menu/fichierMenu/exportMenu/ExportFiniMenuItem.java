@@ -7,10 +7,10 @@ import javax.swing.*;
 
 public class ExportFiniMenuItem extends JMenuItem {
     private static final String TEXT_EXPORT_FINI = "Panneaux finis";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
 
-    public ExportFiniMenuItem(ChaletController controller) {
+    public ExportFiniMenuItem(MainWindow mainWindow) {
         super(TEXT_EXPORT_FINI);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
     }
 }

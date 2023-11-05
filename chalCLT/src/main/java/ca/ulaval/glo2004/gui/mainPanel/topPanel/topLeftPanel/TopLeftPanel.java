@@ -1,20 +1,21 @@
 package ca.ulaval.glo2004.gui.mainPanel.topPanel.topLeftPanel;
 
 import ca.ulaval.glo2004.domain.ChaletController;
+import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TopLeftPanel extends JPanel {
     private static final LayoutManager LAYOUT_MANAGER = new FlowLayout(FlowLayout.LEFT);
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
     private final UndoButton undoButton;
     private final RedoButton redoButton;
 
-    public TopLeftPanel(ChaletController controller) {
-        this.controller = controller;
-        undoButton = new UndoButton(controller);
-        redoButton = new RedoButton(controller);
+    public TopLeftPanel(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+        undoButton = new UndoButton(mainWindow);
+        redoButton = new RedoButton(mainWindow);
         init();
     }
 

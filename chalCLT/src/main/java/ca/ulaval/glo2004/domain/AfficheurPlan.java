@@ -1,60 +1,52 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
-import java.util.*;
+import java.util.List;
+
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
 
 
-public class AfficheurPlan extends Afficheur {
-    private Drawable chalet;
 
 
-    public AfficheurPlan(Drawable chalet) {
-        super();
-        this.chalet = chalet;
-        //String vue = chalet.getVue();
-        //drawPlan();
+public class AfficheurPlan{
+
+    private final Mur mur;
+
+    public AfficheurPlan(Mur mur) {
+        this.mur = mur;
     }
 
+    public void drawPlan(Graphics g){
 
-    public void drawPlan(Graphics g) throws Exception {
-        ArrayList<Coordonnee> sommetsPlan = new ArrayList<Coordonnee>();
-        int i;
+       List<Coordonnee> coordonnees = mur.getSommets().get(Vue.PLAN);
 
-        //On jugera de la pertinence de cette exception ensemble
-        //if (chalet.getSensDuToit() == null) {
-            //throw new Exception("L'orientation du toit doit être définie");
-        //}
-        if (chalet.getChalet().getSensDuToit() == Orientation.FACADE || chalet.getChalet().getSensDuToit() == Orientation.ARRIERE) {
-            for (i=0;i<chalet.calculateSommetsPlan1().size();i++){
-                sommetsPlan.add(new Coordonnee( chalet.calculateSommetsPlan1().get(i).get(0),chalet.calculateSommetsPlan1().get(i).get(1)));
+       if (coordonnees != null && coordonnees.size()==8) {
+
+
+           //On boucle pour les 4 murs
+           for (int k = 0; k < 4; k++) {
+           Polygon poly = new Polygon();
+
+            //On boucle cette fois-ci sur chacun des sommets(8)
+            for (int j = k*2; j < k*2 +4; j++) {
+                int index = j % coordonnees.size();
+                Coordonnee coord = coordonnees.get(index);
+                double xValue = coord.getX().toInches();
+                double yValue = coord.getY().toInches();
+                poly.addPoint((int)xValue, (int)yValue);
             }
-        }
-        else {
-            for (i=0;i<chalet.calculateSommetsPlan2().size();i++){
-                sommetsPlan.add(new Coordonnee( chalet.calculateSommetsPlan2().get(i).get(0),chalet.calculateSommetsPlan2().get(i).get(1)));
-            }
 
-            //On boucle pour les 4 murs
-            for (int k = 0; k < 4; k++) {
-                Polygon poly = new Polygon();
-
-                //On boucle cette fois-ci sur chacun des sommets(8)
-                for (int j = 0; j < 8; j++) {
-                    //poly.addPoint(sommetsPlan.get(i + j).getX(), sommetsPlan.get(i + j).getY());
-                }
 
                 // Murs Façades
-                if (i == 0 || i == 2) {
-                    g.setColor(Color.ORANGE);
-                }
-                //Murs côtés
-                else {
-                    g.setColor(Color.BLUE);
-                }
+            if (k == 0 || k == 2) {
+                g.setColor(Color.ORANGE);
+            }
+            //Murs côtés
+            else {
+                g.setColor(Color.BLUE);
+            }
 
-                g.fillPolygon(poly);
+            g.fillPolygon(poly);
 
             }
         }

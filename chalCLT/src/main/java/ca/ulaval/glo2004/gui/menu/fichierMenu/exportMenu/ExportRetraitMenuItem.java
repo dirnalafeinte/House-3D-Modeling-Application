@@ -7,10 +7,10 @@ import javax.swing.*;
 
 public class ExportRetraitMenuItem extends JMenuItem {
     private static final String TEXT_EXPORT_RETRAIT = "Retraits";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
 
-    public ExportRetraitMenuItem(ChaletController controller) {
+    public ExportRetraitMenuItem(MainWindow mainWindow) {
         super(TEXT_EXPORT_RETRAIT);
-        this.controller = controller;
+        this.mainWindow = mainWindow;
     }
 }

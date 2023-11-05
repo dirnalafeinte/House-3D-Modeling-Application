@@ -1,11 +1,14 @@
 package ca.ulaval.glo2004.gui;
 
 import ca.ulaval.glo2004.domain.ChaletController;
+import ca.ulaval.glo2004.domain.Observable;
 import ca.ulaval.glo2004.gui.mainPanel.MainPanel;
 import ca.ulaval.glo2004.gui.menu.MenuBar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
     private final MenuBar menuBar;
@@ -13,8 +16,8 @@ public class MainWindow extends JFrame {
     private final ChaletController controller = new ChaletController();
 
     public MainWindow() {
-        menuBar = new MenuBar(controller);
-        mainPanel = new MainPanel(controller);
+        menuBar = new MenuBar(this);
+        mainPanel = new MainPanel(this);
         init();
     }
 
@@ -26,9 +29,15 @@ public class MainWindow extends JFrame {
         setVisible(true);
         setResizable(true);
 
+
+
         setJMenuBar(menuBar);
         add(mainPanel);
 
         revalidate();
+    }
+
+    public ChaletController getController() {
+        return controller;
     }
 }

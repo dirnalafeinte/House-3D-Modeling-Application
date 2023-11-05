@@ -1,14 +1,15 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.ChaletController;
+import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
 
 public class ChaletPanel extends JPanel {
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
 
-    public ChaletPanel(ChaletController controller) {
-        this.controller = controller;
+    public ChaletPanel(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         init();
     }
 

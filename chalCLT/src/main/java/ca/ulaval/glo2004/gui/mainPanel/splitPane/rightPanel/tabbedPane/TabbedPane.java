@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.ChaletController;
+import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
 
@@ -12,7 +13,7 @@ public class TabbedPane extends JTabbedPane {
     private static final String RALLONGE_PANEL_TITLE = "Rallonge";
     private static final String PORTE_PANEL_TITLE = "Porte";
     private static final String FENETRE_PANEL_TITLE = "Fenêtre";
-    private final ChaletController controller;
+    private final MainWindow mainWindow;
     private final ChaletPanel chaletPanel;
     private final MurPanel murPanel;
     private final ToitPanel toitPanel;
@@ -21,15 +22,15 @@ public class TabbedPane extends JTabbedPane {
     private final PortePanel portePanel;
     private final FenetrePanel fenetrePanel;
 
-    public TabbedPane(ChaletController controller) {
-        this.controller = controller;
-        chaletPanel = new ChaletPanel(controller);
-        murPanel = new MurPanel(controller);
-        toitPanel = new ToitPanel(controller);
-        pignonPanel = new PignonPanel(controller);
-        rallongePanel = new RallongePanel(controller);
-        portePanel = new PortePanel(controller);
-        fenetrePanel = new FenetrePanel(controller);
+    public TabbedPane(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+        chaletPanel = new ChaletPanel(mainWindow);
+        murPanel = new MurPanel(mainWindow);
+        toitPanel = new ToitPanel(mainWindow);
+        pignonPanel = new PignonPanel(mainWindow);
+        rallongePanel = new RallongePanel(mainWindow);
+        portePanel = new PortePanel(mainWindow);
+        fenetrePanel = new FenetrePanel(mainWindow);
         init();
     }
 
