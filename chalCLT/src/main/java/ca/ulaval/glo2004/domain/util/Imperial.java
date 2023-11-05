@@ -168,14 +168,8 @@ public class Imperial {
 
     public static Imperial stringToImperial(String str)
     {
-        String[] splitInches = str.split(" ");
-        String[] splitFraction = splitInches[1].split("/");
-
-        int inches = Integer.parseInt(splitInches[0]);
-        int numerator = Integer.parseInt(splitFraction[0]);
-        int denominator = Integer.parseInt(splitFraction[1]);
-
-        return new Imperial (0, inches, numerator, denominator);
+        int inches = Integer.parseInt(str);
+        return new Imperial (0, inches, 0, 1);
     }
 
     private int gcd(int x, int y) {
