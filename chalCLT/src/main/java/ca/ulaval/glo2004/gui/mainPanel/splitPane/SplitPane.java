@@ -12,7 +12,8 @@ public class SplitPane extends JSplitPane {
     private final MainWindow mainWindow;
     private final CenterPanel centerPanel;
     private final RightPanel rightPanel;
-    
+
+
     public SplitPane(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         centerPanel = new CenterPanel(mainWindow);
@@ -20,10 +21,18 @@ public class SplitPane extends JSplitPane {
         init();
     }
 
+
     private void init() {
         setResizeWeight(RESIZE_WEIGHT);
 
+        setDividerSize(0);
+        setEnabled(false);
+        setOneTouchExpandable(false);
+        setDividerLocation(729);
+
+
         setLeftComponent(centerPanel);
         setRightComponent(rightPanel);
+
     }
 }
