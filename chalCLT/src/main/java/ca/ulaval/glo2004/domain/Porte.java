@@ -18,14 +18,14 @@ public class Porte extends Accessoire {
 
     @Override
     public void validate() {
-        if(!this.estContenu(mur)){
+        if(!this.estContenu(mur.getCote().toVue(), mur)){
             throw new IllegalPorteException("La porte doit être contenue dans le mur");
         }
         if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
             throw new IllegalPorteException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
         }
         for (Accessoire accessoire : mur.getAccessoires()) {
-            if(this.estContenu(accessoire)){
+            if(this.estContenu(mur.getCote().toVue(), accessoire)){
                 throw new IllegalPorteException("La porte ne doit pas être contenue dans un autre accessoire");
             }
             if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){

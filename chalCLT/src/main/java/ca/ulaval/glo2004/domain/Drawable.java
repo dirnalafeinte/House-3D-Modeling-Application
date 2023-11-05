@@ -6,6 +6,7 @@ import java.util.List;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
+import ca.ulaval.glo2004.domain.util.Unite;
 
 public abstract class Drawable {
     private final UUID id;
@@ -44,9 +45,12 @@ public abstract class Drawable {
         return false;
     }
 
-    public boolean estContenu(Drawable that){
-        // TODO
-        return false;
+    public boolean estContenu(Vue vue, Drawable that){
+        Polygon thatPolygon = createPolygonFromVertices(that.getSommetsByVue(vue));
+        Polygon thisPolygon = createPolygonFromVertices(this.getSommetsByVue(vue));
+
+
+        return thatPolygon.contains(thisPolygon.getBounds()); // Le polygone de this est contenu dans le polygone de that
     }
 
     public Imperial getDistanceMinEntre(Drawable that){
@@ -57,4 +61,18 @@ public abstract class Drawable {
     public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {
         // TODO
     }
+
+    private Polygon createPolygonFromVertices(List<Coordonnee> my_sommets) {
+        int[] xPoints = new int[my_sommets.size()];
+        int[] yPoints = new int[my_sommets.size()];
+
+        for (int i = 0; i < my_sommets.size(); i++) {
+            Coordonnee vertex = my_sommets.get(i);
+            xPoints[i] = Unite.inchesToPixel(vertex.getX().toInches());
+            yPoints[i] = Unite.inchesToPixel(vertex.getY().toInches());
+        }
+
+        return new Polygon(xPoints, yPoints, my_sommets.size());
+    }
 }
+
