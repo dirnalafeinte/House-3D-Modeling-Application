@@ -3,7 +3,7 @@ package ca.ulaval.glo2004.domain;
 import java.awt.*;
 
 
-public abstract class Afficheur {
+public class Afficheur {
 
     private AfficheurPlan afficheurPlan;
     //private AfficheurMur afficheurMur;

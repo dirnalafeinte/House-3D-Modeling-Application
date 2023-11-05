@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +31,8 @@ public class ChaletController implements Observable {
         }
     }
 
+    public void setVue (Graphics g) {
+        afficheur.draw(g);
+    }
 
 }

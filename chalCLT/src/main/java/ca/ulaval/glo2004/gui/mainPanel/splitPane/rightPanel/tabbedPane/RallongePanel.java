@@ -1,9 +1,14 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
+import ca.ulaval.glo2004.domain.ChaletController;
+
 import javax.swing.*;
 
 public class RallongePanel extends JPanel {
-    public RallongePanel() {
+    private final ChaletController controller;
+
+    public RallongePanel(ChaletController controller) {
+        this.controller = controller;
         init();
     }
 

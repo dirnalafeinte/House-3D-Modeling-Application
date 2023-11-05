@@ -14,6 +14,7 @@ public class Chalet {
     private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
     private static final int DEFAULT_ANGLE_TOIT = 15;
     private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
+    private static final Imperial DEFAULT_DISTANCE_MIN = Imperial.fromInches(3);
     private Imperial largeur;
     private Imperial longueur;
     private Imperial hauteur;
@@ -27,6 +28,8 @@ public class Chalet {
     private final Pignon pignonGauche = new Pignon(this, false);
     private final Rallonge rallonge = new Rallonge(this);
 
+    private Imperial distanceMin;
+
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
         this.longueur = DEFAULT_LONGUEUR;
@@ -35,10 +38,11 @@ public class Chalet {
         this.sensDuToit = DEFAULT_SENS_DU_TOIT;
         this.angleToit = DEFAULT_ANGLE_TOIT;
         this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
+        this.distanceMin = DEFAULT_DISTANCE_MIN;
         init();
     }
 
-    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur) {
+    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
         this.largeur = largeur;
         this.longueur = longueur;
         this.hauteur = hauteur;
@@ -46,6 +50,7 @@ public class Chalet {
         this.sensDuToit = sensDuToit;
         this.angleToit = angleToit;
         this.epaisseurMur = epaisseurMur;
+        this.distanceMin = distanceMin;
         init();
     }
 
@@ -62,6 +67,14 @@ public class Chalet {
 
     public void setLargeur(Imperial largeur) {
         this.largeur = largeur;
+    }
+
+    public Imperial getDistanceMin() {
+        return distanceMin;
+    }
+
+    public void setDistanceMin(Imperial distanceMin) {
+        this.distanceMin = distanceMin;
     }
 
     public Imperial getLongueur() {

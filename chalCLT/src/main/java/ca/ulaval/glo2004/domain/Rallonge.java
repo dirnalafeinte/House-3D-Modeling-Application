@@ -4,9 +4,10 @@ import java.awt.*;
 
 public class Rallonge extends Drawable {
     private static final Color DEFAULT_COLOR = Color.GREEN;
+    private final Chalet chalet;
 
     public Rallonge(Chalet chalet) {
-        super(chalet);
+        this.chalet = chalet;
     }
 
     @Override

@@ -11,11 +11,9 @@ public abstract class Drawable {
     private final UUID id;
     protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
     protected Color color;
-    protected final Chalet chalet;
 
-    public Drawable(Chalet chalet) {
+    public Drawable() {
         this.id = UUID.randomUUID();
-        this.chalet = chalet;
         setColor();
         calculateSommets();
     }
@@ -36,19 +34,19 @@ public abstract class Drawable {
         return color;
     }
 
-    public boolean EstContenu(Vue vue, Coordonnee coordonnee){
+    public boolean estContenu(Vue vue, Coordonnee coordonnee){
         // TODO
         return false;
     }
 
-    public boolean EstContenu(Drawable that){
+    public boolean estContenu(Drawable that){
         // TODO
         return false;
     }
 
-    public boolean getDistanceMinEntre(Drawable that){
+    public Imperial getDistanceMinEntre(Drawable that){
         // TODO
-        return false;
+        return null;
     }
 
     public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {

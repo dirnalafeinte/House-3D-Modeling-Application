@@ -4,8 +4,9 @@ import java.awt.*;
 
 public class Toit extends Drawable{
     private static final Color DEFAULT_COLOR = Color.GREEN;
+    private final Chalet chalet;
     public Toit(Chalet chalet) {
-        super(chalet);
+        this.chalet = chalet;
     }
 
     @Override

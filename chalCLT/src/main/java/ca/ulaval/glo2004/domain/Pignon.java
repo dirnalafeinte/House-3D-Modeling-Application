@@ -9,8 +9,9 @@ import java.awt.*;
 public class Pignon extends Drawable{
     private static final Color DEFAULT_COLOR = Color.GREEN;
     private final boolean isPignonDroit;
+    private final Chalet chalet;
     public Pignon(Chalet chalet, boolean isPignonDroit) {
-        super(chalet);
+        this.chalet = chalet;
         this.isPignonDroit = isPignonDroit;
     }
 
