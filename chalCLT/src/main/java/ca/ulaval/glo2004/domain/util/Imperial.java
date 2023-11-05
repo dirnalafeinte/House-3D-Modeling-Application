@@ -59,15 +59,27 @@ public class Imperial {
     }
 
     public Imperial add(Imperial that) {
-        return new Imperial(feet + that.feet, inches + that.inches, numerator + that.numerator, denominator + that.denominator);
+        double inches = this.toInches() + that.toInches();
+        return Imperial.fromInches(inches);
     }
 
     public Imperial substract(Imperial that) {
-        return new Imperial(feet - that.feet, inches - that.inches, numerator - that.numerator, denominator - that.denominator == 0 ? 1 : denominator - that.denominator);
+        double inches = this.toInches() - that.toInches();
+        return Imperial.fromInches(inches);
     }
 
     public Imperial multiply(Imperial that) {
-        double inches = this.toInches() * this.toInches();
+        double inches = this.toInches() * that.toInches();
+        return Imperial.fromInches(inches);
+    }
+
+    public Imperial multiplyBy(int factor) {
+        double inches = this.toInches() * factor;
+        return Imperial.fromInches(inches);
+    }
+
+    public Imperial multiplyBy(double factor) {
+        double inches = this.toInches() * factor;
         return Imperial.fromInches(inches);
     }
 
@@ -77,6 +89,11 @@ public class Imperial {
     }
 
     public Imperial divideBy(int divisor) {
+        double inches = this.toInches() / divisor;
+        return Imperial.fromInches(inches);
+    }
+
+    public Imperial divideBy(double divisor) {
         double inches = this.toInches() / divisor;
         return Imperial.fromInches(inches);
     }

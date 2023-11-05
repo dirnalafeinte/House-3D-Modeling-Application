@@ -16,6 +16,7 @@ public class Mur extends Drawable {
     public Mur(Chalet chalet, Orientation cote) {
         super(chalet);
         this.cote = cote;
+        setColor();
         calculateSommets();
     }
 

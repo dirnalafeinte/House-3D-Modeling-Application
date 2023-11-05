@@ -6,18 +6,18 @@ import java.util.List;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
-import ca.ulaval.glo2004.domain.util.Unite;
+import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 public abstract class Drawable {
     private final UUID id;
     protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
     protected Color color;
     protected final Chalet chalet;
+    protected final UnitConverter unitConverter = new UnitConverter();
 
     public Drawable(Chalet chalet) {
         this.chalet = chalet;
         this.id = UUID.randomUUID();
-        setColor();
     }
 
     protected abstract void setColor();
@@ -68,8 +68,8 @@ public abstract class Drawable {
 
         for (int i = 0; i < my_sommets.size(); i++) {
             Coordonnee vertex = my_sommets.get(i);
-            xPoints[i] = Unite.inchesToPixel(vertex.getX().toInches());
-            yPoints[i] = Unite.inchesToPixel(vertex.getY().toInches());
+            xPoints[i] = unitConverter.inchesToPixel(vertex.getX().toInches());
+            yPoints[i] = unitConverter.inchesToPixel(vertex.getY().toInches());
         }
 
         return new Polygon(xPoints, yPoints, my_sommets.size());

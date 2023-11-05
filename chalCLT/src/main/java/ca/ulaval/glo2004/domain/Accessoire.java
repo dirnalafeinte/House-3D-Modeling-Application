@@ -15,6 +15,8 @@ public abstract class Accessoire extends Drawable {
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
         this.mur = mur;
+        setColor();
+        calculateSommets();
     }
 
     public Imperial getLargeur() {

@@ -7,6 +7,8 @@ public class Rallonge extends Drawable {
 
     public Rallonge(Chalet chalet) {
         super(chalet);
+        setColor();
+        calculateSommets();
     }
 
     @Override
