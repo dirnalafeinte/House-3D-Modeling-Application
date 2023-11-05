@@ -28,7 +28,7 @@ public class SplitPane extends JSplitPane {
         setDividerSize(0);
         setEnabled(false);
         setOneTouchExpandable(false);
-        setDividerLocation(729);
+        setDividerLocation(700);
 
 
         setLeftComponent(centerPanel);
