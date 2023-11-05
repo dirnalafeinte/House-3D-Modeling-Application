@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane;
 
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.MainWindow;
 import ca.ulaval.glo2004.gui.mainPanel.splitPane.centerPanel.CenterPanel;
 import ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.RightPanel;
@@ -28,7 +27,6 @@ public class SplitPane extends JSplitPane {
         setDividerSize(0);
         setEnabled(false);
         setOneTouchExpandable(false);
-        setDividerLocation(700);
 
 
         setLeftComponent(centerPanel);
