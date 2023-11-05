@@ -1,7 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Unite;
+import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 import java.awt.*;
 import java.util.List;
@@ -11,6 +11,11 @@ public class Afficheur {
     private static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK;
     private final Chalet chalet;
     private Vue vue;
+    private final UnitConverter unitConverter = new UnitConverter();
+    private double zoomFactor = 0.2;
+    private double lastZoomFactor = 1.0;
+    private double xOffset = 0.0;
+    private double yOffset = 0.0;
 
     public Afficheur(Chalet chalet, Vue vue) {
         this.chalet = chalet;
@@ -40,13 +45,26 @@ public class Afficheur {
         }
     }
 
-    protected void drawDrawable(Graphics g, Drawable drawable) {
+    private void drawDrawable(Graphics g, Drawable drawable) {
         List<Coordonnee> sommets = drawable.getSommetsByVue(vue);
-        int[] sommetsX = sommets.stream().mapToInt(coordonnee -> Unite.inchesToPixel(coordonnee.getX().toInches())).toArray();
-        int[] sommetsY = sommets.stream().mapToInt(coordonnee -> Unite.inchesToPixel(coordonnee.getY().toInches())).toArray();
+        int[] sommetsX = getScaledSommetsX(sommets);
+        int[] sommetsY = getScaledSommetsY(sommets);
         g.setColor(DEFAULT_OUTLINE_COLOR);
         g.drawPolygon(sommetsX, sommetsY, sommets.size());
         g.setColor(drawable.getColor());
         g.fillPolygon(sommetsX, sommetsY, sommets.size());
+    }
+
+    private int[] getScaledSommetsX(List<Coordonnee> sommets) {
+        return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getX().toInches() * zoomFactor) + xOffset)).toArray();
+    }
+
+    private int[] getScaledSommetsY(List<Coordonnee> sommets) {
+        return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getY().toInches() * zoomFactor) + yOffset)).toArray();
+    }
+
+    public void setZoomFactor(double zoomFactor) {
+        lastZoomFactor = this.zoomFactor;
+        this.zoomFactor = zoomFactor;
     }
 }
