@@ -42,7 +42,7 @@ public abstract class Drawable {
 
     public boolean estContenu(Vue vue, Coordonnee coordonnee){
         // TODO
-        return false;
+        return true;
     }
 
     public boolean estContenu(Vue vue, Drawable that){
@@ -56,10 +56,6 @@ public abstract class Drawable {
     public Imperial getDistanceMinEntre(Drawable that){
         // TODO
         return null;
-    }
-
-    public void ajouterAccessoireSommets(Vue currentVue, Accessoire accessoire) {
-        // TODO
     }
 
     private Polygon createPolygonFromVertices(List<Coordonnee> my_sommets) {
