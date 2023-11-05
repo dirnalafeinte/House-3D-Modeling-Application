@@ -1,7 +1,5 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.centerPanel;
 
-import ca.ulaval.glo2004.domain.Afficheur;
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.domain.Observer;
 import ca.ulaval.glo2004.gui.MainWindow;
 
@@ -23,6 +21,9 @@ public class DrawingPanel extends JPanel implements Observer {
         setBackground(BACKGROUD_COLOR);
 
         mainWindow.getController().registerObserver(this);
+
+        // a fixer
+        setPreferredSize(new Dimension(1000, 400));
     }
 
     @Override
