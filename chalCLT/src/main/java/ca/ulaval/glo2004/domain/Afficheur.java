@@ -67,4 +67,5 @@ public class Afficheur {
         lastZoomFactor = this.zoomFactor;
         this.zoomFactor = zoomFactor;
     }
+
 }
