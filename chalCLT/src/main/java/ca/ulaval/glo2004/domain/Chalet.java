@@ -54,10 +54,10 @@ public class Chalet {
     }
 
     private void init() {
-        mapMur.put(Orientation.FACADE, new Mur(Orientation.FACADE, this));
-        mapMur.put(Orientation.ARRIERE, new Mur(Orientation.ARRIERE, this));
-        mapMur.put(Orientation.GAUCHE, new Mur(Orientation.GAUCHE, this));
-        mapMur.put(Orientation.DROITE, new Mur(Orientation.DROITE, this));
+        mapMur.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
+        mapMur.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
+        mapMur.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
+        mapMur.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
     public Imperial getLargeur() {

@@ -8,10 +8,10 @@ import java.awt.*;
 
 public class DrawingPanel extends JPanel {
     private static final Color BACKGROUD_COLOR = Color.WHITE;
-    private final ChaletController controller;
+    private final MainWindow mainWindow = null;
 
     public DrawingPanel(ChaletController controller) {
-        this.controller = controller;
+        this.mainWindow = mainWindow;
         init();
     }
 
@@ -22,6 +22,8 @@ public class DrawingPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Afficheur afficheur = new Afficheur();
+        Afficheur afficheur = new Afficheur(mainWindow.chaletController.chalet, mainWindow.chaletController.vue);
+        
+        afficheur.draw(g);
     }
 }
