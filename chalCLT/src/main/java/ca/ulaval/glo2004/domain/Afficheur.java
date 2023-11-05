@@ -49,10 +49,10 @@ public class Afficheur {
         List<Coordonnee> sommets = drawable.getSommetsByVue(vue);
         int[] sommetsX = getScaledSommetsX(sommets);
         int[] sommetsY = getScaledSommetsY(sommets);
-        g.setColor(DEFAULT_OUTLINE_COLOR);
-        g.drawPolygon(sommetsX, sommetsY, sommets.size());
         g.setColor(drawable.getColor());
         g.fillPolygon(sommetsX, sommetsY, sommets.size());
+        g.setColor(DEFAULT_OUTLINE_COLOR);
+        g.drawPolygon(sommetsX, sommetsY, sommets.size());
     }
 
     private int[] getScaledSommetsX(List<Coordonnee> sommets) {
