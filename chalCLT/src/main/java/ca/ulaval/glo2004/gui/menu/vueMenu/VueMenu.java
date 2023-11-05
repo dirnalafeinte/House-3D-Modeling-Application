@@ -14,15 +14,20 @@ public class VueMenu extends JMenu {
     private static final String TEXT_VUE_ARRIERE = "Arrière";
     private static final String TEXT_VUE_DROITE = "Droit";
     private final MainWindow mainWindow;
-    private final VueMenuItem vuePlanMenuItem = new VueMenuItem(TEXT_VUE_PLAN, Vue.PLAN);
-    private final VueMenuItem vueFacadeMenuItem = new VueMenuItem(TEXT_VUE_FACADE, Vue.FACADE);
-    private final VueMenuItem vueGaucheMenuItem = new VueMenuItem(TEXT_VUE_GAUCHE, Vue.GAUCHE);
-    private final VueMenuItem vueArriereMenuItem = new VueMenuItem(TEXT_VUE_ARRIERE, Vue.ARRIERE);
-    private final VueMenuItem vueDroiteMenuItem = new VueMenuItem(TEXT_VUE_DROITE, Vue.DROITE);
+    private final VueMenuItem vuePlanMenuItem;
+    private final VueMenuItem vueFacadeMenuItem;
+    private final VueMenuItem vueGaucheMenuItem;
+    private final VueMenuItem vueArriereMenuItem;
+    private final VueMenuItem vueDroiteMenuItem;
 
     public VueMenu(MainWindow mainWindow) {
         super(TEXT_VUE_MENU);
         this.mainWindow = mainWindow;
+        vuePlanMenuItem = new VueMenuItem(TEXT_VUE_PLAN, mainWindow, Vue.PLAN);
+        vueFacadeMenuItem = new VueMenuItem(TEXT_VUE_FACADE, mainWindow, Vue.FACADE);
+        vueGaucheMenuItem = new VueMenuItem(TEXT_VUE_GAUCHE, mainWindow, Vue.GAUCHE);
+        vueArriereMenuItem = new VueMenuItem(TEXT_VUE_ARRIERE, mainWindow, Vue.ARRIERE);
+        vueDroiteMenuItem = new VueMenuItem(TEXT_VUE_DROITE, mainWindow, Vue.DROITE);
         init();
     }
 

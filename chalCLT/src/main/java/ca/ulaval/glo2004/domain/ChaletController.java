@@ -15,6 +15,11 @@ public class ChaletController implements Observable {
         afficheur = new Afficheur(chalet, Vue.PLAN);
     }
 
+    public void setVue(Vue vue) {
+        afficheur.setVue(vue);
+        notifyObservers();
+    }
+
     @Override
     public void registerObserver(Observer newObserver) {
         observers.add(newObserver);

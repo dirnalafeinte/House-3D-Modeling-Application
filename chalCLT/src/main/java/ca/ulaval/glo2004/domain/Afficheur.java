@@ -12,10 +12,10 @@ public class Afficheur {
     private final Chalet chalet;
     private Vue vue;
     private final UnitConverter unitConverter = new UnitConverter();
-    private double zoomFactor = 0.2;
+    private double zoomFactor = 0.5;
     private double lastZoomFactor = 1.0;
-    private double xOffset = 0.0;
-    private double yOffset = 0.0;
+    private double xOffset = 10;
+    private double yOffset = 10;
 
     public Afficheur(Chalet chalet, Vue vue) {
         this.chalet = chalet;
@@ -41,7 +41,9 @@ public class Afficheur {
 
     private void drawMur(Graphics g) {
         for (Mur mur : chalet.getMapMur().values()) {
-            drawDrawable(g, mur);
+            if (mur.isVisible(vue)) {
+                drawDrawable(g, mur);
+            }
         }
     }
 
