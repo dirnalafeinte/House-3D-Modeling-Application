@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class DrawingPanel extends JPanel implements Observer {
     private static final Color BACKGROUD_COLOR = Color.WHITE;
+    private static final double WIDTH_RATIO = 0.8;
+    private static final double HEIGHT_RATIO = 1;
     private final MainWindow mainWindow;
 
     public DrawingPanel(MainWindow mainWindow) {
@@ -23,8 +25,23 @@ public class DrawingPanel extends JPanel implements Observer {
         mainWindow.getController().registerObserver(this);
 
         // a fixer
-        setPreferredSize(new Dimension(1000, 700));
+        //setPreferredSize(new Dimension(1000, 700));
     }
+
+
+    @Override
+    public Dimension getPreferredSize() {
+        if (mainWindow != null && mainWindow.isDisplayable()) {
+            Dimension size = mainWindow.getSize();
+            int preferredWidth = (int) (size.width * WIDTH_RATIO);
+            int preferredHeight = (int) (size.height * HEIGHT_RATIO);
+            return new Dimension(preferredWidth, preferredHeight);
+        }
+        return null;
+    }
+
+
+
 
     @Override
     public void paintComponent(Graphics g){
