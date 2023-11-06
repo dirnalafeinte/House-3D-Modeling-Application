@@ -41,16 +41,6 @@ public class Mur extends Drawable {
         calculateSommetsMur();
     }
 
-    public void ajouterFenetre(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
-        Fenetre fenetre = new Fenetre(largeur, hauteur, coordonnee, chalet, this);
-        accessoires.add(fenetre);
-    }
-
-    public void ajouterPorte(Coordonnee coordonnee, Imperial largeur, Imperial hauteur){
-        Porte porte = new Porte(largeur, hauteur, coordonnee, chalet, this);
-        accessoires.add(porte);
-    }
-
     public Orientation getCote() {
         return cote;
     }

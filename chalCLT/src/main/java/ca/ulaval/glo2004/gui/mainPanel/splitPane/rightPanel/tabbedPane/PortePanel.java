@@ -16,9 +16,10 @@ import java.util.List;
 public class PortePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
     private JTextField xField, largeurField, hauteurField, modifierXField, modifierLargeurField, modifierHauteurField;
-    private JComboBox orientationComboBox, idComboBox;
-
-    private List<PorteDTO> portes;
+    private JComboBox orientationComboBox;
+    private JComboBox idComboBox;
+    private String[] idAccessoires = {};
+    private List<Porte> portes;
 
     public PortePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -91,6 +92,13 @@ public class PortePanel extends JPanel implements Observer {
                     xField.setText("");
                     largeurField.setText("");
                     hauteurField.setText("");
+
+                    String [] newArray = new String[idAccessoires.length+1];
+                    System.arraycopy(idAccessoires, 0, newArray, 0, idAccessoires.length);
+                    newArray[idAccessoires.length] = porteDTO.id.toString();
+                    idAccessoires = newArray;
+                    update();
+
                 }
                 catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
@@ -107,7 +115,6 @@ public class PortePanel extends JPanel implements Observer {
     private JPanel ModifiePanel() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        String[] idAccessoires = {};
         idComboBox = new JComboBox(idAccessoires);
         JLabel modifierXLabel = new JLabel("Position X:");
         modifierXField = new JTextField(5);
@@ -131,7 +138,28 @@ public class PortePanel extends JPanel implements Observer {
         modifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add action for the new button
+                try {
+                    Imperial x = Imperial.stringToImperial(modifierXField.getText());
+                    Imperial y = mainWindow.getController().getChalet().getHauteur();
+                    Coordonnee coordonnee = new Coordonnee(x, y);
+                    Imperial largeur = Imperial.stringToImperial(modifierLargeurField.getText());
+                    Imperial hauteur = Imperial.stringToImperial(modifierHauteurField.getText());
+
+                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
+                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
+                    mainWindow.getController().modifierPorte(porteDTO);
+
+                    xField.setText("");
+                    largeurField.setText("");
+                    hauteurField.setText("");
+
+                }
+                catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
+                }
+                catch (IllegalPorteException exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
+                }
             }
         });
         supprimer.addActionListener(new ActionListener() {
@@ -145,14 +173,14 @@ public class PortePanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-//        portes = mainWindow.getController().getChalet().getPortes();
-//        updateComboBox();
+        portes = mainWindow.getController().getChalet().getPortes();
+        updateComboBox();
     }
 
     public void updateComboBox(){
         idComboBox.removeAllItems();
-        for (PorteDTO porte : portes) {
-            idComboBox.addItem(porte.id);
+        for (Porte porte : portes) {
+            idComboBox.addItem(porte.getId());
         }
     }
 }

@@ -23,5 +23,6 @@ public class PorteDTO {
         Hauteur = hauteur;
         Coordonnee = coordonnee;
         Orientation = orientation;
+        this.id = UUID.randomUUID();
     }
 }

@@ -7,10 +7,10 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Porte extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
-
     public Porte(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(largeur, hauteur, coordonnee, chalet, mur);
         validate();

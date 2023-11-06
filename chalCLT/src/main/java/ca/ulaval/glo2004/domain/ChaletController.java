@@ -5,6 +5,7 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
@@ -30,7 +31,7 @@ public class ChaletController implements Observable {
         return chalet;
     }
 
-    public void ajouterPorte(PorteDTO porteDTO) {
+    public void ajouterPorte(PorteDTO porteDTO)  {
         Porte porte = accessoireFactory.createPorte(porteDTO, chalet);
         chalet.getMurByOrientation(porteDTO.Orientation).ajouterAccessoire(porte);
         notifyObservers();
@@ -47,8 +48,18 @@ public class ChaletController implements Observable {
     }
 
     public void modifierPorte(PorteDTO porteModifie) {
-
+        for (Mur mur : chalet.getMapMur().values()) {
+            for (Accessoire accessoire : mur.getAccessoires()) {
+                if (accessoire.getId().equals(porteModifie.id)) {
+                    accessoire.setHauteur(porteModifie.Hauteur);
+                    accessoire.setLargeur(porteModifie.Largeur);
+                    accessoire.setCoordonnee(porteModifie.Coordonnee);
+                }
+            }
+        }
+        notifyObservers();
     }
+
     public void modifierFenetre(FenetreDTO fenetreModifie) {
 
     }
@@ -75,6 +86,7 @@ public class ChaletController implements Observable {
             observer.update();
         }
     }
+
 
     public Afficheur getAfficheur() {
         return afficheur;
