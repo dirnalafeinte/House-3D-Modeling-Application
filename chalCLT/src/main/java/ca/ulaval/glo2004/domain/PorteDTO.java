@@ -18,9 +18,10 @@ public class PorteDTO {
         id = porte.getId();
     }
 
-    public PorteDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee) {
+    public PorteDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Orientation orientation) {
         Largeur = largeur;
         Hauteur = hauteur;
         Coordonnee = coordonnee;
+        Orientation = orientation;
     }
 }

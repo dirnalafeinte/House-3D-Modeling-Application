@@ -55,6 +55,7 @@ public class Porte extends Accessoire {
     }
 
     private Orientation getCote() {
-        return mur.getCote();
+            return mur.getCote();
+        //return Orientation.FACADE;
     }
 }

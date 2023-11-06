@@ -147,4 +147,8 @@ public class Chalet {
         // TODO
         return null;
     }
+
+    public Mur getMurByOrientation(Orientation orientation){
+        return mapMur.get(orientation);
+    }
 }

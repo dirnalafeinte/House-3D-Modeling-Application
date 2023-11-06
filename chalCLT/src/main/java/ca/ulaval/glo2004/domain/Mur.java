@@ -222,4 +222,8 @@ public class Mur extends Drawable {
     private Imperial getHauteur() {
         return chalet.getHauteur();
     }
+
+    public void ajouterAccessoire(Accessoire accessoire) {
+        accessoires.add(accessoire);
+    }
 }

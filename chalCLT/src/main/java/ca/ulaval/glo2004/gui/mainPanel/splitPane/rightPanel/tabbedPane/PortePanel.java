@@ -83,12 +83,12 @@ public class PortePanel extends JPanel implements Observer {
                     Imperial largeur = Imperial.stringToImperial(largeurField.getText());
                     Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
 
-
-                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
+                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
+                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
                     System.out.println("largeur porte: " + porteDTO.Largeur);
                     System.out.println("hauteur porte: " + porteDTO.Hauteur);
                     System.out.println("coord porte : " +porteDTO.Coordonnee);
-                    mainWindow.getController().ajouterPorte(porteDTO, mainWindow.getController().getChalet());
+                    mainWindow.getController().ajouterPorte(porteDTO);
 
                     xField.setText("");
                     largeurField.setText("");
@@ -144,7 +144,15 @@ public class PortePanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-//        portes = mainWindow.getController().getPorte();
+        portes = mainWindow.getController().getChalet().getPortes();
+        updateComboBox();
+    }
+
+    public void updateComboBox(){
+        idComboBox.removeAllItems();
+        for (PorteDTO porte : portes) {
+            idComboBox.addItem(porte.id);
+        }
     }
 }
 

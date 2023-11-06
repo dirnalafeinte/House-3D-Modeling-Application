@@ -30,8 +30,10 @@ public class ChaletController implements Observable {
         return chalet;
     }
 
-    public void ajouterPorte(PorteDTO porteDTO, Chalet chalet) {
-        accessoireFactory.createPorte(porteDTO, chalet);
+    public void ajouterPorte(PorteDTO porteDTO) {
+        Porte porte = accessoireFactory.createPorte(porteDTO, chalet);
+        chalet.getMurByOrientation(porteDTO.Orientation).ajouterAccessoire(porte);
+        notifyObservers();
     }
 
     public void ajouterFenetre(FenetreDTO fenetreDTO) {
