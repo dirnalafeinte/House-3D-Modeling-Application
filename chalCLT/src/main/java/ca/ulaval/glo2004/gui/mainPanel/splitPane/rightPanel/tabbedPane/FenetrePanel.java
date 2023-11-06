@@ -1,38 +1,37 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.ChaletController;
+import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class FenetrePanel extends JPanel {
+public class FenetrePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
-    private JTextField xField, yField, largeurField, hauteurField;
-    private JTextArea outputTextArea;
+    private JTextField xField, yField, largeurField, hauteurField, modifierXField, modifierYField, modifierLargeurField, modifierHauteurField;
+    private JComboBox orientationComboBox, idComboBox;
+
+    private List<FenetreDTO> fenetres;
 
     public FenetrePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         init();
+
     }
 
     private void init() {
         setLayout(new BorderLayout());
-
-        // Create input fields and "Add" button
-        JPanel inputPanel = AjoutPanel();
+        JPanel inputPanel = ajoutPanel();
         add(inputPanel, BorderLayout.NORTH);
-
-        // Create a separator panel with a black line
         addSeparator();
-
-        // Create a new panel for additional fields and labels
         JPanel newInputPanel = ModifiePanel();
-        add(newInputPanel, BorderLayout.CENTER);
+        add(newInputPanel, BorderLayout.SOUTH);
 
-        add(new JScrollPane(outputTextArea), BorderLayout.SOUTH);
     }
 
     private void addSeparator() {
@@ -48,18 +47,21 @@ public class FenetrePanel extends JPanel {
         add(separatorPanel, BorderLayout.CENTER);
     }
 
-    private JPanel AjoutPanel() {
-        JPanel panel = new JPanel(new FlowLayout());
+    private JPanel ajoutPanel() {
 
-        JLabel xLabel = new JLabel("X:");
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel xLabel = new JLabel("Position X:");
         xField = new JTextField(5);
-        JLabel yLabel = new JLabel("Y:");
+        JLabel yLabel = new JLabel("Position Y:");
         yField = new JTextField(5);
         JLabel largeurLabel = new JLabel("Largeur:");
         largeurField = new JTextField(5);
         JLabel hauteurLabel = new JLabel("Hauteur:");
         hauteurField = new JTextField(5);
-        JButton addButton = new JButton("Ajouter");
+        String[] orientationMur = {Orientation.FACADE.toString(), Orientation.ARRIERE.toString(), Orientation.GAUCHE.toString(), Orientation.DROITE.toString()};
+        orientationComboBox = new JComboBox(orientationMur);
+        JButton ajouter = new JButton("Ajouter");
 
         panel.add(xLabel);
         panel.add(xField);
@@ -69,29 +71,35 @@ public class FenetrePanel extends JPanel {
         panel.add(largeurField);
         panel.add(hauteurLabel);
         panel.add(hauteurField);
-        panel.add(addButton);
+        panel.add(orientationComboBox);
+        panel.add(ajouter);
 
 
-        addButton.addActionListener(new ActionListener() {
+
+        ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int x = Integer.parseInt(xField.getText());
-                int y = Integer.parseInt(yField.getText());
-                int largeur = Integer.parseInt(largeurField.getText());
-                int hauteur = Integer.parseInt(hauteurField.getText());
+                try {
+                    Imperial x = Imperial.stringToImperial(xField.getText());
+                    Imperial y = Imperial.stringToImperial(yField.getText());
+                    Coordonnee coordonnee = new Coordonnee(x, y);
+                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
+                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
 
 
-                //FenetreDTO fenetreDTO = new FenetreDTO(int(x), y, largeur, hauteur);
+                    FenetreDTO fenetreDTO = new FenetreDTO(largeur, hauteur, coordonnee);
+                    mainWindow.getController().ajouterFenetre(fenetreDTO);
 
-
-                // Clear input fields
-                xField.setText("");
-                yField.setText("");
-                largeurField.setText("");
-                hauteurField.setText("");
+                    xField.setText("");
+                    yField.setText("");
+                    largeurField.setText("");
+                    hauteurField.setText("");
+                }
+                catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une fenetre.");
+                }
             }
         });
-
 
         return panel;
     }
@@ -99,19 +107,38 @@ public class FenetrePanel extends JPanel {
     private JPanel ModifiePanel() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        JLabel newLabel1 = new JLabel("New Label 1:");
-        JTextField newField1 = new JTextField(5);
-        JLabel newLabel2 = new JLabel("New Label 2:");
-        JTextField newField2 = new JTextField(5);
-        JButton newButton = new JButton("New Button");
+        String[] idAccessoires = {};
+        idComboBox = new JComboBox(idAccessoires);
+        JLabel modifierXLabel = new JLabel("Position X:");
+        modifierXField = new JTextField(5);
+        JLabel modifierYLabel = new JLabel("Position Y:");
+        modifierYField = new JTextField(5);
+        JLabel modifierLargeurLabel = new JLabel("Largeur:");
+        modifierLargeurField = new JTextField(5);
+        JLabel modifierHauteurLabel = new JLabel("Hauteur:");
+        modifierHauteurField = new JTextField(5);
+        JButton modifier = new JButton("Modifier");
+        JButton supprimer = new JButton("Supprimer");
 
-        panel.add(newLabel1);
-        panel.add(newField1);
-        panel.add(newLabel2);
-        panel.add(newField2);
-        panel.add(newButton);
+        panel.add(idComboBox);
+        panel.add(modifierXLabel);
+        panel.add(modifierXField);
+        panel.add(modifierYLabel);
+        panel.add(modifierYField);
+        panel.add(modifierLargeurLabel);
+        panel.add(modifierLargeurField);
+        panel.add(modifierHauteurLabel);
+        panel.add(modifierHauteurField);
+        panel.add(modifier);
+        panel.add(supprimer);
 
-        newButton.addActionListener(new ActionListener() {
+        modifier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add action for the new button
+            }
+        });
+        supprimer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Add action for the new button
@@ -119,4 +146,10 @@ public class FenetrePanel extends JPanel {
         });
         return panel;
     }
+
+    @Override
+    public void update() {
+//        portes = mainWindow.getController().getPorte();
+    }
 }
+
