@@ -22,13 +22,16 @@ public class ChaletController implements Observable {
         afficheur.setVue(vue);
         notifyObservers();
     }
+    public Vue getVue() {
+        return afficheur.getVue();
+    }
 
     public Chalet getChalet() {
         return chalet;
     }
 
-    public void ajouterPorte(PorteDTO porteDTO) {
-        accessoireFactory.createPorte(porteDTO);
+    public void ajouterPorte(PorteDTO porteDTO, Chalet chalet) {
+        accessoireFactory.createPorte(porteDTO, chalet);
     }
 
     public void ajouterFenetre(FenetreDTO fenetreDTO) {

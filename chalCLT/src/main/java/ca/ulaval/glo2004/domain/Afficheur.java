@@ -26,10 +26,14 @@ public class Afficheur {
         this.vue = vue;
     }
 
+    public Vue getVue() {
+        return vue;
+    }
+
     public void draw(Graphics g) {
         switch (vue) {
             case PLAN -> drawPlan(g);
-            case FACADE, ARRIERE, GAUCHE, DROITE -> drawMur(g);
+            case FACADE, ARRIERE, GAUCHE, DROITE -> drawVisibe(g);
         }
     }
 
@@ -39,10 +43,15 @@ public class Afficheur {
         }
     }
 
-    private void drawMur(Graphics g) {
+    private void drawVisibe(Graphics g) {
         for (Mur mur : chalet.getMapMur().values()) {
             if (mur.isVisible(vue)) {
                 drawDrawable(g, mur);
+                if (mur.getCote().toVue().equals(vue)){
+                    for (Accessoire accessoire : mur.getAccessoires()){
+                        drawDrawable(g, accessoire);
+                    }
+                }
             }
         }
     }

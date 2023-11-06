@@ -1,6 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
+
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -18,20 +18,20 @@ public class Fenetre extends Accessoire {
 
     @Override
     public void validate() {
-        if(!this.estContenu(mur.getCote().toVue(), mur)){
-            throw new IllegalFenetreException("La fenêtre doit être contenue dans le mur");
-        }
-        if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
-            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
-        }
-        for (Accessoire accessoire : mur.getAccessoires()) {
-            if(this.estContenu(mur.getCote().toVue(), accessoire)){
-                throw new IllegalFenetreException("La fenêtre ne doit pas être contenue dans un autre accessoire");
-            }
-            if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){
-                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
-            }
-        }
+//        if(!this.estContenu(mur.getCote().toVue(), mur)){
+//            throw new IllegalFenetreException("La fenêtre doit être contenue dans le mur");
+//        }
+//        if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
+//            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+//        }
+//        for (Accessoire accessoire : mur.getAccessoires()) {
+//            if(this.estContenu(mur.getCote().toVue(), accessoire)){
+//                throw new IllegalFenetreException("La fenêtre ne doit pas être contenue dans un autre accessoire");
+//            }
+//            if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){
+//                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+//            }
+//        }
     }
 
     @Override

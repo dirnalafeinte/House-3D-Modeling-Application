@@ -76,6 +76,7 @@ public class PortePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    System.out.println(xField.getText());
                     Imperial x = Imperial.stringToImperial(xField.getText());
                     Imperial y = mainWindow.getController().getChalet().getHauteur();
                     Coordonnee coordonnee = new Coordonnee(x, y);
@@ -84,7 +85,10 @@ public class PortePanel extends JPanel implements Observer {
 
 
                     PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee);
-                    mainWindow.getController().ajouterPorte(porteDTO);
+                    System.out.println("largeur porte: " + porteDTO.Largeur);
+                    System.out.println("hauteur porte: " + porteDTO.Hauteur);
+                    System.out.println("coord porte : " +porteDTO.Coordonnee);
+                    mainWindow.getController().ajouterPorte(porteDTO, mainWindow.getController().getChalet());
 
                     xField.setText("");
                     largeurField.setText("");
