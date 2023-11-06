@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
@@ -86,8 +87,8 @@ public class FenetrePanel extends JPanel implements Observer {
                     Imperial largeur = Imperial.stringToImperial(largeurField.getText());
                     Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
 
-
-                    FenetreDTO fenetreDTO = new FenetreDTO(largeur, hauteur, coordonnee);
+                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
+                    FenetreDTO fenetreDTO = new FenetreDTO(largeur, hauteur, coordonnee, orientation);;
                     mainWindow.getController().ajouterFenetre(fenetreDTO);
 
                     xField.setText("");
@@ -97,6 +98,9 @@ public class FenetrePanel extends JPanel implements Observer {
                 }
                 catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une fenetre.");
+                }
+                catch (IllegalFenetreException exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
             }
         });

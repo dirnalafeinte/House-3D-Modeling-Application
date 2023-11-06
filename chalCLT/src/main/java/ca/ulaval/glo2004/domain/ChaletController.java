@@ -37,7 +37,9 @@ public class ChaletController implements Observable {
     }
 
     public void ajouterFenetre(FenetreDTO fenetreDTO) {
-        accessoireFactory.createFenetre(fenetreDTO);
+        Fenetre fenetre = accessoireFactory.createFenetre(fenetreDTO, chalet);
+        chalet.getMurByOrientation(fenetreDTO.Orientation).ajouterAccessoire(fenetre);
+        notifyObservers();
     }
 
     public void supprimerAccessoire(Orientation mur, Coordonnee coordonnee) {

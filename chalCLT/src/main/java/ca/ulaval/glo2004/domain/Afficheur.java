@@ -33,7 +33,7 @@ public class Afficheur {
     public void draw(Graphics g) {
         switch (vue) {
             case PLAN -> drawPlan(g);
-            case FACADE, ARRIERE, GAUCHE, DROITE -> drawVisibe(g);
+            case FACADE, ARRIERE, GAUCHE, DROITE -> drawVisible(g);
         }
     }
 
@@ -43,7 +43,7 @@ public class Afficheur {
         }
     }
 
-    private void drawVisibe(Graphics g) {
+    private void drawVisible(Graphics g) {
         for (Mur mur : chalet.getMapMur().values()) {
             if (mur.isVisible(vue)) {
                 drawDrawable(g, mur);

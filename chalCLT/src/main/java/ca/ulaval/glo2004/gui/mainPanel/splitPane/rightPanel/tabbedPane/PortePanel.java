@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
@@ -76,7 +78,6 @@ public class PortePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println(xField.getText());
                     Imperial x = Imperial.stringToImperial(xField.getText());
                     Imperial y = mainWindow.getController().getChalet().getHauteur();
                     Coordonnee coordonnee = new Coordonnee(x, y);
@@ -85,9 +86,6 @@ public class PortePanel extends JPanel implements Observer {
 
                     Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
                     PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
-                    System.out.println("largeur porte: " + porteDTO.Largeur);
-                    System.out.println("hauteur porte: " + porteDTO.Hauteur);
-                    System.out.println("coord porte : " +porteDTO.Coordonnee);
                     mainWindow.getController().ajouterPorte(porteDTO);
 
                     xField.setText("");
@@ -96,6 +94,9 @@ public class PortePanel extends JPanel implements Observer {
                 }
                 catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
+                }
+                catch (IllegalPorteException exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
             }
         });
@@ -144,8 +145,8 @@ public class PortePanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-        portes = mainWindow.getController().getChalet().getPortes();
-        updateComboBox();
+//        portes = mainWindow.getController().getChalet().getPortes();
+//        updateComboBox();
     }
 
     public void updateComboBox(){

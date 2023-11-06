@@ -10,6 +10,7 @@ public class FenetreDTO {
     public Imperial Largeur;
     public Imperial Hauteur;
     public Coordonnee Coordonnee;
+    public Orientation Orientation;
 
     public FenetreDTO(Fenetre fenetre){
         Largeur = fenetre.getLargeur();
@@ -18,9 +19,10 @@ public class FenetreDTO {
         id = fenetre.getId();
     }
 
-    public FenetreDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee) {
+    public FenetreDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Orientation orientation) {
         Largeur = largeur;
         Hauteur = hauteur;
         Coordonnee = coordonnee;
+        Orientation = orientation;
     }
 }

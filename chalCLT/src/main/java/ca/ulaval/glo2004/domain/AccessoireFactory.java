@@ -6,8 +6,9 @@ public class AccessoireFactory {
         this.mur = chalet.getMapMur().get(porteDTO.Orientation);
         return new Porte(porteDTO.Largeur, porteDTO.Hauteur, porteDTO.Coordonnee, chalet, mur);
     }
-    public Fenetre createFenetre(FenetreDTO fenetreDTO) {
-//         return new Fenetre(fenetreDTO.Largeur, fenetreDTO.Hauteur, fenetreDTO.Coordonnee);
-        return null;
+
+    public Fenetre createFenetre(FenetreDTO fenetreDTO, Chalet chalet) {
+        this.mur = chalet.getMapMur().get(fenetreDTO.Orientation);
+        return new Fenetre(fenetreDTO.Largeur, fenetreDTO.Hauteur, fenetreDTO.Coordonnee, chalet, mur);
     }
 }
