@@ -23,7 +23,7 @@ public class DrawingPanel extends JPanel implements Observer {
         mainWindow.getController().registerObserver(this);
 
         // a fixer
-        setPreferredSize(new Dimension(1000, 400));
+        setPreferredSize(new Dimension(1000, 700));
     }
 
     @Override
