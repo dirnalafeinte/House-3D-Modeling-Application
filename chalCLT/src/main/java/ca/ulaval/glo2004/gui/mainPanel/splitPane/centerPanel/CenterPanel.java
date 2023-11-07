@@ -3,6 +3,7 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.centerPanel;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class CenterPanel extends JPanel {
     private final MainWindow mainWindow;
@@ -15,6 +16,8 @@ public class CenterPanel extends JPanel {
     }
 
     private void init() {
+        setLayout(new FlowLayout());
+
         add(drawingPanel);
     }
 }
