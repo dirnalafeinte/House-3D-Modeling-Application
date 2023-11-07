@@ -27,7 +27,7 @@ public class FenetrePanel extends JPanel implements Observer {
     }
 
     private void init() {
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel inputPanel = ajoutPanel();
         add(inputPanel, BorderLayout.NORTH);
         addSeparator();
@@ -51,7 +51,8 @@ public class FenetrePanel extends JPanel implements Observer {
 
     private JPanel ajoutPanel() {
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel xLabel = new JLabel("Position X:");
         xField = new JTextField(5);
@@ -110,7 +111,9 @@ public class FenetrePanel extends JPanel implements Observer {
     }
 
     private JPanel ModifiePanel() {
-        JPanel panel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
 
         String[] idAccessoires = {};
         idComboBox = new JComboBox(idAccessoires);
