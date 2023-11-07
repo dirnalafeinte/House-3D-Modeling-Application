@@ -35,6 +35,8 @@ public class TabbedPane extends JTabbedPane {
     }
 
     private void init() {
+        setTabPlacement(JTabbedPane.LEFT);
+
         addTab(CHALET_PANEL_TITLE, chaletPanel);
         addTab(MUR_PANEL_TITLE, murPanel);
         addTab(TOIT_PANEL_TITLE, toitPanel);
