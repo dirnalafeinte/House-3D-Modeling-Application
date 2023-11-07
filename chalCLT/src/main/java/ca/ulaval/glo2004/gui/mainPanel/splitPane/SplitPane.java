@@ -7,7 +7,7 @@ import ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.RightPanel;
 import javax.swing.*;
 
 public class SplitPane extends JSplitPane {
-    private static final Double RESIZE_WEIGHT = 0.6;
+    private static final Double RESIZE_WEIGHT = 0.7;
     private final MainWindow mainWindow;
     private final CenterPanel centerPanel;
     private final RightPanel rightPanel;
