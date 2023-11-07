@@ -46,23 +46,37 @@ public class PortePanel extends JPanel implements Observer {
                 g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
             }
         };
-        separatorPanel.setPreferredSize(new Dimension(0, 2)); // Set the separator height
+        separatorPanel.setPreferredSize(new Dimension(10, 50)); // Set the separator height
         add(separatorPanel, BorderLayout.CENTER);
     }
 
     private JPanel ajoutPanel() {
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel();
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel xLabel = new JLabel("Position X:");
-        xField = new JTextField(5);
+        xField = new JTextField(4);
         JLabel largeurLabel = new JLabel("Largeur:");
-        largeurField = new JTextField(5);
+        largeurField = new JTextField(4);
         JLabel hauteurLabel = new JLabel("Hauteur:");
-        hauteurField = new JTextField(5);
+        hauteurField = new JTextField(4);
         String[] orientationMur = {Orientation.FACADE.toString(), Orientation.ARRIERE.toString(), Orientation.GAUCHE.toString(), Orientation.DROITE.toString()};
         orientationComboBox = new JComboBox(orientationMur);
         JButton ajouter = new JButton("Ajouter");
+
+        JLabel titreSection = new JLabel(("Ajouter la porte"));
+        titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titreSection.setBorder(BorderFactory.createEmptyBorder(10,5,20,5));
+        titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
+
+        panel.add(titreSection);
+        xLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        largeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        largeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hauteurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
         panel.add(xLabel);
         panel.add(xField);
@@ -113,17 +127,27 @@ public class PortePanel extends JPanel implements Observer {
     }
 
     private JPanel ModifiePanel() {
-        JPanel panel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel();
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         idComboBox = new JComboBox(idAccessoires);
         JLabel modifierXLabel = new JLabel("Position X:");
-        modifierXField = new JTextField(5);
+        modifierXField = new JTextField(4);
         JLabel modifierLargeurLabel = new JLabel("Largeur:");
-        modifierLargeurField = new JTextField(5);
+        modifierLargeurField = new JTextField(4);
         JLabel modifierHauteurLabel = new JLabel("Hauteur:");
-        modifierHauteurField = new JTextField(5);
+        modifierHauteurField = new JTextField(4);
         JButton modifier = new JButton("Modifier");
         JButton supprimer = new JButton("Supprimer");
+
+        JLabel titreSection = new JLabel(("Modifier la porte"));
+        titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titreSection.setBorder(BorderFactory.createEmptyBorder(10,10,20,5));
+        titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
+
+        panel.add(titreSection);
+
 
         panel.add(idComboBox);
         panel.add(modifierXLabel);
@@ -134,6 +158,7 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(modifierHauteurField);
         panel.add(modifier);
         panel.add(supprimer);
+
 
         modifier.addActionListener(new ActionListener() {
             @Override

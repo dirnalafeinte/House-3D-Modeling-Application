@@ -29,24 +29,26 @@ public class FenetrePanel extends JPanel implements Observer {
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel inputPanel = ajoutPanel();
-        add(inputPanel, BorderLayout.NORTH);
+        add(inputPanel);
         addSeparator();
         JPanel newInputPanel = ModifiePanel();
-        add(newInputPanel, BorderLayout.SOUTH);
+        add(newInputPanel);
 
     }
 
     private void addSeparator() {
-        JPanel separatorPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.BLACK);
-                g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-            }
-        };
-        separatorPanel.setPreferredSize(new Dimension(0, 2)); // Set the separator height
-        add(separatorPanel, BorderLayout.CENTER);
+        JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
+//            new JPanel() {
+
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                super.paintComponent(g);
+//                g.setColor(Color.BLACK);
+//                g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+//            }
+//        };
+        separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2)); // Set the separator height
+        add(separator);
     }
 
     private JPanel ajoutPanel() {
@@ -65,6 +67,18 @@ public class FenetrePanel extends JPanel implements Observer {
         String[] orientationMur = {Orientation.FACADE.toString(), Orientation.ARRIERE.toString(), Orientation.GAUCHE.toString(), Orientation.DROITE.toString()};
         orientationComboBox = new JComboBox(orientationMur);
         JButton ajouter = new JButton("Ajouter");
+
+        JLabel titreSection = new JLabel(("Ajouter la fenêtre"));
+        titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titreSection.setBorder(BorderFactory.createEmptyBorder(10,0,20,0));
+        titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
+
+        panel.add(titreSection);
+        xLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        yLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        largeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        largeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hauteurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         panel.add(xLabel);
         panel.add(xField);
@@ -118,15 +132,26 @@ public class FenetrePanel extends JPanel implements Observer {
         String[] idAccessoires = {};
         idComboBox = new JComboBox(idAccessoires);
         JLabel modifierXLabel = new JLabel("Position X:");
-        modifierXField = new JTextField(5);
+        modifierXField = new JTextField(4);
         JLabel modifierYLabel = new JLabel("Position Y:");
-        modifierYField = new JTextField(5);
+        modifierYField = new JTextField(4);
         JLabel modifierLargeurLabel = new JLabel("Largeur:");
-        modifierLargeurField = new JTextField(5);
+        modifierLargeurField = new JTextField(4);
         JLabel modifierHauteurLabel = new JLabel("Hauteur:");
-        modifierHauteurField = new JTextField(5);
+        modifierHauteurField = new JTextField(4);
         JButton modifier = new JButton("Modifier");
         JButton supprimer = new JButton("Supprimer");
+
+        JLabel titreSection = new JLabel(("Modifier la fenêtre"));
+        titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titreSection.setBorder(BorderFactory.createEmptyBorder(0,15,20,0));
+        titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
+
+        panel.add(titreSection);
+        modifierXLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modifierYLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modifierLargeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modifierHauteurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         panel.add(idComboBox);
         panel.add(modifierXLabel);
