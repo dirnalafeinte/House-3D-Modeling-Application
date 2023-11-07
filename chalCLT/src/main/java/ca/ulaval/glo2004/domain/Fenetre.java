@@ -1,20 +1,22 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Fenetre extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.RED;
 
     public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(largeur, hauteur, coordonnee, chalet, mur);
-        validate();
+    }
+
+    public Fenetre(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(id, largeur, hauteur, coordonnee, chalet, mur);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class Fenetre extends Accessoire {
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 
-    private Orientation getCote() {
+    public Orientation getCote() {
         return mur.getCote();
     }
 }

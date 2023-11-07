@@ -9,7 +9,7 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 public abstract class Drawable {
-    private final UUID id;
+    private final String id;
     protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
     protected Color color;
     protected final Chalet chalet;
@@ -17,14 +17,19 @@ public abstract class Drawable {
 
     public Drawable(Chalet chalet) {
         this.chalet = chalet;
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public Drawable(String id, Chalet chalet) {
+        this.chalet = chalet;
+        this.id = id;
     }
 
     protected abstract void setColor();
 
     public abstract void calculateSommets();
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

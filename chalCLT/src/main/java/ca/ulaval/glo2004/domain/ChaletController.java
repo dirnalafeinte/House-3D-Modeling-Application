@@ -1,17 +1,22 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.dtos.*;
+import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
+import ca.ulaval.glo2004.domain.factories.ChaletFactory;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ChaletController implements Observable {
     private final List<Observer> observers = new ArrayList<>();
     private final AccessoireFactory accessoireFactory = new AccessoireFactory();
     private final ChaletFactory chaletFactory = new ChaletFactory();
-    private Afficheur afficheur;
+    private final DTOAssembler dtoAssembler = new DTOAssembler();
+    public Afficheur afficheur;
     private Chalet chalet;
 
     public ChaletController() {
@@ -23,23 +28,16 @@ public class ChaletController implements Observable {
         afficheur.setVue(vue);
         notifyObservers();
     }
-    public Vue getVue() {
-        return afficheur.getVue();
-    }
 
-    public Chalet getChalet() {
-        return chalet;
-    }
-
-    public void ajouterPorte(PorteDTO porteDTO)  {
-        Porte porte = accessoireFactory.createPorte(porteDTO, chalet);
-        chalet.getMurByOrientation(porteDTO.Orientation).ajouterAccessoire(porte);
+    public void ajouterPorte(AddPorteDTO addPorteDTO)  {
+        Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
+        chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).ajouterAccessoire(porte);
         notifyObservers();
     }
 
-    public void ajouterFenetre(FenetreDTO fenetreDTO) {
-        Fenetre fenetre = accessoireFactory.createFenetre(fenetreDTO, chalet);
-        chalet.getMurByOrientation(fenetreDTO.Orientation).ajouterAccessoire(fenetre);
+    public void ajouterFenetre(AddFenetreDTO addFenetreDTO) {
+        Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
+        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).ajouterAccessoire(fenetre);
         notifyObservers();
     }
 
@@ -47,41 +45,29 @@ public class ChaletController implements Observable {
 
     }
 
-    public void modifierPorte(PorteDTO porteModifie) {
-        for (Mur mur : chalet.getMapMur().values()) {
+    public void modifierPorte(PorteDTO porteDTO) {
+        for (Mur mur : chalet.getMurs()) {
             for (Accessoire accessoire : mur.getAccessoires()) {
-                if (accessoire.getId().equals(porteModifie.id)) {
-                    accessoire.setHauteur(porteModifie.Hauteur);
-                    accessoire.setLargeur(porteModifie.Largeur);
-                    accessoire.setCoordonnee(porteModifie.Coordonnee);
+                if (accessoire.getId().equals(porteDTO.id())) {
+                    accessoire.setHauteur(Imperial.fromString(porteDTO.hauteur()));
+                    accessoire.setLargeur(Imperial.fromString(porteDTO.largeur()));
+                    accessoire.setCoordonnee(new Coordonnee(Imperial.fromString(porteDTO.coordonneeX()), chalet.getHauteur()));
                 }
             }
         }
         notifyObservers();
     }
 
-    public List<PorteDTO> getPortes() {
-        List<PorteDTO> portes = new ArrayList<>();
-        for (Mur mur : chalet.getMapMur().values()) {
-            for (Accessoire accessoire : mur.getAccessoires()) {
-                if (accessoire instanceof Porte) {
-                    portes.add(new PorteDTO((Porte) accessoire));
-                }
-            }
-        }
-        return portes;
+    public Map<String, PorteDTO> getPortesById() {
+        return chalet.getMurs().stream().map(Mur::getPortes).flatMap(List::stream).collect(Collectors.toMap(Porte::getId, dtoAssembler::toPorteDTO));
     }
 
-    public void modifierFenetre(FenetreDTO fenetreModifie) {
-
+    public Map<String, FenetreDTO> getFenetresById() {
+        return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
 
-    public void mofifierChalet(ChaletDTO chaletModifie) {
+    public void modifierFenetre(FenetreDTO fenetreDTO) {
 
-    }
-
-    public Drawable getObjectsAtCoord(Coordonnee coordonnee) {
-        return null;
     }
 
     public void registerObserver(Observer newObserver) {
@@ -97,10 +83,5 @@ public class ChaletController implements Observable {
         for (Observer observer : observers) {
             observer.update();
         }
-    }
-
-
-    public Afficheur getAfficheur() {
-        return afficheur;
     }
 }

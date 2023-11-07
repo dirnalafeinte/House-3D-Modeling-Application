@@ -1,19 +1,21 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.exceptions.IllegalPorteException;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Porte extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
     public Porte(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(largeur, hauteur, coordonnee, chalet, mur);
-        validate();
+    }
+
+    public Porte(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(largeur, hauteur, coordonnee, chalet, mur);
     }
 
     @Override
@@ -52,10 +54,5 @@ public class Porte extends Accessoire {
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
         sommets.put(getCote().toVue(), sommetsAccessoire);
-    }
-
-    private Orientation getCote() {
-            return mur.getCote();
-        //return Orientation.FACADE;
     }
 }

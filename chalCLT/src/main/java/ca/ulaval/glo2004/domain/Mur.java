@@ -49,6 +49,26 @@ public class Mur extends Drawable {
         return accessoires;
     }
 
+    public List<Porte> getPortes() {
+        List<Porte> portes = new ArrayList<>();
+        for (Accessoire accessoire : accessoires) {
+            if (accessoire instanceof Porte) {
+                portes.add((Porte) accessoire);
+            }
+        }
+        return portes;
+    }
+
+    public List<Fenetre> getFenetres() {
+        List<Fenetre> fenetres = new ArrayList<>();
+        for (Accessoire accessoire : accessoires) {
+            if (accessoire instanceof Fenetre) {
+                fenetres.add((Fenetre) accessoire);
+            }
+        }
+        return fenetres;
+    }
+
     private void calculateSommetsMur() {
         calculateSommetsMurInItsView();
         if (isCoteLong()) {

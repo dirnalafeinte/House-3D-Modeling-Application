@@ -31,7 +31,7 @@ public class DrawingPanel extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        mainWindow.getController().getAfficheur().draw(g);
+        mainWindow.getController().afficheur.draw(g);
     }
 
     @Override

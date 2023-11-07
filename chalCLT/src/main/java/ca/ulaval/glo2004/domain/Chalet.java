@@ -2,7 +2,6 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Imperial;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +123,8 @@ public class Chalet {
         this.epaisseurMur = epaisseurMur;
     }
 
-    public Map<Orientation, Mur> getMapMur() {
-        return mapMur;
+    public List<Mur> getMurs() {
+        return mapMur.values().stream().toList();
     }
 
     public Pignon getPignonDroit() {

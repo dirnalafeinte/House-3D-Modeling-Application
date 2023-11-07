@@ -1,7 +1,9 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
+import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
@@ -11,7 +13,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.UUID;
 
 public class FenetrePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
@@ -82,14 +83,12 @@ public class FenetrePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Imperial x = Imperial.stringToImperial(xField.getText());
-                    Imperial y = Imperial.stringToImperial(yField.getText());
-                    Coordonnee coordonnee = new Coordonnee(x, y);
-                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
-
-                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
-                    FenetreDTO fenetreDTO = new FenetreDTO(largeur, hauteur, coordonnee, orientation);;
+                    String coordonneeX = xField.getText();
+                    String coordonneeY = yField.getText();
+                    String largeur = largeurField.getText();
+                    String hauteur = hauteurField.getText();
+                    String orientation = orientationComboBox.getSelectedItem().toString();
+                    AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);;
                     mainWindow.getController().ajouterFenetre(fenetreDTO);
 
                     xField.setText("");

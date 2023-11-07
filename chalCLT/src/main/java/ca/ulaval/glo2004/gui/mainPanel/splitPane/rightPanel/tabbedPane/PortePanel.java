@@ -1,8 +1,9 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.exceptions.IllegalPorteException;
+import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
+import ca.ulaval.glo2004.domain.dtos.PorteDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -83,14 +83,11 @@ public class PortePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Imperial x = Imperial.stringToImperial(xField.getText());
-                    Imperial y = mainWindow.getController().getChalet().getHauteur();
-                    Coordonnee coordonnee = new Coordonnee(x, y);
-                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
-
-                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
-                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
+                    String coordonneX = xField.getText();
+                    String largeur = largeurField.getText();
+                    String hauteur = hauteurField.getText();
+                    String orientation = orientationComboBox.getSelectedItem().toString();
+                    AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
                     mainWindow.getController().ajouterPorte(porteDTO);
 
                     xField.setText("");
@@ -136,17 +133,13 @@ public class PortePanel extends JPanel implements Observer {
 
         modifier.addActionListener(e -> {
             try {
-                Imperial x = Imperial.stringToImperial(modifierXField.getText());
-                Imperial y = mainWindow.getController().getChalet().getHauteur();
-                Coordonnee coordonnee = new Coordonnee(x, y);
-                Imperial largeur = Imperial.stringToImperial(modifierLargeurField.getText());
-                Imperial hauteur = Imperial.stringToImperial(modifierHauteurField.getText());
-                UUID id = UUID.fromString(idComboBox.getSelectedItem().toString());
+                String coordonneX = modifierXField.getText();
+                String largeur = modifierLargeurField.getText();
+                String hauteur = modifierHauteurField.getText();
+                String id = idComboBox.getSelectedItem().toString();
+                String orientation = portes.get(id).orientation();
 
-                PorteDTO porte = portes.get(id);
-                porte.Coordonnee = coordonnee;
-                porte.Largeur = largeur;
-                porte.Hauteur = hauteur;
+                PorteDTO porte = new PorteDTO(id, largeur, hauteur, coordonneX, orientation);
                 mainWindow.getController().modifierPorte(porte);
 
                 xField.setText("");
@@ -174,18 +167,14 @@ public class PortePanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-        for (PorteDTO porte : mainWindow.getController().getPortes()){
-            if (!portes.containsKey(porte.id.toString())){
-                portes.put(porte.id.toString(), porte);
-            }
-        }
+        portes = mainWindow.getController().getPortesById();
         updateComboBox();
     }
 
     public void updateComboBox(){
         idComboBox.removeAllItems();
         for (PorteDTO porte : portes.values()) {
-            idComboBox.addItem(porte.id.toString());
+            idComboBox.addItem(porte.id());
         }
     }
 }

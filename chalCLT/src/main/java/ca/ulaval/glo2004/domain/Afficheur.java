@@ -38,13 +38,13 @@ public class Afficheur {
     }
 
     private void drawPlan(Graphics g) {
-        for (Mur mur : chalet.getMapMur().values()) {
+        for (Mur mur : chalet.getMurs()) {
             drawDrawable(g, mur);
         }
     }
 
     private void drawVisible(Graphics g) {
-        for (Mur mur : chalet.getMapMur().values()) {
+        for (Mur mur : chalet.getMurs()) {
             if (mur.isVisible(vue)) {
                 drawDrawable(g, mur);
                 if (mur.getCote().toVue().equals(vue)){
