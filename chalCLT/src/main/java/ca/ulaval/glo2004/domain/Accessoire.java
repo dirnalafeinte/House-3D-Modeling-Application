@@ -3,8 +3,6 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
-import java.util.UUID;
-
 public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
     protected Imperial hauteur;
@@ -17,7 +15,6 @@ public abstract class Accessoire extends Drawable {
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
         this.mur = mur;
-        setColor();
         calculateSommets();
     }
 
@@ -27,7 +24,6 @@ public abstract class Accessoire extends Drawable {
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
         this.mur = mur;
-        setColor();
         calculateSommets();
     }
 
@@ -61,6 +57,24 @@ public abstract class Accessoire extends Drawable {
 
     public Orientation getCote() {
         return mur.getCote();
+    }
+
+    public boolean intersects(Accessoire that) {
+        boolean isLeft = getCoordonnee().getX().subtract(largeur.divideBy(2)).lessThan(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)));
+        boolean isRight = getCoordonnee().getX().add(largeur.divideBy(2)).greaterThan(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)));
+        boolean isAbove = getCoordonnee().getY().add(hauteur.divideBy(2)).greaterThan(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2)));
+        boolean isBelow = getCoordonnee().getY().subtract(hauteur.divideBy(2)).lessThan(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2)));
+
+        return isLeft && isRight && isAbove && isBelow;
+    }
+
+    public Imperial getMinDistance(Accessoire that) {
+        Imperial distanceTop = getCoordonnee().getY().add(hauteur.divideBy(2)).subtract(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2))).abs();
+        Imperial distanceBottom = getCoordonnee().getY().subtract(hauteur.divideBy(2)).subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
+        Imperial distanceLeft = getCoordonnee().getX().subtract(largeur.divideBy(2)).subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceRight = getCoordonnee().getX().add(largeur.divideBy(2)).subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
+
+        return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
     }
 
     public abstract void validate();

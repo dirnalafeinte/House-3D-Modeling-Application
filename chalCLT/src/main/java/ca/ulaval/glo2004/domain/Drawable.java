@@ -9,9 +9,10 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 public abstract class Drawable {
+    protected static Color DEFAULT_ERROR_COLOR = Color.RED;
     private final String id;
     protected final Map<Vue, List<Coordonnee>> sommets = new HashMap<>();
-    protected Color color;
+    protected boolean isValid = true;
     protected final Chalet chalet;
     protected final UnitConverter unitConverter = new UnitConverter();
 
@@ -25,9 +26,8 @@ public abstract class Drawable {
         this.id = id;
     }
 
-    protected abstract void setColor();
-
     public abstract void calculateSommets();
+    public abstract Color getColor();
 
     public String getId() {
         return id;
@@ -39,10 +39,6 @@ public abstract class Drawable {
 
     public List<Coordonnee> getSommetsByVue(Vue vue) {
         return sommets.get(vue);
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public boolean estContenu(Vue vue, Coordonnee coordonnee){

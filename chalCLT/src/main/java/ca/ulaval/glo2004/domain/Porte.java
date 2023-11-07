@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
@@ -20,25 +21,25 @@ public class Porte extends Accessoire {
 
     @Override
     public void validate() {
-        if(!this.estContenu(mur.getCote().toVue(), mur)){
-            throw new IllegalPorteException("La porte doit être contenue dans le mur");
+        if (!mur.contains(this)) {
+            isValid = false;
+            throw new IllegalFenetreException("La fenêtre doit être sur le mur");
         }
-//        if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
-//            throw new IllegalPorteException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
-//        }
+        if (mur.getMinDistance(this).lessThan(chalet.getDistanceMin())) {
+            isValid = false;
+            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+        }
         for (Accessoire accessoire : mur.getAccessoires()) {
-            if(this.estContenu(mur.getCote().toVue(), accessoire)){
-                throw new IllegalPorteException("La porte ne doit pas être contenue dans un autre accessoire");
+            if (intersects(accessoire)) {
+                isValid = false;
+                throw new IllegalFenetreException("La fenêtre ne doit pas intersecter un autre accessoire");
             }
-//            if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){
-//                throw new IllegalPorteException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
-//            }
+            if (getMinDistance(accessoire).lessThan(chalet.getDistanceMin())) {
+                isValid = false;
+                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+            }
         }
-    }
-
-    @Override
-    protected void setColor() {
-        color = DEFAULT_COLOR;
+        isValid = true;
     }
 
     @Override
@@ -47,12 +48,17 @@ public class Porte extends Accessoire {
         calculateSommetsAccessoire();
     }
 
+    @Override
+    public Color getColor() {
+        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
+    }
+
     private void calculateSommetsAccessoire() { // Pour une porte, on prend en compte seulement la position en x, le reste est fixe.
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur))); // y est fixe dans le UI
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().subtract(hauteur))); // y est fixe dans le UI
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), coordonnee.getY().subtract(hauteur))); // y est fixe dans le UI
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 }

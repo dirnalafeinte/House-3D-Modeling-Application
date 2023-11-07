@@ -7,18 +7,17 @@ public class Rallonge extends Drawable {
 
     public Rallonge(Chalet chalet) {
         super(chalet);
-        setColor();
         calculateSommets();
-    }
-
-    @Override
-    protected void setColor() {
-        color = DEFAULT_COLOR;
     }
 
     @Override
     public void calculateSommets() {
         // TODO
+    }
+
+    @Override
+    public Color getColor() {
+        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 
 //    private void calculerHauteurRallonge(Orientation sensToit) {

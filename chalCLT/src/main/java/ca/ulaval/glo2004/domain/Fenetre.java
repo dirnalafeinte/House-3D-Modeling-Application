@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -21,25 +22,25 @@ public class Fenetre extends Accessoire {
 
     @Override
     public void validate() {
-        if(!this.estContenu(mur.getCote().toVue(), mur)){
-            throw new IllegalFenetreException("La fenêtre doit être contenue dans le mur");
+        if (!mur.contains(this)) {
+            isValid = false;
+            throw new IllegalPorteException("La porte doit être sur le mur");
         }
-//        if(getDistanceMinEntre(mur).lessThan(chalet.getDistanceMin())){
-//            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
-//        }
+        if (mur.getMinDistance(this).lessThan(chalet.getDistanceMin())) {
+            isValid = false;
+            throw new IllegalFenetreException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+        }
         for (Accessoire accessoire : mur.getAccessoires()) {
-            if(this.estContenu(mur.getCote().toVue(), accessoire)){
-                throw new IllegalFenetreException("La fenêtre ne doit pas être contenue dans un autre accessoire");
+            if (intersects(accessoire)) {
+                isValid = false;
+                throw new IllegalFenetreException("La porte ne doit pas intersecter un autre accessoire");
             }
-//            if(getDistanceMinEntre(accessoire).lessThan(chalet.getDistanceMin())){
-//                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
-//            }
+            if (getMinDistance(accessoire).lessThan(chalet.getDistanceMin())) {
+                isValid = false;
+                throw new IllegalFenetreException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+            }
         }
-    }
-
-    @Override
-    protected void setColor() {
-        color = DEFAULT_COLOR;
+        isValid = true;
     }
 
     @Override
@@ -48,12 +49,17 @@ public class Fenetre extends Accessoire {
         calculateSommetsAccessoire();
     }
 
+    @Override
+    public Color getColor() {
+        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
+    }
+
     private void calculateSommetsAccessoire() {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 

@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.dtos.*;
 
 public class DTOAssembler {
