@@ -5,13 +5,15 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Mur extends Drawable {
     private static final Color DEFAULT_COLOR_1 = Color.BLUE;
     private static final Color DEFAULT_COLOR_2 = Color.ORANGE;
     private final Orientation cote;
-    private final List<Accessoire> accessoires = new ArrayList<>();
+    private final Map<String, Accessoire> accessoiresById = new HashMap();
 
     public Mur(Chalet chalet, Orientation cote) {
         super(chalet);
@@ -46,12 +48,12 @@ public class Mur extends Drawable {
     }
 
     public List<Accessoire> getAccessoires() {
-        return accessoires;
+        return accessoiresById.values().stream().toList();
     }
 
     public List<Porte> getPortes() {
         List<Porte> portes = new ArrayList<>();
-        for (Accessoire accessoire : accessoires) {
+        for (Accessoire accessoire : accessoiresById.values()) {
             if (accessoire instanceof Porte) {
                 portes.add((Porte) accessoire);
             }
@@ -61,7 +63,7 @@ public class Mur extends Drawable {
 
     public List<Fenetre> getFenetres() {
         List<Fenetre> fenetres = new ArrayList<>();
-        for (Accessoire accessoire : accessoires) {
+        for (Accessoire accessoire : accessoiresById.values()) {
             if (accessoire instanceof Fenetre) {
                 fenetres.add((Fenetre) accessoire);
             }
@@ -233,7 +235,15 @@ public class Mur extends Drawable {
         return chalet.getHauteur();
     }
 
-    public void ajouterAccessoire(Accessoire accessoire) {
-        accessoires.add(accessoire);
+    public void addAccessoire(Accessoire accessoire) {
+        accessoiresById.put(accessoire.getId(), accessoire);
+    }
+
+    public void modifyAccessoire(Accessoire accessoire) {
+        accessoiresById.replace(accessoire.getId(), accessoire);
+    }
+
+    public void removeAccessoireById(String id) {
+        accessoiresById.remove(id);
     }
 }

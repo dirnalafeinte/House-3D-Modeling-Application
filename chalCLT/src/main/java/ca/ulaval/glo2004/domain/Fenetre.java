@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fenetre extends Accessoire {
-    private static final Color DEFAULT_COLOR = Color.RED;
+    private static final Color DEFAULT_COLOR = Color.GREEN;
 
     public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(largeur, hauteur, coordonnee, chalet, mur);
@@ -50,10 +50,10 @@ public class Fenetre extends Accessoire {
 
     private void calculateSommetsAccessoire() {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().add(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().add(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 

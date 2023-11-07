@@ -3,8 +3,6 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.dtos.*;
 import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
 import ca.ulaval.glo2004.domain.factories.ChaletFactory;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,32 +27,37 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void ajouterPorte(AddPorteDTO addPorteDTO)  {
+    public void addPorte(AddPorteDTO addPorteDTO)  {
         Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
-        chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).ajouterAccessoire(porte);
+        chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
         notifyObservers();
     }
 
-    public void ajouterFenetre(AddFenetreDTO addFenetreDTO) {
+    public void addFenetre(AddFenetreDTO addFenetreDTO) {
         Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
-        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).ajouterAccessoire(fenetre);
+        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
         notifyObservers();
     }
 
-    public void supprimerAccessoire(Orientation mur, Coordonnee coordonnee) {
-
+    public void deleteFenetre(FenetreDTO fenetreDTO) {
+        chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).removeAccessoireById(fenetreDTO.id());
+        notifyObservers();
     }
 
-    public void modifierPorte(PorteDTO porteDTO) {
-        for (Mur mur : chalet.getMurs()) {
-            for (Accessoire accessoire : mur.getAccessoires()) {
-                if (accessoire.getId().equals(porteDTO.id())) {
-                    accessoire.setHauteur(Imperial.fromString(porteDTO.hauteur()));
-                    accessoire.setLargeur(Imperial.fromString(porteDTO.largeur()));
-                    accessoire.setCoordonnee(new Coordonnee(Imperial.fromString(porteDTO.coordonneeX()), chalet.getHauteur()));
-                }
-            }
-        }
+    public void deletePorte(PorteDTO porteDTO) {
+        chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).removeAccessoireById(porteDTO.id());
+        notifyObservers();
+    }
+
+    public void modifyPorte(PorteDTO porteDTO) {
+        Porte porte = accessoireFactory.createPorte(porteDTO, chalet);
+        chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
+        notifyObservers();
+    }
+
+    public void modifyFenetre(FenetreDTO fenetreDTO) {
+        Fenetre fenetre = accessoireFactory.createFenetre(fenetreDTO, chalet);
+        chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
         notifyObservers();
     }
 
@@ -64,10 +67,6 @@ public class ChaletController implements Observable {
 
     public Map<String, FenetreDTO> getFenetresById() {
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
-    }
-
-    public void modifierFenetre(FenetreDTO fenetreDTO) {
-
     }
 
     public void registerObserver(Observer newObserver) {

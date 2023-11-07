@@ -15,7 +15,7 @@ public class Porte extends Accessoire {
     }
 
     public Porte(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
-        super(largeur, hauteur, coordonnee, chalet, mur);
+        super(id, largeur, hauteur, coordonnee, chalet, mur);
     }
 
     @Override
