@@ -25,20 +25,20 @@ public class DrawingPanel extends JPanel implements Observer {
         mainWindow.getController().registerObserver(this);
 
         // a fixer
-        //setPreferredSize(new Dimension(1000, 700));
+        setPreferredSize(new Dimension(1000, 700));
     }
 
 
-    @Override
-    public Dimension getPreferredSize() {
-        if (mainWindow != null && mainWindow.isDisplayable()) {
-            Dimension size = mainWindow.getSize();
-            int preferredWidth = (int) (size.width * WIDTH_RATIO);
-            int preferredHeight = (int) (size.height * HEIGHT_RATIO);
-            return new Dimension(preferredWidth, preferredHeight);
-        }
-        return null;
-    }
+//    @Override
+//    public Dimension getPreferredSize() {
+//        if (mainWindow != null && mainWindow.isDisplayable()) {
+//            Dimension size = mainWindow.getSize();
+//            int preferredWidth = (int) (size.width * WIDTH_RATIO);
+//            int preferredHeight = (int) (size.height * HEIGHT_RATIO);
+//            return new Dimension(preferredWidth, preferredHeight);
+//        }
+//        return null;
+//    }
 
 
 

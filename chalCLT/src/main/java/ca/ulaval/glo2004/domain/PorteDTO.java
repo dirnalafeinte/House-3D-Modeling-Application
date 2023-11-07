@@ -18,11 +18,18 @@ public class PorteDTO {
         id = porte.getId();
     }
 
+    public PorteDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Orientation orientation, UUID id) {
+        Largeur = largeur;
+        Hauteur = hauteur;
+        Coordonnee = coordonnee;
+        Orientation = orientation;
+        this.id = id;
+    }
+
     public PorteDTO(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Orientation orientation) {
         Largeur = largeur;
         Hauteur = hauteur;
         Coordonnee = coordonnee;
         Orientation = orientation;
-        this.id = UUID.randomUUID();
     }
 }

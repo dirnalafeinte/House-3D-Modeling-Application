@@ -149,17 +149,6 @@ public class Chalet {
         return null;
     }
 
-    public List<Porte> getPortes() {
-        List<Porte> portes = new ArrayList<>();
-        for (Mur mur : mapMur.values()) {
-            for (Accessoire accessoire : mur.getAccessoires()) {
-                if (accessoire instanceof Porte) {
-                    portes.add((Porte) accessoire);
-                }
-            }
-        }
-        return portes;
-    }
     public Mur getMurByOrientation(Orientation orientation){
         return mapMur.get(orientation);
     }

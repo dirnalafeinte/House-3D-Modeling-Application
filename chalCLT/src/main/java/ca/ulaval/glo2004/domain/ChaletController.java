@@ -60,6 +60,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
+    public List<PorteDTO> getPortes() {
+        List<PorteDTO> portes = new ArrayList<>();
+        for (Mur mur : chalet.getMapMur().values()) {
+            for (Accessoire accessoire : mur.getAccessoires()) {
+                if (accessoire instanceof Porte) {
+                    portes.add(new PorteDTO((Porte) accessoire));
+                }
+            }
+        }
+        return portes;
+    }
+
     public void modifierFenetre(FenetreDTO fenetreModifie) {
 
     }
