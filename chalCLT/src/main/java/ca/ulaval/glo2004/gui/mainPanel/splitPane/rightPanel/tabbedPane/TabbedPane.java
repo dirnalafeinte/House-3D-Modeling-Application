@@ -1,10 +1,8 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class TabbedPane extends JTabbedPane {
     private static final String CHALET_PANEL_TITLE = "Chalet";
