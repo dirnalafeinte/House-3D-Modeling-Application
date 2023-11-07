@@ -39,15 +39,6 @@ public class FenetrePanel extends JPanel implements Observer {
 
     private void addSeparator() {
         JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
-//            new JPanel() {
-
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                g.setColor(Color.BLACK);
-//                g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-//            }
-//        };
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2)); // Set the separator height
         add(separator);
     }

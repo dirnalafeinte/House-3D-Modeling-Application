@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class DrawingPanel extends JPanel implements Observer {
     private static final Color BACKGROUD_COLOR = Color.WHITE;
-    private static final double WIDTH_RATIO = 0.7;
+    private static final double WIDTH_RATIO = 0.6;
     private static final double HEIGHT_RATIO = 1;
     private final MainWindow mainWindow;
 
