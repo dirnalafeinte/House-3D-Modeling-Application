@@ -1,4 +1,6 @@
 # GUI
+Pour accéder au panel de fenêtre, il faut sélectionner le tab fenêtre \
+Pour accéder au panel de porte, il faut sélectionner le tab porte \
 On peut entrer les valeurs impériales ainsi:
 ```
 x' y" a/b
