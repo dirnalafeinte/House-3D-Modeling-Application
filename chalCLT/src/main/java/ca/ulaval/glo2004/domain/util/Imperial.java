@@ -142,8 +142,7 @@ public class Imperial {
     }
 
     public Imperial abs() {
-        double inches = Math.abs(this.toInches());
-        return Imperial.fromInches(inches);
+        return new Imperial(Math.abs(feet), Math.abs(inches), Math.abs(numerator), Math.abs(denominator));
     }
 
     public static Imperial min(Imperial a, Imperial b) {

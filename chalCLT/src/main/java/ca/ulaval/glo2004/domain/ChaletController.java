@@ -19,11 +19,14 @@ public class ChaletController implements Observable {
 
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
-        afficheur = new Afficheur(chalet, Vue.PLAN);
+        afficheur = new AfficheurPlan(chalet, Vue.PLAN);
     }
 
     public void setVue(Vue vue) {
-        afficheur.setVue(vue);
+        switch (vue) {
+            case PLAN -> afficheur = new AfficheurPlan(chalet, vue);
+            case FACADE, ARRIERE, GAUCHE, DROITE -> afficheur = new AfficheurMur(chalet, vue);
+        }
         notifyObservers();
     }
 

@@ -7,41 +7,22 @@ import java.awt.*;
 import java.util.List;
 
 
-public class Afficheur {
-    private static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK;
-    private final Chalet chalet;
-    private Vue vue;
-    private final UnitConverter unitConverter = new UnitConverter();
-    private double zoomFactor = 0.25;
-    private double lastZoomFactor = 1.0;
-    private double xOffset = 24;
-    private double yOffset = 9;
+public abstract class Afficheur {
+    protected static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK;
+    protected final Chalet chalet;
+    protected Vue vue;
+    protected final UnitConverter unitConverter = new UnitConverter();
+    protected double zoomFactor = 0.25;
+    protected double lastZoomFactor = 1.0;
+    protected double xOffset = 24;
+    protected double yOffset = 9;
 
     public Afficheur(Chalet chalet, Vue vue) {
         this.chalet = chalet;
         this.vue = vue;
     }
 
-    public void setVue(Vue vue) {
-        this.vue = vue;
-    }
-
-    public Vue getVue() {
-        return vue;
-    }
-
-    public void draw(Graphics g) {
-        switch (vue) {
-            case PLAN -> drawPlan(g);
-            case FACADE, ARRIERE, GAUCHE, DROITE -> drawVisible(g);
-        }
-    }
-
-    private void drawPlan(Graphics g) {
-        for (Mur mur : chalet.getMurs()) {
-            drawDrawable(g, mur);
-        }
-    }
+    public abstract void draw(Graphics g);
 
     private void drawVisible(Graphics g) {
         for (Mur mur : chalet.getMurs()) {
@@ -56,7 +37,7 @@ public class Afficheur {
         }
     }
 
-    private void drawDrawable(Graphics g, Drawable drawable) {
+    protected void drawDrawable(Graphics g, Drawable drawable) {
         List<Coordonnee> sommets = drawable.getSommetsByVue(vue);
         int[] sommetsX = getScaledSommetsX(sommets);
         int[] sommetsY = getScaledSommetsY(sommets);
@@ -66,11 +47,11 @@ public class Afficheur {
         g.drawPolygon(sommetsX, sommetsY, sommets.size());
     }
 
-    private int[] getScaledSommetsX(List<Coordonnee> sommets) {
+    protected int[] getScaledSommetsX(List<Coordonnee> sommets) {
         return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getX().toInches() * zoomFactor) + xOffset)).toArray();
     }
 
-    private int[] getScaledSommetsY(List<Coordonnee> sommets) {
+    protected int[] getScaledSommetsY(List<Coordonnee> sommets) {
         return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getY().toInches() * zoomFactor) + yOffset)).toArray();
     }
 
@@ -78,5 +59,4 @@ public class Afficheur {
         lastZoomFactor = this.zoomFactor;
         this.zoomFactor = zoomFactor;
     }
-
 }
