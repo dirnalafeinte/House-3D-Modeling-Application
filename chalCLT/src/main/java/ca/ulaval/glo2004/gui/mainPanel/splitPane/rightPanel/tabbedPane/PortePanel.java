@@ -1,25 +1,27 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.exceptions.IllegalPorteException;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
+import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
+import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
+import ca.ulaval.glo2004.domain.dtos.PorteDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
+
+import javax.sound.sampled.Port;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PortePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
     private JTextField xField, largeurField, hauteurField, modifierXField, modifierLargeurField, modifierHauteurField;
     private JComboBox orientationComboBox;
     private JComboBox idComboBox;
-    private String[] idAccessoires = {};
-    private List<Porte> portes;
+    private Map<String, PorteDTO> portes = new HashMap<>();
 
     public PortePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -34,6 +36,7 @@ public class PortePanel extends JPanel implements Observer {
         addSeparator();
         JPanel newInputPanel = ModifiePanel();
         add(newInputPanel, BorderLayout.SOUTH);
+        mainWindow.getController().registerObserver(this);
 
     }
 
@@ -93,25 +96,16 @@ public class PortePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Imperial x = Imperial.stringToImperial(xField.getText());
-                    Imperial y = mainWindow.getController().getChalet().getHauteur();
-                    Coordonnee coordonnee = new Coordonnee(x, y);
-                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
-
-                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
-                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
-                    mainWindow.getController().ajouterPorte(porteDTO);
+                    String coordonneX = xField.getText();
+                    String largeur = largeurField.getText();
+                    String hauteur = hauteurField.getText();
+                    String orientation = orientationComboBox.getSelectedItem().toString();
+                    AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
+                    mainWindow.getController().addPorte(porteDTO);
 
                     xField.setText("");
                     largeurField.setText("");
                     hauteurField.setText("");
-
-                    String [] newArray = new String[idAccessoires.length+1];
-                    System.arraycopy(idAccessoires, 0, newArray, 0, idAccessoires.length);
-                    newArray[idAccessoires.length] = porteDTO.id.toString();
-                    idAccessoires = newArray;
-                    update();
 
                 }
                 catch (NumberFormatException exception) {
@@ -131,7 +125,7 @@ public class PortePanel extends JPanel implements Observer {
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        idComboBox = new JComboBox(idAccessoires);
+        idComboBox = new JComboBox();
         JLabel modifierXLabel = new JLabel("Position X:");
         modifierXField = new JTextField(4);
         JLabel modifierLargeurLabel = new JLabel("Largeur:");
@@ -149,6 +143,23 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(titreSection);
 
 
+        idComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (idComboBox.getSelectedItem() != null) {
+                    PorteDTO porte = portes.get(idComboBox.getSelectedItem().toString());
+                    modifierXField.setText(porte.coordonneeX());
+                    modifierLargeurField.setText(porte.largeur());
+                    modifierHauteurField.setText(porte.hauteur());
+                }
+                else {
+                    modifierXField.setText("");
+                    modifierLargeurField.setText("");
+                    modifierHauteurField.setText("");
+                }
+            }
+        });
+
         panel.add(idComboBox);
         panel.add(modifierXLabel);
         panel.add(modifierXField);
@@ -156,56 +167,43 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(modifierLargeurField);
         panel.add(modifierHauteurLabel);
         panel.add(modifierHauteurField);
-        panel.add(modifier);
-        panel.add(supprimer);
+
 
 
         modifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Imperial x = Imperial.stringToImperial(modifierXField.getText());
-                    Imperial y = mainWindow.getController().getChalet().getHauteur();
-                    Coordonnee coordonnee = new Coordonnee(x, y);
-                    Imperial largeur = Imperial.stringToImperial(modifierLargeurField.getText());
-                    Imperial hauteur = Imperial.stringToImperial(modifierHauteurField.getText());
-
-                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
-                    PorteDTO porteDTO = new PorteDTO(largeur, hauteur, coordonnee, orientation);
-                    mainWindow.getController().modifierPorte(porteDTO);
-
-                    xField.setText("");
-                    largeurField.setText("");
-                    hauteurField.setText("");
-
-                }
-                catch (NumberFormatException exception) {
-                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
-                }
-                catch (IllegalPorteException exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage());
-                }
+                String id = idComboBox.getSelectedItem().toString();
+                PorteDTO oldPorte = portes.get(id);
+                String coordonneX = modifierXField.getText();
+                String largeur = modifierLargeurField.getText();
+                String hauteur = modifierHauteurField.getText();
+                PorteDTO porte = new PorteDTO(id, largeur, hauteur, coordonneX, oldPorte.orientation());
+                mainWindow.getController().modifyPorte(porte);
             }
         });
         supprimer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add action for the new button
+                PorteDTO porte = portes.get(idComboBox.getSelectedItem().toString());
+                mainWindow.getController().deletePorte(porte);
             }
         });
+        panel.add(modifier);
+        panel.add(supprimer);
         return panel;
     }
 
     @Override
     public void update() {
-        portes = mainWindow.getController().getChalet().getPortes();
+        portes = mainWindow.getController().getPortesById();
         updateComboBox();
     }
 
     public void updateComboBox(){
         idComboBox.removeAllItems();
-        for (Porte porte : portes) {
-            idComboBox.addItem(porte.getId());
+        for (String id : portes.keySet()) {
+            idComboBox.addItem(id);
         }
     }
 }

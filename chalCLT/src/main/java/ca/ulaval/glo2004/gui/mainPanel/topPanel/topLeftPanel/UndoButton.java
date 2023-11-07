@@ -16,5 +16,6 @@ public class UndoButton extends JButton {
     }
 
     private void init() {
+        setEnabled(false);
     }
 }

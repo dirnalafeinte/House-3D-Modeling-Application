@@ -1,24 +1,23 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
+import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
+import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 public class FenetrePanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
     private JTextField xField, yField, largeurField, hauteurField, modifierXField, modifierYField, modifierLargeurField, modifierHauteurField;
     private JComboBox orientationComboBox, idComboBox;
 
-    private List<FenetreDTO> fenetres;
+    private Map<String, FenetreDTO> fenetresById;
 
     public FenetrePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -32,6 +31,8 @@ public class FenetrePanel extends JPanel implements Observer {
         add(inputPanel);
         addSeparator();
         JPanel newInputPanel = ModifiePanel();
+        add(newInputPanel, BorderLayout.SOUTH);
+        mainWindow.getController().registerObserver(this);
         add(newInputPanel);
 
     }
@@ -97,15 +98,13 @@ public class FenetrePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Imperial x = Imperial.stringToImperial(xField.getText());
-                    Imperial y = Imperial.stringToImperial(yField.getText());
-                    Coordonnee coordonnee = new Coordonnee(x, y);
-                    Imperial largeur = Imperial.stringToImperial(largeurField.getText());
-                    Imperial hauteur = Imperial.stringToImperial(hauteurField.getText());
-
-                    Orientation orientation = Orientation.valueOf(orientationComboBox.getSelectedItem().toString());
-                    FenetreDTO fenetreDTO = new FenetreDTO(largeur, hauteur, coordonnee, orientation);;
-                    mainWindow.getController().ajouterFenetre(fenetreDTO);
+                    String coordonneeX = xField.getText();
+                    String coordonneeY = yField.getText();
+                    String largeur = largeurField.getText();
+                    String hauteur = hauteurField.getText();
+                    String orientation = orientationComboBox.getSelectedItem().toString();
+                    AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);;
+                    mainWindow.getController().addFenetre(fenetreDTO);
 
                     xField.setText("");
                     yField.setText("");
@@ -142,6 +141,24 @@ public class FenetrePanel extends JPanel implements Observer {
         JButton modifier = new JButton("Modifier");
         JButton supprimer = new JButton("Supprimer");
 
+        idComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (idComboBox.getSelectedItem() != null) {
+                    FenetreDTO fenetre = fenetresById.get(idComboBox.getSelectedItem().toString());
+                    modifierXField.setText(fenetre.coordonneeX());
+                    modifierYField.setText(fenetre.coordonneeY());
+                    modifierLargeurField.setText(fenetre.largeur());
+                    modifierHauteurField.setText(fenetre.hauteur());
+                } else {
+                    modifierXField.setText("");
+                    modifierYField.setText("");
+                    modifierLargeurField.setText("");
+                    modifierHauteurField.setText("");
+                }
+            }
+        });
+
         JLabel titreSection = new JLabel(("Modifier la fenêtre"));
         titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
         titreSection.setBorder(BorderFactory.createEmptyBorder(0,15,20,0));
@@ -162,27 +179,46 @@ public class FenetrePanel extends JPanel implements Observer {
         panel.add(modifierLargeurField);
         panel.add(modifierHauteurLabel);
         panel.add(modifierHauteurField);
-        panel.add(modifier);
-        panel.add(supprimer);
 
         modifier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add action for the new button
+                String id = idComboBox.getSelectedItem().toString();
+                FenetreDTO oldFenetre = fenetresById.get(idComboBox.getSelectedItem().toString());
+                String coordonneeX = modifierXField.getText();
+                String coordonneeY = modifierYField.getText();
+                String largeur = modifierLargeurField.getText();
+                String hauteur = modifierHauteurField.getText();
+                FenetreDTO fenetre = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetre.orientation());
+                mainWindow.getController().modifyFenetre(fenetre);
             }
         });
+
         supprimer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add action for the new button
+                FenetreDTO fenetre = fenetresById.get(idComboBox.getSelectedItem().toString());
+                mainWindow.getController().deleteFenetre(fenetre);
             }
         });
+
+        panel.add(modifier);
+        panel.add(supprimer);
+
         return panel;
     }
 
     @Override
     public void update() {
-//        portes = mainWindow.getController().getPorte();
+        fenetresById = mainWindow.getController().getFenetresById();
+        updateComboBox();
+    }
+
+    private void updateComboBox() {
+        idComboBox.removeAllItems();
+        for (String id : fenetresById.keySet()) {
+            idComboBox.addItem(id);
+        }
     }
 }
 

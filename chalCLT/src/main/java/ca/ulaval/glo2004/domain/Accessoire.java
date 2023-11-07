@@ -21,6 +21,16 @@ public abstract class Accessoire extends Drawable {
         calculateSommets();
     }
 
+    public Accessoire(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(id, chalet);
+        this.largeur = largeur;
+        this.hauteur = hauteur;
+        this.coordonnee = coordonnee;
+        this.mur = mur;
+        setColor();
+        calculateSommets();
+    }
+
     public Imperial getLargeur() {
         return largeur;
     }
@@ -47,6 +57,10 @@ public abstract class Accessoire extends Drawable {
 
     public Mur getMur() {
         return mur;
+    }
+
+    public Orientation getCote() {
+        return mur.getCote();
     }
 
     public abstract void validate();

@@ -18,5 +18,6 @@ public class ClickModeToggleButton extends JToggleButton {
     }
 
     private void init() {
+        setEnabled(false);
     }
 }

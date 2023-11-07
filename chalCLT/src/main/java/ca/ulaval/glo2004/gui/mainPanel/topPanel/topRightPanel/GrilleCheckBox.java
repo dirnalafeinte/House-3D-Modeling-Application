@@ -16,5 +16,6 @@ public class GrilleCheckBox extends JCheckBox {
     }
 
     private void init() {
+        setEnabled(false);
     }
 }

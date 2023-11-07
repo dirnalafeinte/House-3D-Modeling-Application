@@ -12,5 +12,10 @@ public class RedoButton extends JButton {
     public RedoButton(MainWindow mainWindow) {
         super(TEXT_REDO_BUTTON);
         this.mainWindow = mainWindow;
+        init();
+    }
+
+    private void init() {
+        setEnabled(false);
     }
 }

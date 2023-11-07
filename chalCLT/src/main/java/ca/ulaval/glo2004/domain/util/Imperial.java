@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.domain.util;
 
-
 public class Imperial {
     private int feet;
     private int inches;
@@ -18,10 +17,9 @@ public class Imperial {
         this.feet = feet;
         this.inches = inches;
         this.numerator = numerator;
-        this.denominator = denominator;
+        this.denominator = denominator == 0 ? 1 : denominator;
         simplify();
     }
-
 
     public static Imperial fromInches(int inches) {
         return new Imperial(0, inches, 0, 1);
@@ -56,6 +54,51 @@ public class Imperial {
         int numerateur = (int) lUpperPart;
         int denominateur = (int) lLowerPart;
         return new Imperial(feet, inches, numerateur, denominateur);
+    }
+
+    public static Imperial fromString(String string) {
+        int feet = 0;
+        int inches = 0;
+        int numerator = 0;
+        int denominator = 1;
+
+        String[] parts = string.split(" ");
+
+        for (String part : parts) {
+            if (part.contains("'")) {
+                feet = Integer.parseInt(part.replace("'", ""));
+            } else if (part.contains("\"")) {
+                inches = Integer.parseInt(part.replace("\"", ""));
+            } else if (part.contains("/")) {
+                String[] fractionParts = part.split("/");
+                numerator = Integer.parseInt(fractionParts[0]);
+                denominator = Integer.parseInt(fractionParts[1]);
+            }
+        }
+        return new Imperial(feet, inches, numerator, denominator);
+    }
+
+    public double toFeet() {
+        return (double) feet + (double) inches / 12.0 + (double) numerator / (double) denominator / 12.0;
+    }
+
+    public double toInches() {
+        return (double) feet * 12.0 + (double) inches + (double) numerator / (double) denominator;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        if (feet != 0) {
+            sb.append(feet).append("' ");
+        } if (inches != 0) {
+            sb.append(inches).append("\" ");
+        } if (numerator != 0) {
+            sb.append(numerator).append("/").append(denominator);
+        }
+
+        return sb.toString().trim();
     }
 
     public Imperial add(Imperial that) {
@@ -137,22 +180,6 @@ public class Imperial {
         return this.toInches() >= that.toInches();
     }
 
-    public double toFeet() {
-        return (double) feet + (double) inches / 12.0 + (double) numerator / (double) denominator / 12.0;
-    }
-
-    public double toInches() {
-        return (double) feet * 12.0 + (double) inches + (double) numerator / (double) denominator;
-    }
-
-    @Override
-    public String toString(){
-        String feetString = feet == 0 ? "" : feet + "' ";
-        String inchesString = inches == 0 ? "" : inches + "\" ";
-        String fractionString = numerator == 0 ? "" : numerator + "/" + denominator;
-        return (feetString + inchesString + fractionString).trim();
-    }
-
     private void simplify() {
         int gcd = gcd(numerator, denominator);
         numerator /= gcd;
@@ -164,13 +191,6 @@ public class Imperial {
         }
         feet += inches / 12;
         inches %= 12;
-    }
-
-    // Jeremy et Anas changez pas cette partie je prendrais en compte les fractions au livrable 4
-    public static Imperial stringToImperial(String str)
-    {
-        int inches = Integer.parseInt(str);
-        return new Imperial (0, inches, 0, 1);
     }
 
     private int gcd(int x, int y) {

@@ -1,20 +1,22 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Fenetre extends Accessoire {
-    private static final Color DEFAULT_COLOR = Color.RED;
+    private static final Color DEFAULT_COLOR = Color.GREEN;
 
     public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(largeur, hauteur, coordonnee, chalet, mur);
-        validate();
+    }
+
+    public Fenetre(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+        super(id, largeur, hauteur, coordonnee, chalet, mur);
     }
 
     @Override
@@ -48,14 +50,14 @@ public class Fenetre extends Accessoire {
 
     private void calculateSommetsAccessoire() {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().add(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().add(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), coordonnee.getY().substract(hauteur.divideBy(2))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().substract(largeur.divideBy(2)), chalet.getHauteur().substract(coordonnee.getY().substract(hauteur.divideBy(2)))));
         sommets.put(getCote().toVue(), sommetsAccessoire);
     }
 
-    private Orientation getCote() {
+    public Orientation getCote() {
         return mur.getCote();
     }
 }
