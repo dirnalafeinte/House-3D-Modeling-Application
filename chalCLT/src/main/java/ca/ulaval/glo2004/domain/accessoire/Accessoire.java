@@ -1,5 +1,6 @@
-package ca.ulaval.glo2004.domain;
+package ca.ulaval.glo2004.domain.accessoire;
 
+import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -7,22 +8,25 @@ public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
     protected Imperial hauteur;
     protected Coordonnee coordonnee;
+    protected final AccessoireType type;
     protected final Mur mur;
 
-    public Accessoire(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+    public Accessoire(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, AccessoireType type, Chalet chalet, Mur mur) {
         super(chalet);
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
+        this.type = type;
         this.mur = mur;
         calculateSommets();
     }
 
-    public Accessoire(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
+    public Accessoire(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, AccessoireType type, Chalet chalet, Mur mur) {
         super(id, chalet);
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.coordonnee = coordonnee;
+        this.type = type;
         this.mur = mur;
         calculateSommets();
     }
@@ -31,32 +35,20 @@ public abstract class Accessoire extends Drawable {
         return largeur;
     }
 
-    public void setLargeur(Imperial largeur) {
-        this.largeur = largeur;
-    }
-
     public Imperial getHauteur() {
         return hauteur;
-    }
-
-    public void setHauteur(Imperial hauteur) {
-        this.hauteur = hauteur;
     }
 
     public Coordonnee getCoordonnee() {
         return coordonnee;
     }
 
-    public void setCoordonnee(Coordonnee coordonnee) {
-        this.coordonnee = coordonnee;
-    }
-
-    public Mur getMur() {
-        return mur;
-    }
-
     public Orientation getCote() {
         return mur.getCote();
+    }
+
+    public AccessoireType getType() {
+        return type;
     }
 
     public boolean intersects(Accessoire that) {

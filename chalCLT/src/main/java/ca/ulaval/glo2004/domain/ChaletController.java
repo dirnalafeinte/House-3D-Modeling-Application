@@ -1,5 +1,11 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.accessoire.Fenetre;
+import ca.ulaval.glo2004.domain.accessoire.Porte;
+import ca.ulaval.glo2004.domain.assemblers.DTOAssembler;
+import ca.ulaval.glo2004.domain.drawers.Afficheur;
+import ca.ulaval.glo2004.domain.drawers.AfficheurMur;
+import ca.ulaval.glo2004.domain.drawers.AfficheurPlan;
 import ca.ulaval.glo2004.domain.dtos.*;
 import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
 import ca.ulaval.glo2004.domain.factories.ChaletFactory;

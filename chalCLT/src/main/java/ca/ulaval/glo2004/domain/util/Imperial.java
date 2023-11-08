@@ -142,11 +142,15 @@ public class Imperial {
     }
 
     public Imperial abs() {
-        return new Imperial(Math.abs(feet), Math.abs(inches), Math.abs(numerator), Math.abs(denominator));
+        return Imperial.fromInches(Math.abs(this.toInches()));
     }
 
     public static Imperial min(Imperial a, Imperial b) {
         return a.lessThan(b) ? a : b;
+    }
+
+    public static Imperial max(Imperial a, Imperial b) {
+        return a.greaterThan(b) ? a : b;
     }
 
     @Override

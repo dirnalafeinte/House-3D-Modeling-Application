@@ -1,7 +1,10 @@
-package ca.ulaval.glo2004.domain;
+package ca.ulaval.glo2004.domain.accessoire;
 
+import ca.ulaval.glo2004.domain.Chalet;
+import ca.ulaval.glo2004.domain.Mur;
+import ca.ulaval.glo2004.domain.accessoire.Accessoire;
+import ca.ulaval.glo2004.domain.accessoire.AccessoireType;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -12,18 +15,18 @@ import java.util.List;
 public class Porte extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
     public Porte(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
-        super(largeur, hauteur, coordonnee, chalet, mur);
+        super(largeur, hauteur, coordonnee, AccessoireType.PORTE, chalet, mur);
     }
 
     public Porte(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
-        super(id, largeur, hauteur, coordonnee, chalet, mur);
+        super(id, largeur, hauteur, coordonnee, AccessoireType.PORTE, chalet, mur);
     }
 
     @Override
     public void validate() {
         if (!mur.contains(this)) {
             isValid = false;
-            throw new IllegalFenetreException("La fenêtre doit être sur le mur");
+            throw new IllegalFenetreException("La fenêtre doit être dans le mur");
         }
         if (mur.getMinDistance(this).lessThan(chalet.getDistanceMin())) {
             isValid = false;
@@ -44,7 +47,7 @@ public class Porte extends Accessoire {
 
     @Override
     public void calculateSommets() {
-        sommets.clear();
+        sommetsByVue.clear();
         calculateSommetsAccessoire();
     }
 
@@ -59,6 +62,6 @@ public class Porte extends Accessoire {
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur())); // la porte est fixe au sol du mur
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), coordonnee.getY().subtract(hauteur))); // y est fixe dans le UI
         sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), coordonnee.getY().subtract(hauteur))); // y est fixe dans le UI
-        sommets.put(getCote().toVue(), sommetsAccessoire);
+        sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
     }
 }
