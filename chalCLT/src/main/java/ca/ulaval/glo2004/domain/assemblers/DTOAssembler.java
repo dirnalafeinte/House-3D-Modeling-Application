@@ -1,8 +1,8 @@
 package ca.ulaval.glo2004.domain.assemblers;
 
 import ca.ulaval.glo2004.domain.*;
-import ca.ulaval.glo2004.domain.accessoire.Fenetre;
-import ca.ulaval.glo2004.domain.accessoire.Porte;
+import ca.ulaval.glo2004.domain.accessoires.Fenetre;
+import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.dtos.*;
 
 public class DTOAssembler {

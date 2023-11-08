@@ -1,16 +1,17 @@
-package ca.ulaval.glo2004.domain.accessoire;
+package ca.ulaval.glo2004.domain.accessoires;
 
 import ca.ulaval.glo2004.domain.Chalet;
 import ca.ulaval.glo2004.domain.Mur;
-import ca.ulaval.glo2004.domain.accessoire.Accessoire;
-import ca.ulaval.glo2004.domain.accessoire.AccessoireType;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Porte extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
@@ -26,20 +27,20 @@ public class Porte extends Accessoire {
     public void validate() {
         if (!mur.contains(this)) {
             isValid = false;
-            throw new IllegalFenetreException("La fenêtre doit être dans le mur");
+            throw new IllegalPorteException("La fenêtre doit être dans le mur");
         }
         if (mur.getMinDistance(this).lessThan(chalet.getDistanceMin())) {
             isValid = false;
-            throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+            throw new IllegalPorteException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
         }
-        for (Accessoire accessoire : mur.getAccessoires()) {
+        for (Accessoire accessoire : mur.getAccessoires().stream().filter(accessoire -> !Objects.equals(accessoire.getId(), id)).toList()) {
             if (intersects(accessoire)) {
                 isValid = false;
-                throw new IllegalFenetreException("La fenêtre ne doit pas intersecter un autre accessoire");
+                throw new IllegalPorteException("La fenêtre ne doit pas intersecter un autre accessoire");
             }
             if (getMinDistance(accessoire).lessThan(chalet.getDistanceMin())) {
                 isValid = false;
-                throw new IllegalFenetreException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+                throw new IllegalPorteException("La fenêtre doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
             }
         }
         isValid = true;

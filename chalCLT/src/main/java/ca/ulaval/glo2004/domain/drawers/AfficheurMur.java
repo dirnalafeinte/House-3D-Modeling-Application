@@ -1,6 +1,6 @@
 package ca.ulaval.glo2004.domain.drawers;
 
-import ca.ulaval.glo2004.domain.accessoire.Accessoire;
+import ca.ulaval.glo2004.domain.accessoires.Accessoire;
 import ca.ulaval.glo2004.domain.Chalet;
 import ca.ulaval.glo2004.domain.Mur;
 import ca.ulaval.glo2004.domain.Vue;

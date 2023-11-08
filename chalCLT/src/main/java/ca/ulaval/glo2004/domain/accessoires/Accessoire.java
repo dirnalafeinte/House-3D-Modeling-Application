@@ -1,4 +1,4 @@
-package ca.ulaval.glo2004.domain.accessoire;
+package ca.ulaval.glo2004.domain.accessoires;
 
 import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;

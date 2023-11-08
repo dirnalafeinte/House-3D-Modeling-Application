@@ -88,26 +88,19 @@ public class FenetrePanel extends JPanel implements Observer {
         ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String coordonneeX = xField.getText();
+                String coordonneeY = yField.getText();
+                String largeur = largeurField.getText();
+                String hauteur = hauteurField.getText();
+                String orientation = orientationComboBox.getSelectedItem().toString();
+                AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);
                 try {
-                    String coordonneeX = xField.getText();
-                    String coordonneeY = yField.getText();
-                    String largeur = largeurField.getText();
-                    String hauteur = hauteurField.getText();
-                    String orientation = orientationComboBox.getSelectedItem().toString();
-                    AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);;
                     mainWindow.getController().addFenetre(fenetreDTO);
-
-                    xField.setText("");
-                    yField.setText("");
-                    largeurField.setText("");
-                    hauteurField.setText("");
-                }
-                catch (NumberFormatException exception) {
-                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une fenetre.");
-                }
-                catch (IllegalFenetreException exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage());
-                }
+                } catch (IllegalFenetreException exception) {}
+                xField.setText("");
+                yField.setText("");
+                largeurField.setText("");
+                hauteurField.setText("");
             }
         });
 
@@ -181,7 +174,9 @@ public class FenetrePanel extends JPanel implements Observer {
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
                 FenetreDTO fenetre = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetre.orientation());
-                mainWindow.getController().modifyFenetre(fenetre);
+                try {
+                    mainWindow.getController().modifyFenetre(fenetre);
+                } catch (IllegalFenetreException exception) {}
             }
         });
 

@@ -1,9 +1,9 @@
 package ca.ulaval.glo2004.domain.factories;
 
 import ca.ulaval.glo2004.domain.Chalet;
-import ca.ulaval.glo2004.domain.accessoire.Fenetre;
+import ca.ulaval.glo2004.domain.accessoires.Fenetre;
 import ca.ulaval.glo2004.domain.Orientation;
-import ca.ulaval.glo2004.domain.accessoire.Porte;
+import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
 import ca.ulaval.glo2004.domain.dtos.FenetreDTO;

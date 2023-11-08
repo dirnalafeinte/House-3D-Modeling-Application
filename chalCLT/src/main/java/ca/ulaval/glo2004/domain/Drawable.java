@@ -10,7 +10,7 @@ import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 public abstract class Drawable {
     protected static Color DEFAULT_ERROR_COLOR = Color.RED;
-    private final String id;
+    protected final String id;
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected boolean isValid = true;
     protected final Chalet chalet;

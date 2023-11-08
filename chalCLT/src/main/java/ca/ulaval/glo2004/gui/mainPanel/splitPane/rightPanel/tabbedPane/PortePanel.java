@@ -95,25 +95,17 @@ public class PortePanel extends JPanel implements Observer {
         ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String coordonneX = xField.getText();
+                String largeur = largeurField.getText();
+                String hauteur = hauteurField.getText();
+                String orientation = orientationComboBox.getSelectedItem().toString();
+                AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
                 try {
-                    String coordonneX = xField.getText();
-                    String largeur = largeurField.getText();
-                    String hauteur = hauteurField.getText();
-                    String orientation = orientationComboBox.getSelectedItem().toString();
-                    AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
                     mainWindow.getController().addPorte(porteDTO);
-
-                    xField.setText("");
-                    largeurField.setText("");
-                    hauteurField.setText("");
-
-                }
-                catch (NumberFormatException exception) {
-                    JOptionPane.showMessageDialog(null, "Veuillez remplir les champs vides avant d'ajouter une porte.");
-                }
-                catch (IllegalPorteException exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage());
-                }
+                } catch (IllegalPorteException exception) {}
+                xField.setText("");
+                largeurField.setText("");
+                hauteurField.setText("");
             }
         });
 
@@ -179,7 +171,9 @@ public class PortePanel extends JPanel implements Observer {
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
                 PorteDTO porte = new PorteDTO(id, largeur, hauteur, coordonneX, oldPorte.orientation());
-                mainWindow.getController().modifyPorte(porte);
+                try {
+                    mainWindow.getController().modifyPorte(porte);
+                } catch (IllegalPorteException exception) {}
             }
         });
         supprimer.addActionListener(new ActionListener() {

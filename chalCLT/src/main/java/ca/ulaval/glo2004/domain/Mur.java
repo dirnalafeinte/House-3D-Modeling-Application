@@ -1,9 +1,9 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.accessoire.Accessoire;
-import ca.ulaval.glo2004.domain.accessoire.AccessoireType;
-import ca.ulaval.glo2004.domain.accessoire.Fenetre;
-import ca.ulaval.glo2004.domain.accessoire.Porte;
+import ca.ulaval.glo2004.domain.accessoires.Accessoire;
+import ca.ulaval.glo2004.domain.accessoires.AccessoireType;
+import ca.ulaval.glo2004.domain.accessoires.Fenetre;
+import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -37,7 +37,16 @@ public class Mur extends Drawable {
         return isValid ? isCoteLong() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
     }
 
-    public boolean contains(Accessoire that) {
+    public boolean contains(Porte that) {
+        boolean isLeft = that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)).lessOrEquals(getDistanceStartMur().add(getLongueurMur()));
+        boolean isRight = that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)).greaterOrEquals(getDistanceStartMur());
+        boolean isTop = that.getHauteur().lessOrEquals(getHauteur());
+        boolean isBottom = that.getCoordonnee().getY().subtract(that.getHauteur()).greaterOrEquals(new Imperial());
+
+        return isLeft && isRight && isTop && isBottom;
+    }
+
+    public boolean contains(Fenetre that) {
         boolean isLeft = that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)).lessOrEquals(getDistanceStartMur().add(getLongueurMur()));
         boolean isRight = that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)).greaterOrEquals(getDistanceStartMur());
         boolean isTop = that.getCoordonnee().getY().add(that.getHauteur().divideBy(2)).lessOrEquals(getHauteur());
@@ -74,7 +83,7 @@ public class Mur extends Drawable {
     public List<Porte> getPortes() {
         List<Porte> portes = new ArrayList<>();
         for (Accessoire accessoire : accessoiresById.values()) {
-            if (accessoire.getType() == AccessoireType.PORTE) {
+            if (accessoire.getType().equals(AccessoireType.PORTE)) {
                 portes.add((Porte) accessoire);
             }
         }
@@ -84,7 +93,7 @@ public class Mur extends Drawable {
     public List<Fenetre> getFenetres() {
         List<Fenetre> fenetres = new ArrayList<>();
         for (Accessoire accessoire : accessoiresById.values()) {
-            if (accessoire.getType() == AccessoireType.FENETRE) {
+            if (accessoire.getType().equals(AccessoireType.FENETRE)) {
                 fenetres.add((Fenetre) accessoire);
             }
         }
@@ -212,11 +221,11 @@ public class Mur extends Drawable {
     }
 
     private boolean isCoteLong() {
-        return cote == chalet.getSensDuToit() || cote == chalet.getSensDuToit().getOpposite();
+        return cote.equals(chalet.getSensDuToit()) || cote.equals(chalet.getSensDuToit().getOpposite());
     }
 
     private Imperial getLongueurCote() {
-        if (cote == Orientation.FACADE || cote == Orientation.ARRIERE) {
+        if (cote.equals(Orientation.FACADE) || cote.equals(Orientation.ARRIERE)) {
             return getLongueur();
         } else {
             return getLargeur();
@@ -224,7 +233,7 @@ public class Mur extends Drawable {
     }
 
     private Imperial getLongueurAutreCote() {
-        if (cote == Orientation.FACADE || cote == Orientation.ARRIERE) {
+        if (cote.equals(Orientation.FACADE) || cote.equals(Orientation.ARRIERE)) {
             return getLargeur();
         } else {
             return getLongueur();
@@ -257,10 +266,12 @@ public class Mur extends Drawable {
 
     public void addAccessoire(Accessoire accessoire) {
         accessoiresById.put(accessoire.getId(), accessoire);
+        accessoire.validate();
     }
 
     public void modifyAccessoire(Accessoire accessoire) {
         accessoiresById.replace(accessoire.getId(), accessoire);
+        accessoire.validate();
     }
 
     public void removeAccessoireById(String id) {
