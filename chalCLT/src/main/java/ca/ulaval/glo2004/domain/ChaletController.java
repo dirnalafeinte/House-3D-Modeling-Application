@@ -2,6 +2,7 @@ package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.accessoires.Fenetre;
 import ca.ulaval.glo2004.domain.accessoires.Porte;
+import ca.ulaval.glo2004.domain.assemblers.AccessoireAssembler;
 import ca.ulaval.glo2004.domain.assemblers.DTOAssembler;
 import ca.ulaval.glo2004.domain.drawers.Afficheur;
 import ca.ulaval.glo2004.domain.drawers.AfficheurMur;
@@ -22,6 +23,7 @@ public class ChaletController implements Observable {
     private final AccessoireFactory accessoireFactory = new AccessoireFactory();
     private final ChaletFactory chaletFactory = new ChaletFactory();
     private final DTOAssembler dtoAssembler = new DTOAssembler();
+    private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
     public Afficheur afficheur;
     private Chalet chalet;
 
@@ -71,7 +73,7 @@ public class ChaletController implements Observable {
     }
 
     public void modifyPorte(PorteDTO porteDTO) {
-        Porte porte = accessoireFactory.createPorte(porteDTO, chalet);
+        Porte porte = accessoireAssembler.toPorte(porteDTO, chalet);
         try {
             chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
         } catch (IllegalPorteException exception) {
@@ -82,7 +84,7 @@ public class ChaletController implements Observable {
     }
 
     public void modifyFenetre(FenetreDTO fenetreDTO) {
-        Fenetre fenetre = accessoireFactory.createFenetre(fenetreDTO, chalet);
+        Fenetre fenetre = accessoireAssembler.toFenetre(fenetreDTO, chalet);
         try {
             chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
         } catch (IllegalFenetreException exception) {

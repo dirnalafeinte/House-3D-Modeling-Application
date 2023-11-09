@@ -16,15 +16,7 @@ public class AccessoireFactory {
         return new Porte(Imperial.fromString(addPorteDTO.largeur()), Imperial.fromString(addPorteDTO.hauteur()), new Coordonnee(Imperial.fromString(addPorteDTO.coordonneeX()), chalet.getHauteur()), chalet, chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())));
     }
 
-    public Porte createPorte(PorteDTO porteDTO, Chalet chalet) {
-        return new Porte(porteDTO.id(), Imperial.fromString(porteDTO.largeur()), Imperial.fromString(porteDTO.hauteur()), new Coordonnee(Imperial.fromString(porteDTO.coordonneeX()), chalet.getHauteur()), chalet, chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())));
-    }
-
     public Fenetre createFenetre(AddFenetreDTO addFenetreDTO, Chalet chalet) {
         return new Fenetre(Imperial.fromString(addFenetreDTO.largeur()), Imperial.fromString(addFenetreDTO.hauteur()), new Coordonnee(Imperial.fromString(addFenetreDTO.coordonneeX()), Imperial.fromString(addFenetreDTO.coordonneeY())), chalet, chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())));
-    }
-
-    public Fenetre createFenetre(FenetreDTO fenetreDTO, Chalet chalet) {
-        return new Fenetre(fenetreDTO.id() , Imperial.fromString(fenetreDTO.largeur()), Imperial.fromString(fenetreDTO.hauteur()), new Coordonnee(Imperial.fromString(fenetreDTO.coordonneeX()), Imperial.fromString(fenetreDTO.coordonneeY())), chalet, chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())));
     }
 }
