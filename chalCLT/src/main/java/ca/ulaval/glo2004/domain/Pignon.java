@@ -1,7 +1,5 @@
 package ca.ulaval.glo2004.domain;
 
-// A revoir avec anas
-
 import java.awt.*;
 
 public class Pignon extends Drawable{
@@ -11,18 +9,21 @@ public class Pignon extends Drawable{
     public Pignon(Chalet chalet, boolean isPignonDroit) {
         super(chalet);
         this.isPignonDroit = isPignonDroit;
-        setColor();
         calculateSommets();
-    }
-
-    @Override
-    protected void setColor() {
-        color = DEFAULT_COLOR;
     }
 
     @Override
     public void calculateSommets() {
         // TODO
+    }
+
+    @Override
+    public Color getColor() {
+        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
+    }
+
+    public boolean isPignonDroit() {
+        return isPignonDroit;
     }
 
 //   private void calculerHauteurPignon(Orientation sensToit) {
@@ -42,10 +43,5 @@ public class Pignon extends Drawable{
 //           this.largeurPignon = chalet.Largeur;
 //       }
 //   }
-
-
-    public boolean isPignonDroit() {
-        return isPignonDroit;
-    }
 }
 

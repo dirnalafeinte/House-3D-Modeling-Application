@@ -106,7 +106,7 @@ public class Imperial {
         return Imperial.fromInches(inches);
     }
 
-    public Imperial substract(Imperial that) {
+    public Imperial subtract(Imperial that) {
         double inches = this.toInches() - that.toInches();
         return Imperial.fromInches(inches);
     }
@@ -139,6 +139,18 @@ public class Imperial {
     public Imperial divideBy(double divisor) {
         double inches = this.toInches() / divisor;
         return Imperial.fromInches(inches);
+    }
+
+    public Imperial abs() {
+        return Imperial.fromInches(Math.abs(this.toInches()));
+    }
+
+    public static Imperial min(Imperial a, Imperial b) {
+        return a.lessThan(b) ? a : b;
+    }
+
+    public static Imperial max(Imperial a, Imperial b) {
+        return a.greaterThan(b) ? a : b;
     }
 
     @Override

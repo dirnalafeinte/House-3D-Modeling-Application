@@ -7,13 +7,7 @@ public class Toit extends Drawable{
 
     public Toit(Chalet chalet) {
         super(chalet);
-        setColor();
         calculateSommets();
-    }
-
-    @Override
-    protected void setColor() {
-        color = DEFAULT_COLOR;
     }
 
 //    private void calculerHauteurToit(Orientation sensToit) {
@@ -37,5 +31,10 @@ public class Toit extends Drawable{
     @Override
     public void calculateSommets() {
         // TODO
+    }
+
+    @Override
+    public Color getColor() {
+        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 }
