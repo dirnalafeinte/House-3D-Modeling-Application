@@ -60,6 +60,14 @@ public class Chalet {
         mapMur.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
+    void recalculerChalet() {
+
+        mapMur.get(Orientation.FACADE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
+        mapMur.get(Orientation.ARRIERE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
+        mapMur.get(Orientation.GAUCHE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
+        mapMur.get(Orientation.DROITE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
+    }
+
     public Imperial getLargeur() {
         return largeur;
     }

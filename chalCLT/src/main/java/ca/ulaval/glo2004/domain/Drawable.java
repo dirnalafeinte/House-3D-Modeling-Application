@@ -79,5 +79,7 @@ public abstract class Drawable {
     public boolean isVisible(Vue vue) {
         return sommets.get(vue) != null;
     }
+
+
 }
 

@@ -3,6 +3,7 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.dtos.*;
 import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
 import ca.ulaval.glo2004.domain.factories.ChaletFactory;
+import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +69,20 @@ public class ChaletController implements Observable {
     public Map<String, FenetreDTO> getFenetresById() {
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
+//    public void updateDimensions(double largeur, double longueur, double hauteur) {
+//
+//        Imperial newLargeur = Imperial.fromFeet((int) largeur);
+//        Imperial newLongueur = Imperial.fromFeet((int) longueur);
+//        Imperial newHauteur = Imperial.fromFeet((int) hauteur);
+//
+//        chalet.recalculerChalet();
+//        notifyObservers();
+//
+//    }
 
     public void registerObserver(Observer newObserver) {
         observers.add(newObserver);
-    }
+      }
 
     @Override
     public void unregisterObserver(Observer observable) {
@@ -83,4 +94,5 @@ public class ChaletController implements Observable {
             observer.update();
         }
     }
+
 }

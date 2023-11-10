@@ -246,4 +246,8 @@ public class Mur extends Drawable {
     public void removeAccessoireById(String id) {
         accessoiresById.remove(id);
     }
+
+    public void nouvellesDimensions(Imperial largeur, Imperial hauteur, Imperial longueur) {
+
+    }
 }
