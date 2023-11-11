@@ -22,7 +22,7 @@ public class Chalet {
     private Orientation sensDuToit;
     private int angleToit;
     private Imperial epaisseurMur;
-    private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
+    private final Map<Orientation, Mur> mapMur = new HashMap<>();
     private final Toit toit = new Toit(this);
     private final Pignon pignonDroit = new Pignon(this, true);
     private final Pignon pignonGauche = new Pignon(this, false);
@@ -54,18 +54,23 @@ public class Chalet {
     }
 
     private void init() {
-        mursByOrientation.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
-        mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
-        mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
-        mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
+        mapMur.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
+        mapMur.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
+        mapMur.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
+        mapMur.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
-    void recalculerChalet() {
+    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur) {
 
-        mapMur.get(Orientation.FACADE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
-        mapMur.get(Orientation.ARRIERE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
-        mapMur.get(Orientation.GAUCHE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
-        mapMur.get(Orientation.DROITE).nouvellesDimensions(this.largeur, this.hauteur, this.longueur);
+        this.longueur=longueur;
+        this.largeur=largeur;
+        this.hauteur=hauteur;
+        this.epaisseurMur = epaisseur;
+
+        for (Mur mur:getMurs()
+             ) {
+            mur.calculateSommets();
+        }
     }
 
     public Imperial getLargeur() {
@@ -132,11 +137,7 @@ public class Chalet {
     }
 
     public List<Mur> getMurs() {
-        return mursByOrientation.values().stream().toList();
-    }
-
-    public Mur getMurByOrientation(Orientation orientation){
-        return mursByOrientation.get(orientation);
+        return mapMur.values().stream().toList();
     }
 
     public Pignon getPignonDroit() {
@@ -153,5 +154,14 @@ public class Chalet {
 
     public Toit getToit() {
         return toit;
+    }
+
+    public List<Drawable> getComposanteVisible(Vue vue){
+        // TODO
+        return null;
+    }
+
+    public Mur getMurByOrientation(Orientation orientation){
+        return mapMur.get(orientation);
     }
 }
