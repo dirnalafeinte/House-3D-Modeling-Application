@@ -14,7 +14,6 @@ public abstract class Drawable {
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected boolean isValid = true;
     protected final Chalet chalet;
-    protected final UnitConverter unitConverter = new UnitConverter();
 
     public Drawable(Chalet chalet) {
         this.chalet = chalet;
@@ -40,7 +39,5 @@ public abstract class Drawable {
     public boolean isVisible(Vue vue) {
         return sommetsByVue.get(vue) != null;
     }
-
-
 }
 
