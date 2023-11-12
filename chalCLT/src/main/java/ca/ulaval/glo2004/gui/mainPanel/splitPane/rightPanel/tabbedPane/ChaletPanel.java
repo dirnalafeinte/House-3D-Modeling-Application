@@ -1,9 +1,5 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.ChaletController;
-import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
-import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
@@ -14,9 +10,7 @@ import java.awt.event.ActionListener;
 
 public class ChaletPanel extends JPanel {
     private final MainWindow mainWindow;
-
     private JTextField largeurField, longueurField, hauteurField, epaisseurField;
-
 
     public ChaletPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -24,15 +18,12 @@ public class ChaletPanel extends JPanel {
     }
 
     private void init() {
-
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
         setBorder(BorderFactory.createTitledBorder("Redimentionner Chalet:"));
 
-
-        JLabel largeurLabel = new JLabel(("Largeur:"));
+        JLabel largeurLabel = new JLabel("Largeur:");
         largeurField = new JTextField(5);
         JLabel longueurLabel = new JLabel("Longueur:");
         longueurField = new JTextField(5);
@@ -47,15 +38,13 @@ public class ChaletPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                double largeur = Double.parseDouble((largeurField.getText()));
+                double largeur = Double.parseDouble(largeurField.getText());
                 double longueur = Double.parseDouble(longueurField.getText());
                 double hauteur = Double.parseDouble(hauteurField.getText());
-                //double epaisseur = Double.parseDouble(epaisseurField.getText());
-
+                // double epaisseur = Double.parseDouble(epaisseurField.getText());
 
                 mainWindow.getController().updateDimensions(largeur, longueur, hauteur, 3);
                 mainWindow.repaint();
-
             }
         });
 
@@ -66,7 +55,6 @@ public class ChaletPanel extends JPanel {
         addComponentToPanel(hauteurLabel);
         addComponentToPanel(hauteurField);
         addComponentToPanel(updateButton);
-
     }
 
     private void addComponentToPanel(JComponent component) {

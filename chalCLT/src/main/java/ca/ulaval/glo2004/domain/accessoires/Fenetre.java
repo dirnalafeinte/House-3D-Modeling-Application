@@ -3,7 +3,6 @@ package ca.ulaval.glo2004.domain.accessoires;
 import ca.ulaval.glo2004.domain.Chalet;
 import ca.ulaval.glo2004.domain.Mur;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Fenetre extends Accessoire {
     private static final Color DEFAULT_COLOR = Color.GREEN;
@@ -60,10 +58,14 @@ public class Fenetre extends Accessoire {
 
     private void calculateSommetsAccessoire() {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)), chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)),
+                chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)),
+                chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)),
+                chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
+        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)),
+                chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
         sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
     }
 }

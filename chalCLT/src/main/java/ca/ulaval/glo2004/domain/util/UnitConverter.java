@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class UnitConverter {
     public int inchesToPixel(double inches) {
-        return (int) (inches * Toolkit.getDefaultToolkit().getScreenResolution()/12);
+        return (int) (inches * Toolkit.getDefaultToolkit().getScreenResolution() / 12);
     }
 
     public int feetToPixel(double feet) {

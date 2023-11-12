@@ -11,9 +11,9 @@ public class Coordonnee {
 
     @Override
     public String toString() {
-        String X = x.toString();
-        String Y = y.toString();
-        return "x: " + X + " Y: " + Y;
+        String x = this.x.toString();
+        String y = this.y.toString();
+        return "x: " + x + " Y: " + y;
     }
 
     public Imperial getX() {

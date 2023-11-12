@@ -2,7 +2,6 @@ package ca.ulaval.glo2004.gui.menu.vueMenu;
 
 import ca.ulaval.glo2004.domain.Vue;
 import ca.ulaval.glo2004.gui.MainWindow;
-import ca.ulaval.glo2004.gui.action.QuitterSelectAction;
 import ca.ulaval.glo2004.gui.action.SelectVueAction;
 
 import javax.swing.*;

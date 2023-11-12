@@ -2,13 +2,10 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
-import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.PorteDTO;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
-
-import javax.sound.sampled.Port;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +23,6 @@ public class PortePanel extends JPanel implements Observer {
     public PortePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         init();
-
     }
 
     private void init() {
@@ -34,10 +30,9 @@ public class PortePanel extends JPanel implements Observer {
         JPanel inputPanel = ajoutPanel();
         add(inputPanel, BorderLayout.NORTH);
         addSeparator();
-        JPanel newInputPanel = ModifiePanel();
+        JPanel newInputPanel = modifiePanel();
         add(newInputPanel, BorderLayout.SOUTH);
         mainWindow.getController().registerObserver(this);
-
     }
 
     private void addSeparator() {
@@ -69,7 +64,7 @@ public class PortePanel extends JPanel implements Observer {
         orientationComboBox = new JComboBox(orientationMur);
         JButton ajouter = new JButton("Ajouter");
 
-        JLabel titreSection = new JLabel(("Ajouter la porte"));
+        JLabel titreSection = new JLabel("Ajouter la porte");
         titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
         titreSection.setBorder(BorderFactory.createEmptyBorder(10,5,20,5));
         titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
@@ -80,7 +75,6 @@ public class PortePanel extends JPanel implements Observer {
         largeurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         hauteurLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
         panel.add(xLabel);
         panel.add(xField);
         panel.add(largeurLabel);
@@ -89,8 +83,6 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(hauteurField);
         panel.add(orientationComboBox);
         panel.add(ajouter);
-
-
 
         ajouter.addActionListener(new ActionListener() {
             @Override
@@ -112,7 +104,7 @@ public class PortePanel extends JPanel implements Observer {
         return panel;
     }
 
-    private JPanel ModifiePanel() {
+    private JPanel modifiePanel() {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -127,13 +119,12 @@ public class PortePanel extends JPanel implements Observer {
         JButton modifier = new JButton("Modifier");
         JButton supprimer = new JButton("Supprimer");
 
-        JLabel titreSection = new JLabel(("Modifier la porte"));
+        JLabel titreSection = new JLabel("Modifier la porte");
         titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
         titreSection.setBorder(BorderFactory.createEmptyBorder(10,10,20,5));
         titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
 
         panel.add(titreSection);
-
 
         idComboBox.addActionListener(new ActionListener() {
             @Override
@@ -143,8 +134,7 @@ public class PortePanel extends JPanel implements Observer {
                     modifierXField.setText(porte.coordonneeX());
                     modifierLargeurField.setText(porte.largeur());
                     modifierHauteurField.setText(porte.hauteur());
-                }
-                else {
+                } else {
                     modifierXField.setText("");
                     modifierLargeurField.setText("");
                     modifierHauteurField.setText("");
@@ -159,8 +149,6 @@ public class PortePanel extends JPanel implements Observer {
         panel.add(modifierLargeurField);
         panel.add(modifierHauteurLabel);
         panel.add(modifierHauteurField);
-
-
 
         modifier.addActionListener(new ActionListener() {
             @Override
@@ -194,7 +182,7 @@ public class PortePanel extends JPanel implements Observer {
         updateComboBox();
     }
 
-    public void updateComboBox(){
+    public void updateComboBox() {
         idComboBox.removeAllItems();
         for (String id : portes.keySet()) {
             idComboBox.addItem(id);

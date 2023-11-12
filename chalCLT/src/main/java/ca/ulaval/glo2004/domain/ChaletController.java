@@ -20,12 +20,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ChaletController implements Observable {
+    public Afficheur afficheur;
     private final List<Observer> observers = new ArrayList<>();
     private final AccessoireFactory accessoireFactory = new AccessoireFactory();
     private final ChaletFactory chaletFactory = new ChaletFactory();
     private final DTOAssembler dtoAssembler = new DTOAssembler();
     private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
-    public Afficheur afficheur;
     private Chalet chalet;
 
     public ChaletController() {
@@ -55,7 +55,7 @@ public class ChaletController implements Observable {
     public void addFenetre(AddFenetreDTO addFenetreDTO) {
         Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
         try {
-        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
+            chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
         } catch (IllegalFenetreException exception) {
             notifyObservers();
             throw new IllegalFenetreException(exception.getMessage());
@@ -104,25 +104,18 @@ public class ChaletController implements Observable {
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
     public void updateDimensions(double largeur, double longueur, double hauteur, double epaisseur) {
-
         Imperial newLargeur = Imperial.fromFeet((int) largeur);
         Imperial newLongueur = Imperial.fromFeet((int) longueur);
         Imperial newHauteur = Imperial.fromFeet((int) hauteur);
         Imperial newEpaisseur = Imperial.fromFeet((int) epaisseur);
 
-
-
-
-
-
         chalet.recalculerChalet(newLongueur,newLargeur,newHauteur, newEpaisseur);
         notifyObservers();
-
     }
 
     public void registerObserver(Observer newObserver) {
         observers.add(newObserver);
-      }
+    }
 
     @Override
     public void unregisterObserver(Observer observable) {

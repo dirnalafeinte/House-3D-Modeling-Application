@@ -41,7 +41,8 @@ public class Chalet {
         init();
     }
 
-    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
+    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit,
+                  int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
         this.largeur = largeur;
         this.longueur = longueur;
         this.hauteur = hauteur;
@@ -62,9 +63,9 @@ public class Chalet {
 
     void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur) {
 
-        this.longueur=longueur;
-        this.largeur=largeur;
-        this.hauteur=hauteur;
+        this.longueur = longueur;
+        this.largeur = largeur;
+        this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
 
         for (Mur mur:getMurs()
@@ -132,7 +133,7 @@ public class Chalet {
     public Imperial getEpaisseurMur() {
         return epaisseurMur;
     }
-    public void setEpaisseurMur (Imperial epaisseurMur) {
+    public void setEpaisseurMur(Imperial epaisseurMur) {
         this.epaisseurMur = epaisseurMur;
     }
 
@@ -156,12 +157,12 @@ public class Chalet {
         return toit;
     }
 
-    public List<Drawable> getComposanteVisible(Vue vue){
+    public List<Drawable> getComposanteVisible(Vue vue) {
         // TODO
         return null;
     }
 
-    public Mur getMurByOrientation(Orientation orientation){
+    public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
     }
 }

@@ -1,12 +1,12 @@
 package ca.ulaval.glo2004.domain;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
-import ca.ulaval.glo2004.domain.util.UnitConverter;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class Drawable {
     protected static Color DEFAULT_ERROR_COLOR = Color.RED;

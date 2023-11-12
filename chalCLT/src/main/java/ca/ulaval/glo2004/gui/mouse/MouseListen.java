@@ -11,7 +11,7 @@ public class MouseListen implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         xPosition = e.getX();
         yPosition = e.getY();
-        //System.out.println("Mouse clicked at (x=" + xPosition + ", y=" + yPosition + ")");
+        // System.out.println("Mouse clicked at (x=" + xPosition + ", y=" + yPosition + ")");
     }
 
     @Override
@@ -34,5 +34,3 @@ public class MouseListen implements MouseListener {
         // You can implement this method if needed
     }
 }
-
-

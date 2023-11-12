@@ -3,7 +3,6 @@ package ca.ulaval.glo2004.domain.drawers;
 import ca.ulaval.glo2004.domain.Chalet;
 import ca.ulaval.glo2004.domain.Mur;
 import ca.ulaval.glo2004.domain.Vue;
-import ca.ulaval.glo2004.domain.drawers.Afficheur;
 
 import java.awt.*;
 

@@ -7,11 +7,23 @@ import ca.ulaval.glo2004.domain.dtos.*;
 
 public class DTOAssembler {
     public ChaletDTO toChaletDTO(Chalet chalet) {
-        return new ChaletDTO(chalet.getLargeur().toString(), chalet.getLongueur().toString(), chalet.getHauteur().toString(), chalet.getDeltaRainure().toString(), chalet.getSensDuToit().toString(), chalet.getAngleToit(), chalet.getEpaisseurMur().toString(), chalet.getDistanceMin().toString());
+        return new ChaletDTO(chalet.getLargeur().toString(),
+                chalet.getLongueur().toString(),
+                chalet.getHauteur().toString(),
+                chalet.getDeltaRainure().toString(),
+                chalet.getSensDuToit().toString(),
+                chalet.getAngleToit(),
+                chalet.getEpaisseurMur().toString(),
+                chalet.getDistanceMin().toString());
     }
 
     public FenetreDTO toFenetreDTO(Fenetre fenetre) {
-        return new FenetreDTO(fenetre.getId(), fenetre.getLargeur().toString(), fenetre.getHauteur().toString(), fenetre.getCoordonnee().getX().toString(), fenetre.getCoordonnee().getY().toString(), fenetre.getCote().toString());
+        return new FenetreDTO(fenetre.getId(),
+                fenetre.getLargeur().toString(),
+                fenetre.getHauteur().toString(),
+                fenetre.getCoordonnee().getX().toString(),
+                fenetre.getCoordonnee().getY().toString(),
+                fenetre.getCote().toString());
     }
 
     public MurDTO toMurDTO(Mur mur) {
@@ -23,7 +35,11 @@ public class DTOAssembler {
     }
 
     public PorteDTO toPorteDTO(Porte porte) {
-        return new PorteDTO(porte.getId(), porte.getLargeur().toString(), porte.getHauteur().toString(), porte.getCoordonnee().getX().toString(), porte.getCote().toString());
+        return new PorteDTO(porte.getId(),
+                porte.getLargeur().toString(),
+                porte.getHauteur().toString(),
+                porte.getCoordonnee().getX().toString(),
+                porte.getCote().toString());
     }
 
     public RallongeDTO toRallongeDTO(Rallonge rallonge) {
