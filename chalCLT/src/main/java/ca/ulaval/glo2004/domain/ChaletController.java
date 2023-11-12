@@ -46,10 +46,10 @@ public class ChaletController implements Observable {
         try {
             chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
         } catch (IllegalPorteException exception) {
-            notifyObservers();
             throw new IllegalPorteException(exception.getMessage());
+        } finally {
+            notifyObservers();
         }
-        notifyObservers();
     }
 
     public void addFenetre(AddFenetreDTO addFenetreDTO) {
@@ -57,10 +57,10 @@ public class ChaletController implements Observable {
         try {
             chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
         } catch (IllegalFenetreException exception) {
-            notifyObservers();
             throw new IllegalFenetreException(exception.getMessage());
+        } finally {
+            notifyObservers();
         }
-        notifyObservers();
     }
 
     public void deleteFenetre(FenetreDTO fenetreDTO) {
@@ -78,10 +78,10 @@ public class ChaletController implements Observable {
         try {
             chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
         } catch (IllegalPorteException exception) {
-            notifyObservers();
             throw new IllegalPorteException(exception.getMessage());
+        } finally {
+            notifyObservers();
         }
-        notifyObservers();
     }
 
     public void modifyFenetre(FenetreDTO fenetreDTO) {
@@ -89,10 +89,10 @@ public class ChaletController implements Observable {
         try {
             chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
         } catch (IllegalFenetreException exception) {
-            notifyObservers();
             throw new IllegalFenetreException(exception.getMessage());
+        } finally {
+            notifyObservers();
         }
-        notifyObservers();
     }
 
     public Map<String, PorteDTO> getPortesById() {
