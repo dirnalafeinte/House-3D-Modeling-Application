@@ -64,6 +64,7 @@
                 <mainClass>ca.ulaval.glo2004.App</mainClass>
               </manifest>
             </archive>
+            <outputDirectory>..</outputDirectory>
           </configuration>
         </plugin>
         <plugin>
