@@ -1,9 +1,9 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.Observer;
+import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
@@ -90,15 +90,11 @@ public class FenetrePanel extends JPanel implements Observer {
                 String hauteur = hauteurField.getText();
                 String orientation = orientationComboBox.getSelectedItem().toString();
                 AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);
-                try {
-                    mainWindow.getController().addFenetre(fenetreDTO);
-                } catch (IllegalFenetreException exception) {
-
-                }
                 xField.setText("");
                 yField.setText("");
                 largeurField.setText("");
                 hauteurField.setText("");
+                mainWindow.getController().addFenetre(fenetreDTO);
             }
         });
 
@@ -171,11 +167,7 @@ public class FenetrePanel extends JPanel implements Observer {
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
                 FenetreDTO fenetre = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetre.orientation());
-                try {
-                    mainWindow.getController().modifyFenetre(fenetre);
-                } catch (IllegalFenetreException exception) {
-
-                }
+                mainWindow.getController().modifyFenetre(fenetre);
             }
         });
 

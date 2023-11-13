@@ -1,9 +1,9 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.Observer;
+import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
 import ca.ulaval.glo2004.domain.dtos.PorteDTO;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
@@ -92,12 +92,10 @@ public class PortePanel extends JPanel implements Observer {
                 String hauteur = hauteurField.getText();
                 String orientation = orientationComboBox.getSelectedItem().toString();
                 AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
-                try {
-                    mainWindow.getController().addPorte(porteDTO);
-                } catch (IllegalPorteException exception) {}
                 xField.setText("");
                 largeurField.setText("");
                 hauteurField.setText("");
+                mainWindow.getController().addPorte(porteDTO);
             }
         });
 
@@ -159,9 +157,7 @@ public class PortePanel extends JPanel implements Observer {
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
                 PorteDTO porte = new PorteDTO(id, largeur, hauteur, coordonneX, oldPorte.orientation());
-                try {
-                    mainWindow.getController().modifyPorte(porte);
-                } catch (IllegalPorteException exception) {}
+                mainWindow.getController().modifyPorte(porte);
             }
         });
         supprimer.addActionListener(new ActionListener() {
