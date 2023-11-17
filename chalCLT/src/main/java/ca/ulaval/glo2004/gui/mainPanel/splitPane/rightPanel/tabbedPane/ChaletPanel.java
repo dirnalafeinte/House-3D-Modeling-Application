@@ -50,10 +50,10 @@ public class ChaletPanel extends JPanel {
                 double largeur = Double.parseDouble((largeurField.getText()));
                 double longueur = Double.parseDouble(longueurField.getText());
                 double hauteur = Double.parseDouble(hauteurField.getText());
-                //double epaisseur = Double.parseDouble(epaisseurField.getText());
+                double epaisseur = Double.parseDouble(epaisseurField.getText());
 
 
-                mainWindow.getController().updateDimensions(largeur, longueur, hauteur, 3);
+                mainWindow.getController().updateDimensions(largeur, longueur, hauteur, epaisseur);
                 mainWindow.repaint();
 
             }
@@ -65,8 +65,10 @@ public class ChaletPanel extends JPanel {
         addComponentToPanel(longueurField);
         addComponentToPanel(hauteurLabel);
         addComponentToPanel(hauteurField);
-        addComponentToPanel(updateButton);
 
+        addComponentToPanel(epaisseurLabel);
+        addComponentToPanel(epaisseurField);
+        addComponentToPanel(updateButton);
     }
 
     private void addComponentToPanel(JComponent component) {
