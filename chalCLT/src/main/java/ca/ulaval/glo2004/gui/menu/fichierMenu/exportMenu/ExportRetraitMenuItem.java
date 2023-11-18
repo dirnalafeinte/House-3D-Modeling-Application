@@ -18,24 +18,18 @@ public class ExportRetraitMenuItem extends JMenuItem {
     }
 
     private void init() {
-        // Add an ActionListener to the menu item
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Export Retraits");
-
-                // Set default file name and filter if needed
-                fileChooser.setSelectedFile(new File("ChalCLT_Retrait_" + ".stl")); // TODO
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                 int userSelection = fileChooser.showSaveDialog(mainWindow);
 
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    // Get the selected file path
-                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                    System.out.println(filePath);
-                    mainWindow.getController().exportRetraits(filePath);
-
+                    File selectedDirectory = fileChooser.getCurrentDirectory();
+                    mainWindow.getController().exportRetraits(selectedDirectory.getPath());
                 } else if (userSelection == JFileChooser.CANCEL_OPTION) {
                     // User canceled the operation
                 }

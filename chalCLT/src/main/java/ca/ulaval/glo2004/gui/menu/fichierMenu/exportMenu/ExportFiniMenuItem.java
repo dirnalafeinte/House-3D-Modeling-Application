@@ -18,24 +18,18 @@ public class ExportFiniMenuItem extends JMenuItem {
     }
 
     private void init() {
-        // Add an ActionListener to the menu item
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Export Panneaux Finis");
-
-                // Set default file name and filter if needed
-                fileChooser.setSelectedFile(new File("ChalCLT_Fini_" + ".stl")); // TODO
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                 int userSelection = fileChooser.showSaveDialog(mainWindow);
 
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    // Get the selected file path
-                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                    System.out.println(filePath);
-                    mainWindow.getController().exportPanneauxFinis(filePath);
-
+                    File selectedDirectory = fileChooser.getCurrentDirectory();
+                    mainWindow.getController().exportPanneauxFinis(selectedDirectory.getPath());
                 } else if (userSelection == JFileChooser.CANCEL_OPTION) {
                     // User canceled the operation
                 }
@@ -43,3 +37,4 @@ public class ExportFiniMenuItem extends JMenuItem {
         });
     }
 }
+
