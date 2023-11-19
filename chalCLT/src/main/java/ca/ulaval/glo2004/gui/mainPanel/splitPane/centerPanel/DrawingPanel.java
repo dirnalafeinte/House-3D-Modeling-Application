@@ -17,7 +17,6 @@ public class DrawingPanel extends JPanel implements Observer {
         init();
     }
 
-
     private void init() {
         this.setLayout(new FlowLayout());
 
@@ -26,7 +25,7 @@ public class DrawingPanel extends JPanel implements Observer {
         mainWindow.getController().registerObserver(this);
 
         // TODO: fix manual size
-        //setPreferredSize(new Dimension(1000, 700));
+        // setPreferredSize(new Dimension(1000, 700));
     }
 
     @Override
@@ -41,7 +40,7 @@ public class DrawingPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         mainWindow.getController().afficheur.draw(g);
     }

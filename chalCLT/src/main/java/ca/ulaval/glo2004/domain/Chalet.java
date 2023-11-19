@@ -22,7 +22,7 @@ public class Chalet {
     private Orientation sensDuToit;
     private int angleToit;
     private Imperial epaisseurMur;
-    private final Map<Orientation, Mur> mapMur = new HashMap<>();
+    private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Toit toit = new Toit(this);
     private final Pignon pignonDroit = new Pignon(this, true);
     private final Pignon pignonGauche = new Pignon(this, false);
@@ -41,7 +41,8 @@ public class Chalet {
         init();
     }
 
-    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit, int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
+    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit,
+                  int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
         this.largeur = largeur;
         this.longueur = longueur;
         this.hauteur = hauteur;
@@ -54,23 +55,38 @@ public class Chalet {
     }
 
     private void init() {
-        mapMur.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
-        mapMur.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
-        mapMur.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
-        mapMur.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
+        mursByOrientation.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
+        mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
+        mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
+        mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
     void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur) {
 
-        this.longueur=longueur;
-        this.largeur=largeur;
-        this.hauteur=hauteur;
+        this.longueur = longueur;
+        this.largeur = largeur;
+        this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
 
         for (Mur mur:getMurs()
              ) {
             mur.calculateSommets();
         }
+    }
+
+    public void resetChaletDefaut() {
+        this.largeur = DEFAULT_LARGEUR;
+        this.longueur = DEFAULT_LONGUEUR;
+        this.hauteur = DEFAULT_HAUTEUR;
+        this.deltaRainure = DEFAULT_DELTA_RAINURE;
+        this.sensDuToit = DEFAULT_SENS_DU_TOIT;
+        this.angleToit = DEFAULT_ANGLE_TOIT;
+        this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
+        this.distanceMin = DEFAULT_DISTANCE_MIN;
+
+
+
+        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR);
     }
 
     public Imperial getLargeur() {
@@ -132,12 +148,12 @@ public class Chalet {
     public Imperial getEpaisseurMur() {
         return epaisseurMur;
     }
-    public void setEpaisseurMur (Imperial epaisseurMur) {
+    public void setEpaisseurMur(Imperial epaisseurMur) {
         this.epaisseurMur = epaisseurMur;
     }
 
     public List<Mur> getMurs() {
-        return mapMur.values().stream().toList();
+        return mursByOrientation.values().stream().toList();
     }
 
     public Pignon getPignonDroit() {
@@ -156,12 +172,12 @@ public class Chalet {
         return toit;
     }
 
-    public List<Drawable> getComposanteVisible(Vue vue){
+    public List<Drawable> getComposanteVisible(Vue vue) {
         // TODO
         return null;
     }
 
-    public Mur getMurByOrientation(Orientation orientation){
-        return mapMur.get(orientation);
+    public Mur getMurByOrientation(Orientation orientation) {
+        return mursByOrientation.get(orientation);
     }
 }

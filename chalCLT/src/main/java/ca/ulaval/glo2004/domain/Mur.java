@@ -277,5 +277,4 @@ public class Mur extends Drawable {
     public void removeAccessoireById(String id) {
         accessoiresById.remove(id);
     }
-
 }

@@ -1,9 +1,9 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
-import ca.ulaval.glo2004.domain.*;
+import ca.ulaval.glo2004.domain.Observer;
+import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 import javax.swing.*;
@@ -22,7 +22,6 @@ public class FenetrePanel extends JPanel implements Observer {
     public FenetrePanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         init();
-
     }
 
     private void init() {
@@ -30,11 +29,10 @@ public class FenetrePanel extends JPanel implements Observer {
         JPanel inputPanel = ajoutPanel();
         add(inputPanel);
         addSeparator();
-        JPanel newInputPanel = ModifiePanel();
+        JPanel newInputPanel = modifiePanel();
         add(newInputPanel, BorderLayout.SOUTH);
         mainWindow.getController().registerObserver(this);
         add(newInputPanel);
-
     }
 
     private void addSeparator() {
@@ -60,7 +58,7 @@ public class FenetrePanel extends JPanel implements Observer {
         orientationComboBox = new JComboBox(orientationMur);
         JButton ajouter = new JButton("Ajouter");
 
-        JLabel titreSection = new JLabel(("Ajouter la fenêtre"));
+        JLabel titreSection = new JLabel("Ajouter la fenêtre");
         titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
         titreSection.setBorder(BorderFactory.createEmptyBorder(10,0,20,0));
         titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
@@ -83,8 +81,6 @@ public class FenetrePanel extends JPanel implements Observer {
         panel.add(orientationComboBox);
         panel.add(ajouter);
 
-
-
         ajouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,23 +90,20 @@ public class FenetrePanel extends JPanel implements Observer {
                 String hauteur = hauteurField.getText();
                 String orientation = orientationComboBox.getSelectedItem().toString();
                 AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);
-                try {
-                    mainWindow.getController().addFenetre(fenetreDTO);
-                } catch (IllegalFenetreException exception) {}
                 xField.setText("");
                 yField.setText("");
                 largeurField.setText("");
                 hauteurField.setText("");
+                mainWindow.getController().addFenetre(fenetreDTO);
             }
         });
 
         return panel;
     }
 
-    private JPanel ModifiePanel() {
+    private JPanel modifiePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
 
         String[] idAccessoires = {};
         idComboBox = new JComboBox(idAccessoires);
@@ -143,7 +136,7 @@ public class FenetrePanel extends JPanel implements Observer {
             }
         });
 
-        JLabel titreSection = new JLabel(("Modifier la fenêtre"));
+        JLabel titreSection = new JLabel("Modifier la fenêtre");
         titreSection.setAlignmentX(Component.CENTER_ALIGNMENT);
         titreSection.setBorder(BorderFactory.createEmptyBorder(0,15,20,0));
         titreSection.setFont(new Font(titreSection.getFont().getName(), Font.BOLD, 12));
@@ -174,9 +167,7 @@ public class FenetrePanel extends JPanel implements Observer {
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
                 FenetreDTO fenetre = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetre.orientation());
-                try {
-                    mainWindow.getController().modifyFenetre(fenetre);
-                } catch (IllegalFenetreException exception) {}
+                mainWindow.getController().modifyFenetre(fenetre);
             }
         });
 

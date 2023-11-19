@@ -1,7 +1,5 @@
 package ca.ulaval.glo2004.domain;
 
-import java.util.ArrayList;
-
 public enum Orientation {
     FACADE,
     ARRIERE,

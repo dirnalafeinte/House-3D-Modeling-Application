@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.gui.mainPanel.topPanel.topCenterPanel;
 
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.ClickMode;
 import ca.ulaval.glo2004.gui.MainWindow;
 

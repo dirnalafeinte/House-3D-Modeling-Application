@@ -1,12 +1,12 @@
 package ca.ulaval.glo2004.domain;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
-import ca.ulaval.glo2004.domain.util.UnitConverter;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class Drawable {
     protected static Color DEFAULT_ERROR_COLOR = Color.RED;
@@ -14,7 +14,6 @@ public abstract class Drawable {
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected boolean isValid = true;
     protected final Chalet chalet;
-    protected final UnitConverter unitConverter = new UnitConverter();
 
     public Drawable(Chalet chalet) {
         this.chalet = chalet;
@@ -40,7 +39,5 @@ public abstract class Drawable {
     public boolean isVisible(Vue vue) {
         return sommetsByVue.get(vue) != null;
     }
-
-
 }
 

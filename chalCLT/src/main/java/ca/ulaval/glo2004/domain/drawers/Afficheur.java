@@ -7,7 +7,6 @@ import ca.ulaval.glo2004.domain.util.UnitConverter;
 import java.awt.*;
 import java.util.List;
 
-
 public abstract class Afficheur {
     protected static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK;
     protected final Chalet chalet;

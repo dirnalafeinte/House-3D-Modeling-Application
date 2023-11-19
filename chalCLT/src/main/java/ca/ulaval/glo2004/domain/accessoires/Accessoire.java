@@ -61,10 +61,14 @@ public abstract class Accessoire extends Drawable {
     }
 
     public Imperial getMinDistance(Accessoire that) {
-        Imperial distanceTop = getCoordonnee().getY().add(hauteur.divideBy(2)).subtract(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceBottom = getCoordonnee().getY().subtract(hauteur.divideBy(2)).subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceLeft = getCoordonnee().getX().subtract(largeur.divideBy(2)).subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
-        Imperial distanceRight = getCoordonnee().getX().add(largeur.divideBy(2)).subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceTop = getCoordonnee().getY().add(hauteur.divideBy(2))
+                .subtract(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2))).abs();
+        Imperial distanceBottom = getCoordonnee().getY().subtract(hauteur.divideBy(2))
+                .subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
+        Imperial distanceLeft = getCoordonnee().getX().subtract(largeur.divideBy(2))
+                .subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceRight = getCoordonnee().getX().add(largeur.divideBy(2))
+                .subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
 
         return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
     }

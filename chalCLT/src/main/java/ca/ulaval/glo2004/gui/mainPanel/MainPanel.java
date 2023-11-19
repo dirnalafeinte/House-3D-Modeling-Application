@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.gui.mainPanel;
 
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.MainWindow;
 import ca.ulaval.glo2004.gui.mainPanel.splitPane.SplitPane;
 import ca.ulaval.glo2004.gui.mainPanel.topPanel.TopPanel;

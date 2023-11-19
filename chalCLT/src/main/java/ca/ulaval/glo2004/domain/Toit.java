@@ -2,7 +2,7 @@ package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
 
-public class Toit extends Drawable{
+public class Toit extends Drawable {
     private static final Color DEFAULT_COLOR = Color.GREEN;
 
     public Toit(Chalet chalet) {

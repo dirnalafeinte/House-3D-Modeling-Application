@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.gui.menu.fichierMenu;
 
-import ca.ulaval.glo2004.domain.ChaletController;
 import ca.ulaval.glo2004.gui.MainWindow;
 import ca.ulaval.glo2004.gui.menu.fichierMenu.exportMenu.ExportMenu;
 

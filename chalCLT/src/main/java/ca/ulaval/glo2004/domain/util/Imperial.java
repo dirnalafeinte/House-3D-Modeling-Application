@@ -1,5 +1,7 @@
 package ca.ulaval.glo2004.domain.util;
 
+import java.util.Objects;
+
 public class Imperial {
     private int feet;
     private int inches;
@@ -87,16 +89,12 @@ public class Imperial {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        if (feet != 0) {
-            sb.append(feet).append("' ");
-        } if (inches != 0) {
-            sb.append(inches).append("\" ");
-        } if (numerator != 0) {
-            sb.append(numerator).append("/").append(denominator);
-        }
+        if (feet != 0) sb.append(feet).append("' ");
+        if (inches != 0) sb.append(inches).append("\" ");
+        if (numerator != 0) sb.append(numerator).append("/").append(denominator);
 
         return sb.toString().trim();
     }
@@ -127,7 +125,7 @@ public class Imperial {
     }
 
     public Imperial divide(Imperial that) {
-        double inches = this.toInches()* this.toInches();
+        double inches = this.toInches() * this.toInches();
         return Imperial.fromInches(inches);
     }
 
@@ -154,7 +152,7 @@ public class Imperial {
     }
 
     @Override
-    public boolean equals(Object that){
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -164,31 +162,36 @@ public class Imperial {
         return equals((Imperial) that);
     }
 
-    public boolean equals(Imperial that){
+    @Override
+    public int hashCode() {
+        return Objects.hash(feet, inches, numerator, denominator);
+    }
+
+    public boolean equals(Imperial that) {
         return this.feet == that.feet && this.inches == that.inches && this.numerator == that.numerator && this.denominator == that.denominator;
     }
 
-    public boolean notEquals(Object that){
+    public boolean notEquals(Object that) {
         return !this.equals(that);
     }
 
-    public boolean notEquals(Imperial that){
+    public boolean notEquals(Imperial that) {
         return !this.equals(that);
     }
 
-    public boolean lessThan(Imperial that){
+    public boolean lessThan(Imperial that) {
         return this.toInches() < that.toInches();
     }
 
-    public boolean greaterThan(Imperial that){
+    public boolean greaterThan(Imperial that) {
         return this.toInches() > that.toInches();
     }
 
-    public boolean lessOrEquals(Imperial that){
+    public boolean lessOrEquals(Imperial that) {
         return this.toInches() <= that.toInches();
     }
 
-    public boolean greaterOrEquals(Imperial that){
+    public boolean greaterOrEquals(Imperial that) {
         return this.toInches() >= that.toInches();
     }
 
