@@ -26,7 +26,168 @@ public class ExportBrut extends Export {
 
     @Override
     protected void writeStlForF(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau F");
+//        writer.write("Panneau F\n");
+//        // face avant
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face avant 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        // face arriere
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face arriere 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        // face gauche
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face gauche 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        // face droite
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face droite 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        // face haut
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face haut 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        // face bas
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face bas 2
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure gauche 1 1 (vector arriere gauche)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure gauche 1 2 (vector gauche gauche)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+" \n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure gauche 2 1(vector gauche gauche)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure gauche 2 2 (vector gauche gauche)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+" \n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure droite 1 1(vector arriere droite)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+" \n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure droite 1 2 (vector arriere droite)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //face rainure droite 2 1 (vector droite droite)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+" \n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        //face rainure droite 2 2 (vector droite droite)
+//        writer.write("    facet normal "+vector+"\n");
+//        writer.write("        outer loop\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("            vertex "+coords+"\n");
+//        writer.write("        endloop\n");
+//        writer.write("    endfacet\n");
+//        //fin
+//        writer.write("endsolid Panneau F\n");
     }
 
     @Override
