@@ -133,4 +133,19 @@ public class ChaletController implements Observable {
         }
     }
 
+    public void exportPanneauxBruts(String path){
+        ExportBrut exportBrut = new ExportBrut(chalet, path);
+        exportBrut.export();
+    }
+
+    public void exportPanneauxFinis(String path){
+        ExportFini exportFini = new ExportFini(chalet, path);
+        exportFini.export();
+    }
+
+    public void exportRetraits(String path){
+        ExportRetrait exportRetrait = new ExportRetrait(chalet, path);
+        exportRetrait.export();
+    }
+
 }
