@@ -6,12 +6,12 @@ import java.io.IOException;
 import ca.ulaval.glo2004.domain.Panneau;
 
 public class ExportBrut extends Export {
-    String vectorAvant= "0.00000E+000 .00000E+000 -1.00000E+000";
-    String vectorArriere= "0.00000E+000 .00000E+000 1.00000E+000";
-    String vectorGauche= "-1.00000E+000 .00000E+000 .00000E+000";
-    String vectorDroite= "1.00000E+000 .00000E+000 .00000E+000";
-    String vectorHaut= "0.00000E+000 1.00000E+000 .00000E+000";
-    String vectorBas= "0.00000E+000 -1.00000E+000 .00000E+000";
+    String normalAvant= "0.00000E+000 .00000E+000 -1.00000E+000";
+    String normalArriere= "0.00000E+000 .00000E+000 1.00000E+000";
+    String normalGauche= "-1.00000E+000 .00000E+000 .00000E+000";
+    String normalDroite= "1.00000E+000 .00000E+000 .00000E+000";
+    String normalHaut= "0.00000E+000 1.00000E+000 .00000E+000";
+    String normalBas= "0.00000E+000 -1.00000E+000 .00000E+000";
 
     public ExportBrut(Chalet chalet, String path) {
         super(chalet, path);
