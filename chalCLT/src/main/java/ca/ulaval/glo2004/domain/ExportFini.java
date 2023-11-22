@@ -27,51 +27,16 @@ public class ExportFini extends Export {
 
     public void stlAccessoryOrganizer(){
         /*
-        Explication de l'algorithme:
-        Premièrement, on trie les accessoires du mur par position x.
-        On commence de la gauche du mur. On crée un premier rectangle qui va de 0 à la position x du premier accessoire du mur.
-        Puis, on prend la hauteur du mur pour créer le premier rectangle sans accessoire.
-        Par la suite, on prend la position x du premier accessoire du mur et on la met dans une variable debutRectangleX.
-        On prend la position x du premier accessoire du mur + la largeur de l'accessoire et on la met dans une variable endRectangleX.
-        On prend la position y de la fenetre et on la met dans une variable debutRectangleY.
-        On prend la hauteur de la fenetre + la position y et on la met dans une variable endRectangleY.
-        Avec ca, on crée un rectangle de dimensions debutRectangleX, endRectangleX, 0, debutRectangleY
-               & un autre rectangle de dimensions debutRectangleX, endRectangleX, endRectangleY, hauteurMur.
-        Si la position x du prochain accessoire est plus petite que endRectangleX, on met endRectangleX à la position x du prochain accessoire.
-        Puis, on crée les rectangles.
-        Lors du prochain processus endRectangleX sera la position finale du rectangle précédent et on prendra en compte les positions y des deux accessoires
-                dans la formation de ces rectangles.
-        Par après, debutRectangleX = endRectangleX et on met la position x + la largeur de l'accessoire dans endRectangleX.
+        Deuxieme Algo (plus simple):
 
-        Collections.sort(listAccessoireDuMur, Comparator.comparingInt(o -> o.getCoordonnee().getX()));
-        int debutRectangleX = 0;
-        int endRectangleX = listAccessoireDuMur.get(0).getCoordonnee().getX();
-        int debutRectangleY = 0;
-        int endRectangleY = hauteurMur;
-        writeStlForRectangle(writer, debutRectangleX, endRectangleX, debutRectangleY, endRectangleY);
-        for(int i = 0; i < listAccessoireDuMur.size(); i++){
-            writeStlForRectangle(writer, debutRectangleX, endRectangleX, debutRectangleY, endRectangleY);
-            if(listAccessoireDuMur[i-1].getCoordonnee().getX()+ listAccessoireDuMur[i-1].getLargeur() < listAccessoireDuMur[i].getCoordonnee().getX();){
-                debutRectangleX = listAccessoireDuMur.get(i).getCoordonnee().getX();
-            }
-            else{
-                debutRectangleX = listAccessoireDuMur[i-1].getCoordonnee().getX() + listAccessoireDuMur.get(i-1).getLargeur();
-            }
-            if (listAccessoireDuMur[i].getCoordonnee().getX() + listAccessoireDuMur.get(i).getLargeur() > listAccessoireDuMur[i+1].getCoordonnee().getX()){
-                endRectangleX = listAccessoireDuMur[i+1].getCoordonnee().getX();
-            }
-            else{
-                endRectangleX = listAccessoireDuMur[i].getCoordonnee().getX() + listAccessoireDuMur.get(i).getLargeur();
-            }
-            debutRectangleY = listAccessoireDuMur[i].getCoordonnee().getY();
-            endRectangleY = listAccessoireDuMur[i].getCoordonnee().getY() + listAccessoireDuMur.get(i).getHauteur();
+        Tout d'abord, des listes sont initialisées pour stocker les lignes horizontales, verticales et
+        les points d'intersection potentiels. Ensuite, il détermine les lignes manquantes pour créer des intersections,
+        générant ainsi une liste de points d'intersection. Chaque accessoire est représenté par des points délimitant
+        ses coins, qui sont regroupés dans une liste. Les points d'intersection à l'intérieur des accessoires sont
+        supprimés. Les points d'intersection restants sont triés par coordonnée x. Enfin, une fonction crée des
+        rectangles à partir des points d'intersection triés. Toutefois, il est mentionné qu'une fonctionnalité pour
+        éliminer les rectangles redondants, ceux déjà représentés par les accessoires, manque dans ce code.
 
-        }
-        writeStlForRectangle(writer, debutRectangleX, endRectangleX, debutRectangleY, endRectangleY);
-
-        Deuxieme Algo:
-        On crée des lignes horizontales et verticales pour chaque accessoire du mur selon leur position x et y.
-        On crée des rectangles avec les lignes horizontales et verticales.
         listHorizontalLines = new ArrayList<>();
         listVerticalLines = new ArrayList<>();
         listIntersectionPoints = new ArrayList<Coordonnee>();
@@ -115,8 +80,36 @@ public class ExportFini extends Export {
                 }
             }
         }
-        Collections.sort(listIntersectionPoints, Comparator.comparingInt(o -> o.getX()));
-        Collections.sort(listIntersectionPoints, Comparator.comparingInt(o -> o.getY()));
+        Collection.sort(listIntersectionPoints, Comparator.comparingInt(o -> o.getX()));
+        List<int[]> rectangles=createRectangles(listIntersectionPoints);
+        // TODO: manque la fonction pour enlever les rectangles qui sont equivalent aux accessoires (fonction de comparaison) pour les enlever de la liste de rectangles
+
+
+
+    public static List<int[]> createRectangles(ArrayList<Coordonnee> listIntersectionPoints) {
+        List<int[]> rectangles = new ArrayList<>();
+
+        int size = listIntersectionPoints.size();
+
+        for (int i = 0; i < size - 3; i++) {
+            // Check if the coordinates do not match the excluded points
+            if (!(listIntersectionPoints.get(i).getX() == 1 && listIntersectionPoints.get(i).getY() == 0 &&
+                  listIntersectionPoints.get(i + 1).getX() == 1 && listIntersectionPoints.get(i + 1).getY() == 1 &&
+                  listIntersectionPoints.get(i + 3).getX() == 2 && listIntersectionPoints.get(i + 3).getY() == 1)) {
+
+                int x = listIntersectionPoints.get(i).getX();
+                int y = listIntersectionPoints.get(i).getY();
+                int width = listIntersectionPoints.get(i + 3).getX() - x;
+                int height = listIntersectionPoints.get(i + 3).getY() - y;
+
+                int[] rect = new int[]{x, y, width, height};
+                rectangles.add(rect);
+            }
+        }
+
+        return rectangles;
+    }
+
 
 
 
