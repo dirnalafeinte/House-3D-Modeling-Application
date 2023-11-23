@@ -7,6 +7,10 @@ public class UnitConverter {
         return (int) (inches * Toolkit.getDefaultToolkit().getScreenResolution() / 12);
     }
 
+    public double pixelToInches(double pixels) {
+        return pixels / Toolkit.getDefaultToolkit().getScreenResolution();
+    }
+
     public int feetToPixel(double feet) {
         return (int) (feet * Toolkit.getDefaultToolkit().getScreenResolution());
     }

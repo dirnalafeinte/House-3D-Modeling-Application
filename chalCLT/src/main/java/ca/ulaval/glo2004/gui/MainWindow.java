@@ -32,6 +32,10 @@ public class MainWindow extends JFrame {
         revalidate();
     }
 
+    public MainPanel getMainPanel() {
+        return mainPanel;
+    }
+
     public ChaletController getController() {
         return controller;
     }
