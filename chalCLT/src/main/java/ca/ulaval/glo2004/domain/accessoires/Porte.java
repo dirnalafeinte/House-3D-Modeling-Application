@@ -54,12 +54,12 @@ public class Porte extends Accessoire {
 
     @Override
     public Imperial getTopEdge() {
-        return coordonnee.getY().add(hauteur);
+        return coordonnee.getY().add(hauteur).add(chalet.getDistanceMin());
     }
 
     @Override
     public Imperial getBottomEdge() {
-        return coordonnee.getY();
+        return coordonnee.getY().add(chalet.getDistanceMin());
     }
 
     @Override
