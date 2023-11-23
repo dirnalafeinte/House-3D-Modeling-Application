@@ -14,7 +14,7 @@ public class AccessoireFactory {
         return new Porte(Imperial.fromString(addPorteDTO.largeur()),
                 Imperial.fromString(addPorteDTO.hauteur()),
                 new Coordonnee(Imperial.fromString(addPorteDTO.coordonneeX()),
-                        chalet.getHauteur()),
+                        new Imperial()),
                 chalet,
                 chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())));
     }

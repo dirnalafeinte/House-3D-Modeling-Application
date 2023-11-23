@@ -7,8 +7,6 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Fenetre extends Accessoire {
@@ -46,26 +44,27 @@ public class Fenetre extends Accessoire {
     }
 
     @Override
-    public void calculateSommets() {
-        sommetsByVue.clear();
-        calculateSommetsAccessoire();
+    public Imperial getLeftEdge() {
+        return coordonnee.getX().subtract(largeur.divideBy(2));
+    }
+
+    @Override
+    public Imperial getRightEdge() {
+        return coordonnee.getX().add(largeur.divideBy(2));
+    }
+
+    @Override
+    public Imperial getTopEdge() {
+        return coordonnee.getY().add(hauteur.divideBy(2));
+    }
+
+    @Override
+    public Imperial getBottomEdge() {
+        return coordonnee.getY().subtract(hauteur.divideBy(2));
     }
 
     @Override
     public Color getColor() {
         return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
-    }
-
-    private void calculateSommetsAccessoire() {
-        List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)),
-                chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)),
-                chalet.getHauteur().subtract(coordonnee.getY().add(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().add(largeur.divideBy(2)),
-                chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
-        sommetsAccessoire.add(new Coordonnee(coordonnee.getX().subtract(largeur.divideBy(2)),
-                chalet.getHauteur().subtract(coordonnee.getY().subtract(hauteur.divideBy(2)))));
-        sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
     }
 }
