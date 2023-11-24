@@ -61,12 +61,13 @@ public class Chalet {
         mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
-    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur) {
+    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure) {
 
         this.longueur = longueur;
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
+        this.deltaRainure = deltaRainure;
 
         for (Mur mur:getMurs()
              ) {
@@ -86,7 +87,7 @@ public class Chalet {
 
 
 
-        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR);
+        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR, DEFAULT_DELTA_RAINURE);
     }
 
     public Imperial getLargeur() {
