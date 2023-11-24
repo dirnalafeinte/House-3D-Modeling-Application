@@ -21,8 +21,11 @@ public class MainPanel extends JPanel {
 
     private void init() {
         setLayout(new BorderLayout());
-
         add(topPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
+    }
+
+    public SplitPane getSplitPane() {
+        return splitPane;
     }
 }

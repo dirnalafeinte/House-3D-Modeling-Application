@@ -13,7 +13,7 @@ public class Coordonnee {
     public String toString() {
         String x = this.x.toString();
         String y = this.y.toString();
-        return "x: " + x + " Y: " + y;
+        return "x: " + x + ", y: " + y;
     }
 
     public Imperial getX() {

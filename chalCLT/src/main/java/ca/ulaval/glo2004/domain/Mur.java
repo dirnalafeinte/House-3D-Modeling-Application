@@ -37,37 +37,28 @@ public class Mur extends Drawable {
         return isValid ? isCoteLong() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
     }
 
-    public boolean contains(Porte that) {
-        boolean isLeft = that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)).lessOrEquals(getDistanceStartMur().add(getLongueurMur()));
-        boolean isRight = that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)).greaterOrEquals(getDistanceStartMur());
-        boolean isTop = that.getHauteur().lessOrEquals(getHauteur());
-        boolean isBottom = that.getCoordonnee().getY().subtract(that.getHauteur()).greaterOrEquals(new Imperial());
-
-        return isLeft && isRight && isTop && isBottom;
-    }
-
-    public boolean contains(Fenetre that) {
-        boolean isLeft = that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)).lessOrEquals(getDistanceStartMur().add(getLongueurMur()));
-        boolean isRight = that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)).greaterOrEquals(getDistanceStartMur());
-        boolean isTop = that.getCoordonnee().getY().add(that.getHauteur().divideBy(2)).lessOrEquals(getHauteur());
-        boolean isBottom = that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2)).greaterOrEquals(new Imperial());
+    public boolean contains(Accessoire that) {
+        boolean isLeft = that.getRightEdge().lessOrEquals(getDistanceStartMur().add(getLongueurMur()));
+        boolean isRight = that.getLeftEdge().greaterOrEquals(getDistanceStartMur());
+        boolean isBottom = that.getTopEdge().lessOrEquals(getHauteur());
+        boolean isTop = that.getBottomEdge().greaterOrEquals(new Imperial());
 
         return isLeft && isRight && isTop && isBottom;
     }
 
     public Imperial getMinDistance(Fenetre that) {
-        Imperial distanceTop = getHauteur().subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceBottom = (new Imperial()).subtract(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceLeft = getDistanceStartMur().subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
-        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceTop = getHauteur().subtract(that.getTopEdge()).abs();
+        Imperial distanceBottom = (new Imperial()).subtract(that.getBottomEdge()).abs();
+        Imperial distanceLeft = getDistanceStartMur().subtract(that.getLeftEdge()).abs();
+        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getRightEdge()).abs();
 
         return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
     }
 
     public Imperial getMinDistance(Porte that) {
-        Imperial distanceTop = getHauteur().subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceLeft = getDistanceStartMur().subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
-        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceTop = getHauteur().subtract(that.getTopEdge()).abs();
+        Imperial distanceLeft = getDistanceStartMur().subtract(that.getLeftEdge()).abs();
+        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getRightEdge()).abs();
 
         return Imperial.min(distanceTop, Imperial.min(distanceLeft, distanceRight));
     }
@@ -267,14 +258,17 @@ public class Mur extends Drawable {
     public void addAccessoire(Accessoire accessoire) {
         accessoiresById.put(accessoire.getId(), accessoire);
         accessoire.validate();
+        accessoiresById.values().forEach(Accessoire::validate);
     }
 
     public void modifyAccessoire(Accessoire accessoire) {
         accessoiresById.replace(accessoire.getId(), accessoire);
         accessoire.validate();
+        accessoiresById.values().forEach(Accessoire::validate);
     }
 
     public void removeAccessoireById(String id) {
         accessoiresById.remove(id);
+        accessoiresById.values().forEach(Accessoire::validate);
     }
 }

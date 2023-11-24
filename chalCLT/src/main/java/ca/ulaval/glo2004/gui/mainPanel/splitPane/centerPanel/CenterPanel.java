@@ -15,9 +15,12 @@ public class CenterPanel extends JPanel {
         init();
     }
 
+    public DrawingPanel getDrawingPanel() {
+        return drawingPanel;
+    }
+
     private void init() {
         setLayout(new FlowLayout());
-
         add(drawingPanel);
     }
 }

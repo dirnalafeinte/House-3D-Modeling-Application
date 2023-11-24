@@ -15,7 +15,7 @@ public class AccessoireAssembler {
                 Imperial.fromString(porteDTO.largeur()),
                 Imperial.fromString(porteDTO.hauteur()),
                 new Coordonnee(Imperial.fromString(porteDTO.coordonneeX()),
-                        chalet.getHauteur()),
+                        new Imperial()),
                 chalet,
                 chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())));
     }

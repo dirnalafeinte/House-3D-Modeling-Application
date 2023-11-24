@@ -4,6 +4,9 @@ import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
     protected Imperial hauteur;
@@ -52,26 +55,45 @@ public abstract class Accessoire extends Drawable {
     }
 
     public boolean intersects(Accessoire that) {
-        boolean isLeft = getCoordonnee().getX().subtract(largeur.divideBy(2)).lessThan(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2)));
-        boolean isRight = getCoordonnee().getX().add(largeur.divideBy(2)).greaterThan(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2)));
-        boolean isAbove = getCoordonnee().getY().add(hauteur.divideBy(2)).greaterThan(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2)));
-        boolean isBelow = getCoordonnee().getY().subtract(hauteur.divideBy(2)).lessThan(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2)));
+        boolean isRight = getRightEdge().lessThan(that.getLeftEdge());
+        boolean isLeft = getLeftEdge().greaterThan(that.getRightEdge());
+        boolean isAbove = getTopEdge().greaterThan(that.getBottomEdge());
+        boolean isBelow = getBottomEdge().lessThan(that.getTopEdge());
 
         return isLeft && isRight && isAbove && isBelow;
     }
 
     public Imperial getMinDistance(Accessoire that) {
-        Imperial distanceTop = getCoordonnee().getY().add(hauteur.divideBy(2))
-                .subtract(that.getCoordonnee().getY().subtract(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceBottom = getCoordonnee().getY().subtract(hauteur.divideBy(2))
-                .subtract(that.getCoordonnee().getY().add(that.getHauteur().divideBy(2))).abs();
-        Imperial distanceLeft = getCoordonnee().getX().subtract(largeur.divideBy(2))
-                .subtract(that.getCoordonnee().getX().add(that.getLargeur().divideBy(2))).abs();
-        Imperial distanceRight = getCoordonnee().getX().add(largeur.divideBy(2))
-                .subtract(that.getCoordonnee().getX().subtract(that.getLargeur().divideBy(2))).abs();
+        Imperial distanceTop = getTopEdge().subtract(that.getBottomEdge()).abs();
+        Imperial distanceBottom = getBottomEdge().subtract(that.getTopEdge()).abs();
+        Imperial distanceLeft = getLeftEdge().subtract(that.getRightEdge()).abs();
+        Imperial distanceRight = getRightEdge().subtract(that.getLeftEdge()).abs();
 
         return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
     }
 
     public abstract void validate();
+
+    public abstract Imperial getLeftEdge();
+
+    public abstract Imperial getRightEdge();
+
+    public abstract Imperial getTopEdge();
+
+    public abstract Imperial getBottomEdge();
+
+    @Override
+    public void calculateSommets() {
+        sommetsByVue.clear();
+        calculateSommetsAccessoire();
+    }
+
+    private void calculateSommetsAccessoire() {
+        List<Coordonnee> sommetsAccessoire = new ArrayList<>();
+        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getTopEdge())));
+        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getTopEdge())));
+        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getBottomEdge())));
+        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getBottomEdge())));
+        sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
+    }
 }

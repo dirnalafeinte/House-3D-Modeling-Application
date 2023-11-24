@@ -5,6 +5,7 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 public abstract class Afficheur {
@@ -14,8 +15,11 @@ public abstract class Afficheur {
     protected final UnitConverter unitConverter = new UnitConverter();
     protected double zoomFactor = 0.25;
     protected double lastZoomFactor = 1.0;
-    protected double xOffset = 24;
-    protected double yOffset = 9;
+    protected double xOffset = 240;
+    protected double yOffset = 100;
+    protected int yChalet = 0;
+    protected int xChalet = 0;
+
 
     public Afficheur(Chalet chalet, Vue vue) {
         this.chalet = chalet;
@@ -35,15 +39,56 @@ public abstract class Afficheur {
     }
 
     private int[] getScaledSommetsX(List<Coordonnee> sommets) {
-        return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getX().toInches() * zoomFactor) + xOffset)).toArray();
+        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel((coordonnee.getX().toInches())) + xChalet)).toArray();
     }
 
     private int[] getScaledSommetsY(List<Coordonnee> sommets) {
-        return sommets.stream().mapToInt(coordonnee -> unitConverter.inchesToPixel((coordonnee.getY().toInches() * zoomFactor) + yOffset)).toArray();
+        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel((coordonnee.getY().toInches())) + yChalet)).toArray();
+    }
+
+    public double getZoomFactor() {
+        return zoomFactor;
+    }
+
+    public double getLastZoomFactor() {
+        return lastZoomFactor;
     }
 
     public void setZoomFactor(double zoomFactor) {
         lastZoomFactor = this.zoomFactor;
         this.zoomFactor = zoomFactor;
     }
+
+    public double getxOffset() {
+        return xOffset;
+    }
+
+    public void setxOffset(double xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public double getyOffset() {
+        return yOffset;
+    }
+
+    public void setyOffset(double yOffset) {
+        this.yOffset = yOffset;
+    }
+
+    public double getyChalet() {
+        return yChalet;
+    }
+
+    public void setyChalet(int yChalet) {
+        this.yChalet = yChalet;
+    }
+
+    public double getxChalet() {
+        return xChalet;
+    }
+
+    public void setxChalet(int xChalet) {
+        this.xChalet = xChalet;
+    }
+
 }
