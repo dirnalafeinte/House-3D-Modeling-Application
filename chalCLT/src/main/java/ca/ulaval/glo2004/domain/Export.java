@@ -8,7 +8,7 @@ import ca.ulaval.glo2004.domain.Panneau;
 public abstract class Export {
     private static final String DEFAULT_PROJECT_NAME = "ChalCLT";
     private String projectName;
-    private Chalet chalet;
+    protected static Chalet chalet;
     protected String path;
 
     public Export(Chalet chalet, String path) {

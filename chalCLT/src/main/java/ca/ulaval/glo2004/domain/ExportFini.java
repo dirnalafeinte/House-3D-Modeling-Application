@@ -1,14 +1,12 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.HashSet;
 
 public class ExportFini extends Export {
 
@@ -19,6 +17,9 @@ public class ExportFini extends Export {
     @Override
     public void export() {
         try {
+            for (int i=0;i<chalet.getMurs().size();i++) {
+                List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(chalet.getMurs().get(i));
+                }
             for(Panneau panneau : Panneau.values()) {
                 String fileName = getFileName("Fini", panneau);
 
@@ -28,89 +29,105 @@ public class ExportFini extends Export {
             e.printStackTrace();
         }
     }
-/*
-    protected ArrayList<Coordonnee> createAccessoryIntersectionPoints(mur){
 
+    protected static ArrayList<Coordonnee> createAccessoryIntersectionPoints(Mur mur){
+        /*
         Deuxieme Algo (plus simple):
-        1. Faire une liste de tous les points d'intersection entre les accessoires
-        2. Faire une liste de tous les points d'intersection entre les accessoires et les murs
-        3. Faire une liste de tous les points d'intersection entre les accessoires et les murs et les points d'intersection entre les accessoires
-        4. Faire une liste de tous les rectangles possibles en enlevant les rectangles qui sont dans des accessoires
+        1. Ajouter les points des murs dans une liste
+        2. Ajouter les points des accessoires dans une liste
+        3. Enlever les doublons
+        4. Ajouter les points d'intersection des lignes horizontales et verticales dans une liste
+        5. Tri des points d'intersection par le X
+        6. Creer les rectangles
+        */
 
 
-        listHorizontalLines = new ArrayList<>();
-        listVerticalLines = new ArrayList<>();
-        listIntersectionPoints = new ArrayList<Coordonnee>();
-        listHorizontalLines.add(0);
-        listHorizontalLines.add(hauteurMur);
-        listVerticalLines.add(0);
-        listVerticalLines.add(largeurMur);
-        for accessoire in listAccessoireDuMur{
-            if(!listHorizontalLines.contains(accessoires.getCoordonnee().getY())){
-                listHorizontalLines.add(accessoires.getCoordonnee().getY());
+        // Initialisation des variables
+        ArrayList<Imperial>  listHorizontalLines = new ArrayList<Imperial>();
+        ArrayList<Imperial>  listVerticalLines = new ArrayList<Imperial>();
+        ArrayList<Coordonnee> listIntersectionPoints = new ArrayList<Coordonnee>();
+
+        // Ajout des points des murs
+        for(int i=0; i<mur.getSommetsByVue(mur.getCote().toVue()).size(); i++){
+            listVerticalLines.add(mur.getSommetsByVue(mur.getCote().toVue()).get(i).getY());
+            listHorizontalLines.add(mur.getSommetsByVue(mur.getCote().toVue()).get(i).getX());
+        }
+        // Ajout des points des accessoires
+        for (int i=0; i<mur.getAccessoires().size(); i++) {
+            for (int j=0; j<mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue()).size(); j++) {
+                listVerticalLines.add(mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue()).get(j).getY());
+                listHorizontalLines.add(mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue()).get(j).getX());
             }
-            if(!listVerticalLines.contains(accessoires.getCoordonnee().getX())){
-                listVerticalLines.add(accessoires.getCoordonnee().getX());
+        }
+        // Enlever les doublons
+        HashSet<Imperial> set = new HashSet<>(listHorizontalLines);
+        listHorizontalLines.clear();
+        listHorizontalLines.addAll(set);
+
+        set= new HashSet<>(listVerticalLines);
+        listVerticalLines.clear();
+        listVerticalLines.addAll(set);
+
+        // Ajout des points d'intesection des lignes horizontales et verticales
+        for (int i=0; i<listHorizontalLines.size(); i++) {
+            for (int j=0; j<listVerticalLines.size(); j++) {
+                listIntersectionPoints.add(new Coordonnee(listHorizontalLines.get(i), listVerticalLines.get(j)));
             }
         }
 
-        for verticalLine in listVerticalLines{
-            for horizontalLine in listHorizontalLines{
-                listIntersectionPoints.add(new Coordonnee(verticalLine, horizontalLine));
-            }
-        }
-
-
-        listListPointsOfAccessoire = new ArrayList<ArrayList<Coordonnee>>();
-        for accessoire in listAccessoireDuMur{
-            listPointsOfAccessoire = new ArrayList<Coordonnee>();
-            listPointsOfAccessoire.add(accessoire.getCoordonnee().getX(), accessoire.getCoordonnee().getY());
-            listPointsOfAccessoire.add(new Coordonnee(accessoire.getCoordonnee().getX() + accessoire.getLargeur(),
-                                        accessoire.getCoordonnee().getY()));
-            listPointsOfAccessoire.add(new Coordonnee(accessoire.getCoordonnee().getX(),
-                                        accessoire.getCoordonnee().getY() + accessoire.getHauteur()));
-            listPointsOfAccessoire.add(new Coordonnee(accessoire.getCoordonnee().getX() + accessoire.getLargeur(),
-                                        accessoire.getCoordonnee().getY() + accessoire.getHauteur()));
-            listListPointsOfAccessoire.add(listPointsOfAccessoire);
-        }
-
-        Collection.sort(listIntersectionPoints, Comparator.comparingInt(o -> o.getX()));
+        // Tri des points d'intersection par le X
+        listIntersectionPoints.sort(Comparator.comparingDouble(o -> o.getY().toInches()));
+        listIntersectionPoints.sort(Comparator.comparingDouble(o -> o.getX().toInches()));
         return listIntersectionPoints;
     }
 
     protected static List<ArrayList<Coordonnee>> createRectangles(ArrayList<Coordonnee> listIntersectionPoints) {
-        List<ArrayList<Coordonnee>> rectangles = new ArrayList<>();
 
-        p1= 0;
-        p2= 1;
-        while (listIntersectionPoints[p2].getX() != listIntersectionPoints[listIntersectionPoints.size()-1].getX() and
-                listIntersectionPoints[p2].getY() != listIntersectionPoints[listIntersectionPoints.size()-1].getY()) {
-            if (listIntersectionsPoints[p1].getX()== listIntersectionsPoints[p2].getX()){
+        List<ArrayList<Coordonnee>> rectangles = new ArrayList<>();
+        int p1= 0; //pointer 1
+        int p2= 1; //pointer 2
+
+        while (listIntersectionPoints.get(p2).getX() != listIntersectionPoints.get(listIntersectionPoints.size() - 1).getX() ||
+                listIntersectionPoints.get(p2).getY() != listIntersectionPoints.get(listIntersectionPoints.size() - 1).getY()) {
+            if (listIntersectionPoints.get(p1).getX()== listIntersectionPoints.get(p2).getX()){
+                p2++;
+            }
+            if (listIntersectionPoints.get(p1+1).getX()== listIntersectionPoints.get(p2).getX()){
+                p1++;
                 p2++;
             }
             else{
-                for accessoire in listListPointsOfAccessoire:
-                    if (!(accessoire[0].getX() =<(listIntersectionsPoints[p1].getX() and listIntersectionsPoints[p1+1].getX()
-                        and listIntersectionsPoints[p2].getX() and listIntersectionsPoints[p2+1].getX())=< accessoire[3].getX()
-                        and accessoire[0].getY() =<(listIntersectionsPoints[p1].getY() and listIntersectionsPoints[p1+1].getY()
-                        and listIntersectionsPoints[p2].getY() and listIntersectionsPoints[p2+1].getY()) =< accessoire[3].getY())){
-                        debut = listIntersectionsPoints[p1];
-                        endRectangleX = listIntersectionsPoints[p2];
-                        endRectangleY = listIntersectionsPoints[p1+1];
-                        maxRectangle = listIntersectionsPoints[p2+1];
-                        rectangles.add(new ArrayList<Coordonnee>(debut, endRectangleX, endRectangleY, maxRectangle));
-                        p1++;
-                        p2++;
-                    }
+                Coordonnee debut = listIntersectionPoints.get(p1); // Top left
+                Coordonnee endRectangleX = listIntersectionPoints.get(p2); // Top right
+                Coordonnee maxRectangle = listIntersectionPoints.get(p2 + 1); // Bottom right
+                Coordonnee endRectangleY = listIntersectionPoints.get(p1 + 1);// Bottom left
+                rectangles.add(new ArrayList<Coordonnee>(Arrays.asList(debut, endRectangleX, endRectangleY, maxRectangle)));
+                p1++;
+                p2++;
             }
         }
         return rectangles;
     }
-    protected static List<ArrayList<Coordonnee>> prepareRectangleForStl(mur){
-           intersectionPoints=createAccessoryIntersectionPoints(mur);
-           return createRectangles(intersectionPoints);
+
+    protected static void removeRectanglesInAccessories(List<ArrayList<Coordonnee>> rectangles, Mur mur) {
+        for (int i = 0; i < rectangles.size(); i++) {
+            for (int j = 0; j < mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue()).size(); j++) {
+                List<Coordonnee> accessoryPoints = mur.getAccessoires().get(j).getSommetsByVue(mur.getCote().toVue());
+                if (rectangles.get(i).get(0).getX().equals( accessoryPoints.get(0).getX()) && // rectangles coordonnees est egal a accessoire coordonnees
+                        rectangles.get(i).get(1).getX().equals( accessoryPoints.get(1).getX()) &&
+                                rectangles.get(i).get(2).getY().greaterOrEquals( accessoryPoints.get(2).getY()) &&
+                                        rectangles.get(i).get(0).getY().lessOrEquals(accessoryPoints.get(0).getY())) {
+                    rectangles.remove(i);
+                }
+            }
+        }
     }
-        */
+    protected List<ArrayList<Coordonnee>> prepareRectangleForStl(Mur mur){
+           ArrayList<Coordonnee> intersectionPoints = createAccessoryIntersectionPoints(mur);
+           List <ArrayList<Coordonnee>> rectangles = createRectangles(intersectionPoints);
+           removeRectanglesInAccessories(rectangles,mur);
+        return rectangles;
+    }
 
     @Override
     protected void writeStlForF(FileWriter writer) throws IOException {
