@@ -17,9 +17,13 @@ public class ExportFini extends Export {
     @Override
     public void export() {
         try {
-            for (int i=0;i<chalet.getMurs().size();i++) {
-                List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(chalet.getMurs().get(i));
-                }
+            System.out.println(chalet.getMurs());
+            for (Mur mur : chalet.getMurs()) {
+                List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
+                System.out.println(rectangles);
+                System.out.println(mur.getSommetsByVue(mur.getCote().toVue()));
+            }
+
             for(Panneau panneau : Panneau.values()) {
                 String fileName = getFileName("Fini", panneau);
 
@@ -30,7 +34,7 @@ public class ExportFini extends Export {
         }
     }
 
-    protected static ArrayList<Coordonnee> createAccessoryIntersectionPoints(Mur mur){
+    protected ArrayList<Coordonnee> createAccessoryIntersectionPoints(Mur mur){
         /*
         Deuxieme Algo (plus simple):
         1. Ajouter les points des murs dans une liste
@@ -81,7 +85,7 @@ public class ExportFini extends Export {
         return listIntersectionPoints;
     }
 
-    protected static List<ArrayList<Coordonnee>> createRectangles(ArrayList<Coordonnee> listIntersectionPoints) {
+    protected List<ArrayList<Coordonnee>> createRectangles(ArrayList<Coordonnee> listIntersectionPoints) {
 
         List<ArrayList<Coordonnee>> rectangles = new ArrayList<>();
         int p1= 0; //pointer 1
@@ -92,7 +96,7 @@ public class ExportFini extends Export {
             if (listIntersectionPoints.get(p1).getX()== listIntersectionPoints.get(p2).getX()){
                 p2++;
             }
-            if (listIntersectionPoints.get(p1+1).getX()== listIntersectionPoints.get(p2).getX()){
+            else if (listIntersectionPoints.get(p1+1).getX()== listIntersectionPoints.get(p2).getX() && listIntersectionPoints.size()!=4){
                 p1++;
                 p2++;
             }
@@ -109,14 +113,18 @@ public class ExportFini extends Export {
         return rectangles;
     }
 
-    protected static void removeRectanglesInAccessories(List<ArrayList<Coordonnee>> rectangles, Mur mur) {
+    protected void removeRectanglesInAccessories(List<ArrayList<Coordonnee>> rectangles, Mur mur) {
+        if (mur.getAccessoires().isEmpty()) {
+            return;
+        }
         for (int i = 0; i < rectangles.size(); i++) {
-            for (int j = 0; j < mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue()).size(); j++) {
+            for (int j = 0; j < mur.getAccessoires().size(); j++) {
                 List<Coordonnee> accessoryPoints = mur.getAccessoires().get(j).getSommetsByVue(mur.getCote().toVue());
-                if (rectangles.get(i).get(0).getX().equals( accessoryPoints.get(0).getX()) && // rectangles coordonnees est egal a accessoire coordonnees
-                        rectangles.get(i).get(1).getX().equals( accessoryPoints.get(1).getX()) &&
-                                rectangles.get(i).get(2).getY().greaterOrEquals( accessoryPoints.get(2).getY()) &&
-                                        rectangles.get(i).get(0).getY().lessOrEquals(accessoryPoints.get(0).getY())) {
+                boolean condition1=rectangles.get(i).get(0).getX().greaterOrEquals( accessoryPoints.get(0).getX());
+                boolean condition2=rectangles.get(i).get(1).getX().lessOrEquals(accessoryPoints.get(1).getX());
+                boolean condition3=rectangles.get(i).get(2).getY().lessOrEquals(accessoryPoints.get(2).getY());
+                boolean condition4=rectangles.get(i).get(0).getY().greaterOrEquals(accessoryPoints.get(0).getY());
+                if (condition1 && condition2 && condition3 && condition4) {
                     rectangles.remove(i);
                 }
             }
