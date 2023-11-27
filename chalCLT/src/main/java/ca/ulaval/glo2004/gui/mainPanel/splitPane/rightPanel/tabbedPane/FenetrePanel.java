@@ -4,7 +4,9 @@ import ca.ulaval.glo2004.domain.Observer;
 import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.AddFenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.gui.MainWindow;
+import ca.ulaval.glo2004.gui.Toast.Toast;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,12 +91,15 @@ public class FenetrePanel extends JPanel implements Observer {
                 String largeur = largeurField.getText();
                 String hauteur = hauteurField.getText();
                 String orientation = orientationComboBox.getSelectedItem().toString();
-                AddFenetreDTO fenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);
+                AddFenetreDTO addFenetreDTO = new AddFenetreDTO(largeur, hauteur, coordonneeX, coordonneeY, orientation);
                 xField.setText("");
                 yField.setText("");
                 largeurField.setText("");
                 hauteurField.setText("");
-                mainWindow.getController().addFenetre(fenetreDTO);
+                FenetreDTO fenetreDTO = mainWindow.getController().addFenetre(addFenetreDTO);
+                if (!fenetreDTO.state().isValid()) {
+                    throw new IllegalFenetreException(fenetreDTO.state().errorMessage());
+                }
             }
         });
 
@@ -161,13 +166,16 @@ public class FenetrePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = idComboBox.getSelectedItem().toString();
-                FenetreDTO oldFenetre = fenetresById.get(idComboBox.getSelectedItem().toString());
+                FenetreDTO oldFenetreDTO = fenetresById.get(idComboBox.getSelectedItem().toString());
                 String coordonneeX = modifierXField.getText();
                 String coordonneeY = modifierYField.getText();
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
-                FenetreDTO fenetre = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetre.orientation());
-                mainWindow.getController().modifyFenetre(fenetre);
+                FenetreDTO modifiedFenetreDTO = new FenetreDTO(id, largeur, hauteur, coordonneeX, coordonneeY, oldFenetreDTO.orientation(), oldFenetreDTO.state());
+                FenetreDTO newFenetreDTO = mainWindow.getController().modifyFenetre(modifiedFenetreDTO);
+                if (!newFenetreDTO.state().isValid()) {
+                    throw new IllegalFenetreException(newFenetreDTO.state().errorMessage());
+                }
             }
         });
 

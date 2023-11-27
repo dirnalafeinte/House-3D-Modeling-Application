@@ -23,15 +23,16 @@ public class DTOAssembler {
                 fenetre.getHauteur().toString(),
                 fenetre.getCoordonnee().getX().toString(),
                 fenetre.getCoordonnee().getY().toString(),
-                fenetre.getCote().toString());
+                fenetre.getCote().toString(),
+                fenetre.getState());
     }
 
     public MurDTO toMurDTO(Mur mur) {
-        return new MurDTO(mur.getId(), mur.getCote().toString());
+        return new MurDTO(mur.getId(), mur.getCote().toString(), mur.getState());
     }
 
     public PignonDTO toPignonDTO(Pignon pignon) {
-        return new PignonDTO(pignon.getId(), pignon.isPignonDroit());
+        return new PignonDTO(pignon.getId(), pignon.isPignonDroit(), pignon.getState());
     }
 
     public PorteDTO toPorteDTO(Porte porte) {
@@ -39,14 +40,15 @@ public class DTOAssembler {
                 porte.getLargeur().toString(),
                 porte.getHauteur().toString(),
                 porte.getCoordonnee().getX().toString(),
-                porte.getCote().toString());
+                porte.getCote().toString(),
+                porte.getState());
     }
 
     public RallongeDTO toRallongeDTO(Rallonge rallonge) {
-        return new RallongeDTO(rallonge.getId());
+        return new RallongeDTO(rallonge.getId(), rallonge.getState());
     }
 
     public ToitDTO toToitDTO(Toit toit) {
-        return new ToitDTO(toit.getId());
+        return new ToitDTO(toit.getId(), toit.getState());
     }
 }

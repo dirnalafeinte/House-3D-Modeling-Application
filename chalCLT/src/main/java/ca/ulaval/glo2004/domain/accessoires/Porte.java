@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.domain.accessoires;
 
 import ca.ulaval.glo2004.domain.Chalet;
+import ca.ulaval.glo2004.domain.DrawableState;
 import ca.ulaval.glo2004.domain.Mur;
 import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
@@ -22,24 +23,24 @@ public class Porte extends Accessoire {
     @Override
     public void validate() {
         if (!mur.contains(this)) {
-            isValid = false;
-            throw new IllegalPorteException("La porte doit être dans le mur");
+            state = new DrawableState(false, "La porte doit être dans le mur");
+            return;
         }
-        if (mur.getMinDistance(this).lessThan(chalet.getDistanceMin())) {
-            isValid = false;
-            throw new IllegalPorteException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+        if (!mur.isMinDistance(this)) {
+            state = new DrawableState(false, "La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces du mur");
+            return;
         }
         for (Accessoire accessoire : mur.getAccessoires().stream().filter(accessoire -> !Objects.equals(accessoire.getId(), id)).toList()) {
             if (intersects(accessoire)) {
-                isValid = false;
-                throw new IllegalPorteException("La porte ne doit pas intersecter un autre accessoire");
+                state = new DrawableState(false, "La porte ne doit pas intersecter un autre accessoire");
+                return;
             }
             if (getMinDistance(accessoire).lessThan(chalet.getDistanceMin())) {
-                isValid = false;
-                throw new IllegalPorteException("La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+                state = new DrawableState(false, "La porte doit être à au moins " + chalet.getDistanceMin().toString() + " pouces de l'accessoire");
+                return;
             }
         }
-        isValid = true;
+        state = new DrawableState(true);
     }
 
     @Override
@@ -64,6 +65,6 @@ public class Porte extends Accessoire {
 
     @Override
     public Color getColor() {
-        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
+        return state.isValid() ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 }

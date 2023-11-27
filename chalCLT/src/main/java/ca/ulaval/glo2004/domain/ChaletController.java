@@ -42,26 +42,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void addPorte(AddPorteDTO addPorteDTO)  {
+    public PorteDTO addPorte(AddPorteDTO addPorteDTO)  {
         Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
-        } catch (IllegalPorteException exception) {
-            throw new IllegalPorteException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
+        notifyObservers();
+        return dtoAssembler.toPorteDTO(porte);
     }
 
-    public void addFenetre(AddFenetreDTO addFenetreDTO) {
+    public FenetreDTO addFenetre(AddFenetreDTO addFenetreDTO) {
         Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
-        } catch (IllegalFenetreException exception) {
-            throw new IllegalFenetreException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
+        notifyObservers();
+        return dtoAssembler.toFenetreDTO(fenetre);
     }
 
     public void deleteFenetre(FenetreDTO fenetreDTO) {
@@ -74,26 +66,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void modifyPorte(PorteDTO porteDTO) {
+    public PorteDTO modifyPorte(PorteDTO porteDTO) {
         Porte porte = accessoireAssembler.toPorte(porteDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
-        } catch (IllegalPorteException exception) {
-            throw new IllegalPorteException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
+        notifyObservers();
+        return dtoAssembler.toPorteDTO(porte);
     }
 
-    public void modifyFenetre(FenetreDTO fenetreDTO) {
+    public FenetreDTO modifyFenetre(FenetreDTO fenetreDTO) {
         Fenetre fenetre = accessoireAssembler.toFenetre(fenetreDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
-        } catch (IllegalFenetreException exception) {
-            throw new IllegalFenetreException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
+        notifyObservers();
+        return dtoAssembler.toFenetreDTO(fenetre);
     }
 
     public Map<String, PorteDTO> getPortesById() {
@@ -142,17 +126,17 @@ public class ChaletController implements Observable {
         }
     }
 
-    public void exportPanneauxBruts(String path){
+    public void exportPanneauxBruts(String path) {
         ExportBrut exportBrut = new ExportBrut(chalet, path);
         exportBrut.export();
     }
 
-    public void exportPanneauxFinis(String path){
+    public void exportPanneauxFinis(String path) {
         ExportFini exportFini = new ExportFini(chalet, path);
         exportFini.export();
     }
 
-    public void exportRetraits(String path){
+    public void exportRetraits(String path) {
         ExportRetrait exportRetrait = new ExportRetrait(chalet, path);
         exportRetrait.export();
     }

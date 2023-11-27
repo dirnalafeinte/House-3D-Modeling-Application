@@ -12,8 +12,8 @@ public abstract class Drawable {
     protected static Color DEFAULT_ERROR_COLOR = Color.RED;
     protected final String id;
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
-    protected boolean isValid = true;
     protected final Chalet chalet;
+    protected DrawableState state = new DrawableState(true);
 
     public Drawable(Chalet chalet) {
         this.chalet = chalet;
@@ -38,6 +38,10 @@ public abstract class Drawable {
 
     public boolean isVisible(Vue vue) {
         return sommetsByVue.get(vue) != null;
+    }
+
+    public DrawableState getState() {
+        return state;
     }
 }
 

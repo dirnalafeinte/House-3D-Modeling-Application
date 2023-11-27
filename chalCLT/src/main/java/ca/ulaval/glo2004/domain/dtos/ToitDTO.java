@@ -1,4 +1,6 @@
 package ca.ulaval.glo2004.domain.dtos;
 
-public record ToitDTO(String id) {
+import ca.ulaval.glo2004.domain.DrawableState;
+
+public record ToitDTO(String id, DrawableState state) {
 }

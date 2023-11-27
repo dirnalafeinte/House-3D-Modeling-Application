@@ -95,6 +95,7 @@ public class Imperial {
         if (feet != 0) sb.append(feet).append("' ");
         if (inches != 0) sb.append(inches).append("\" ");
         if (numerator != 0) sb.append(numerator).append("/").append(denominator);
+        if (sb.length() == 0) sb.append("0'");
 
         return sb.toString().trim();
     }

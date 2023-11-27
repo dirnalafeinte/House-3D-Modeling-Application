@@ -1,4 +1,6 @@
 package ca.ulaval.glo2004.domain.dtos;
 
-public record PignonDTO(String id, boolean isPignonDroit) {
+import ca.ulaval.glo2004.domain.DrawableState;
+
+public record PignonDTO(String id, boolean isPignonDroit, DrawableState state) {
 }

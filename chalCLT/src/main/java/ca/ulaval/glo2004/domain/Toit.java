@@ -35,6 +35,6 @@ public class Toit extends Drawable {
 
     @Override
     public Color getColor() {
-        return isValid ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
+        return state.isValid() ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 }

@@ -55,8 +55,8 @@ public abstract class Accessoire extends Drawable {
     }
 
     public boolean intersects(Accessoire that) {
-        boolean isRight = getRightEdge().lessThan(that.getLeftEdge());
-        boolean isLeft = getLeftEdge().greaterThan(that.getRightEdge());
+        boolean isLeft = getLeftEdge().lessThan(that.getRightEdge());
+        boolean isRight = getRightEdge().greaterThan(that.getLeftEdge());
         boolean isAbove = getTopEdge().greaterThan(that.getBottomEdge());
         boolean isBelow = getBottomEdge().lessThan(that.getTopEdge());
 
