@@ -17,13 +17,6 @@ public class ExportFini extends Export {
     @Override
     public void export() {
         try {
-            System.out.println(chalet.getMurs());
-            for (Mur mur : chalet.getMurs()) {
-                List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
-                System.out.println(rectangles);
-                System.out.println(mur.getSommetsByVue(mur.getCote().toVue()));
-            }
-
             for(Panneau panneau : Panneau.values()) {
                 String fileName = getFileName("Fini", panneau);
 
@@ -47,9 +40,9 @@ public class ExportFini extends Export {
 
 
         // Initialisation des variables
-        ArrayList<Imperial>  listHorizontalLines = new ArrayList<Imperial>();
-        ArrayList<Imperial>  listVerticalLines = new ArrayList<Imperial>();
-        ArrayList<Coordonnee> listIntersectionPoints = new ArrayList<Coordonnee>();
+        ArrayList<Imperial>  listHorizontalLines = new ArrayList<>();
+        ArrayList<Imperial>  listVerticalLines = new ArrayList<>();
+        ArrayList<Coordonnee> listIntersectionPoints = new ArrayList<>();
 
         // Ajout des points des murs
         for(int i=0; i<mur.getSommetsByVue(mur.getCote().toVue()).size(); i++){
@@ -73,9 +66,9 @@ public class ExportFini extends Export {
         listVerticalLines.addAll(set);
 
         // Ajout des points d'intesection des lignes horizontales et verticales
-        for (int i=0; i<listHorizontalLines.size(); i++) {
-            for (int j=0; j<listVerticalLines.size(); j++) {
-                listIntersectionPoints.add(new Coordonnee(listHorizontalLines.get(i), listVerticalLines.get(j)));
+        for (Imperial listHorizontalLine : listHorizontalLines) {
+            for (Imperial listVerticalLine : listVerticalLines) {
+                listIntersectionPoints.add(new Coordonnee(listHorizontalLine, listVerticalLine));
             }
         }
 
@@ -105,7 +98,7 @@ public class ExportFini extends Export {
                 Coordonnee endRectangleX = listIntersectionPoints.get(p2); // Top right
                 Coordonnee maxRectangle = listIntersectionPoints.get(p2 + 1); // Bottom right
                 Coordonnee endRectangleY = listIntersectionPoints.get(p1 + 1);// Bottom left
-                rectangles.add(new ArrayList<Coordonnee>(Arrays.asList(debut, endRectangleX, endRectangleY, maxRectangle)));
+                rectangles.add(new ArrayList<>(Arrays.asList(debut, endRectangleX, endRectangleY, maxRectangle)));
                 p1++;
                 p2++;
             }
@@ -139,22 +132,98 @@ public class ExportFini extends Export {
 
     @Override
     protected void writeStlForF(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau F");
+        Mur mur = chalet.getMurByOrientation(Orientation.FACADE);
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
+        writer.write("solid Panneau F\n");
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+        }
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+        }
+        for(int i=0; i<mur.getAccessoires().size();i++){
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        }
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
+        //TODO: Rainure je suis perdu
+
+        writer.write("endsolid Panneau F\n");
     }
 
     @Override
     protected void writeStlForA(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau A");
+        Mur mur = chalet.getMurByOrientation(Orientation.ARRIERE);
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
+        writer.write("solid Panneau F\n");
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+        }
+        for(int i=0; i<mur.getAccessoires().size();i++){
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        }
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
+        writer.write("endsolid Panneau F\n");
     }
 
     @Override
     protected void writeStlForG(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau G");
+        Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
+        writer.write("solid Panneau F\n");
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+        }
+        for(int i=0; i<mur.getAccessoires().size();i++){
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        }
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
+        writer.write("endsolid Panneau F\n");
     }
 
     @Override
     protected void writeStlForD(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau D");
+        Mur mur = chalet.getMurByOrientation(Orientation.DROITE);
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
+        writer.write("solid Panneau F\n");
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+        }
+        for(int i=0; i<chalet.getMurByOrientation(Orientation.FACADE).getAccessoires().size();i++){
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        }
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
+        writer.write("endsolid Panneau F\n");
     }
 
     @Override
