@@ -23,5 +23,11 @@ public class Coordonnee {
     public Imperial getY() {
         return y;
     }
+
+    public Imperial getDistanceFrom(Coordonnee that) {
+        Imperial deltaX = x.subtract(that.y);
+        Imperial deltaY = y.subtract(that.y);
+        return (deltaX.pow(2).add(deltaY.pow(2))).sqrt();
+    }
 }
 

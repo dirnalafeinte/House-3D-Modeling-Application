@@ -254,13 +254,11 @@ public class Mur extends Drawable {
 
     public void addAccessoire(Accessoire accessoire) {
         accessoiresById.put(accessoire.getId(), accessoire);
-        accessoire.validate();
         accessoiresById.values().forEach(Accessoire::validate);
     }
 
     public void modifyAccessoire(Accessoire accessoire) {
         accessoiresById.replace(accessoire.getId(), accessoire);
-        accessoire.validate();
         accessoiresById.values().forEach(Accessoire::validate);
     }
 

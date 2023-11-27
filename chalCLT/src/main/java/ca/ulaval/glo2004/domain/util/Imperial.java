@@ -3,6 +3,8 @@ package ca.ulaval.glo2004.domain.util;
 import java.util.Objects;
 
 public class Imperial {
+    public static final Imperial MAX_VALUE = Imperial.fromFeet(Integer.MAX_VALUE);
+    private static final double PRECISION = 1000000000;
     private int feet;
     private int inches;
     private int numerator;
@@ -35,27 +37,15 @@ public class Imperial {
         return new Imperial(feet, inches, 0, 1);
     }
 
-    public static Imperial fromInches(double chiffre) {
-        double df;
-        long lUpperPart = 1;
-        long lLowerPart = 1;
-        int entier = (int) chiffre;
-        double f = chiffre - entier;
-        df = (double) lUpperPart / lLowerPart;
-        while (df != f) {
-            if (df < f) {
-                lUpperPart = lUpperPart + 1;
-            } else {
-                lLowerPart = lLowerPart + 1;
-                lUpperPart = (long) (f * lLowerPart);
-            }
-            df = (double) lUpperPart / lLowerPart;
-        }
-        int feet = entier / 12;
-        int inches = entier % 12;
-        int numerateur = (int) lUpperPart;
-        int denominateur = (int) lLowerPart;
-        return new Imperial(feet, inches, numerateur, denominateur);
+    public static Imperial fromInches(double number) {
+        int floor = (int) Math.floor(number);
+        double fraction = number - floor;
+        double gcd = gcd(Math.round(fraction * PRECISION), PRECISION);
+        int feet = floor / 12;
+        int inches = floor % 12;
+        int numerator = (int) (Math.round(fraction * PRECISION) / gcd);
+        int denominator = (int) (PRECISION / gcd);
+        return new Imperial(feet, inches, numerator, denominator);
     }
 
     public static Imperial fromString(String string) {
@@ -101,37 +91,37 @@ public class Imperial {
     }
 
     public Imperial add(Imperial that) {
-        double inches = this.toInches() + that.toInches();
+        double inches = toInches() + that.toInches();
         return Imperial.fromInches(inches);
     }
 
     public Imperial subtract(Imperial that) {
-        double inches = this.toInches() - that.toInches();
+        double inches = toInches() - that.toInches();
         return Imperial.fromInches(inches);
     }
 
     public Imperial multiply(Imperial that) {
-        double inches = this.toInches() * that.toInches();
+        double inches = toInches() * that.toInches();
         return Imperial.fromInches(inches);
     }
 
     public Imperial multiplyBy(int factor) {
-        double inches = this.toInches() * factor;
+        double inches = toInches() * factor;
         return Imperial.fromInches(inches);
     }
 
     public Imperial multiplyBy(double factor) {
-        double inches = this.toInches() * factor;
+        double inches = toInches() * factor;
         return Imperial.fromInches(inches);
     }
 
     public Imperial divide(Imperial that) {
-        double inches = this.toInches() * this.toInches();
+        double inches = this.toInches() / that.toInches();
         return Imperial.fromInches(inches);
     }
 
     public Imperial divideBy(int divisor) {
-        double inches = this.toInches() / divisor;
+        double inches = toInches() / divisor;
         return Imperial.fromInches(inches);
     }
 
@@ -141,7 +131,17 @@ public class Imperial {
     }
 
     public Imperial abs() {
-        return Imperial.fromInches(Math.abs(this.toInches()));
+        return Imperial.fromInches(Math.abs(toInches()));
+    }
+
+    public Imperial pow(int exponent) {
+        double inches = Math.pow(toInches(), exponent);
+        return Imperial.fromInches(inches);
+    }
+
+    public Imperial sqrt() {
+        double inches = Math.sqrt(toInches());
+        return Imperial.fromInches(inches);
     }
 
     public static Imperial min(Imperial a, Imperial b) {
@@ -210,6 +210,10 @@ public class Imperial {
     }
 
     private int gcd(int x, int y) {
+        return x == 0 ? y : gcd(y % x, x);
+    }
+
+    private static double gcd(double x, double y) {
         return x == 0 ? y : gcd(y % x, x);
     }
 }

@@ -5,6 +5,7 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class Accessoire extends Drawable {
@@ -64,14 +65,40 @@ public abstract class Accessoire extends Drawable {
     }
 
     public Imperial getMinDistance(Accessoire that) {
-        Imperial distanceTop = getTopEdge().subtract(that.getBottomEdge()).abs();
-        Imperial distanceBottom = getBottomEdge().subtract(that.getTopEdge()).abs();
-        Imperial distanceLeft = getLeftEdge().subtract(that.getRightEdge()).abs();
-        Imperial distanceRight = getRightEdge().subtract(that.getLeftEdge()).abs();
-
-        return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
+        Imperial minDistance = Imperial.MAX_VALUE;
+        for (Coordonnee corner : getSommets()) {
+            Imperial temp = that.calculateMinDistance(corner);
+            if (temp.lessThan(minDistance)) {
+                minDistance = temp;
+            }
+        }
+        for (Coordonnee corner : that.getSommets()) {
+            Imperial temp = calculateMinDistance(corner);
+            if (temp.lessThan(minDistance)) {
+                minDistance = temp;
+            }
+        }
+        return minDistance;
     }
 
+    private Imperial calculateMinDistance(Coordonnee point) {
+        Imperial topDistance = getTopEdge().subtract(point.getY()).abs();
+        Imperial bottomDistance = getBottomEdge().subtract(point.getY()).abs();
+        Imperial leftDistance = getLeftEdge().subtract(point.getX()).abs();
+        Imperial rightDistance = getRightEdge().subtract(point.getX()).abs();
+
+        if (getLeftEdge().lessThan(point.getX()) && point.getX().lessThan(getRightEdge())) {
+            return Imperial.min(topDistance, bottomDistance);
+        } else if (getBottomEdge().lessThan(point.getY()) && point.getY().lessThan(getTopEdge())) {
+            return Imperial.min(leftDistance, rightDistance);
+        } else {
+            Imperial cornerY = topDistance.lessThan(bottomDistance) ? getTopEdge() : getBottomEdge();
+            Imperial cornerX = leftDistance.lessThan(rightDistance) ? getLeftEdge() : getRightEdge();
+            Imperial xDistance = cornerX.subtract(point.getX());
+            Imperial yDistance = cornerY.subtract(point.getY());
+            return xDistance.pow(2).add(yDistance.pow(2)).sqrt();
+        }
+    }
     public abstract void validate();
 
     public abstract Imperial getLeftEdge();
@@ -82,6 +109,26 @@ public abstract class Accessoire extends Drawable {
 
     public abstract Imperial getBottomEdge();
 
+    public Coordonnee getTopLeftCorner() {
+        return new Coordonnee(getLeftEdge(), getTopEdge());
+    }
+
+    public Coordonnee getTopRightCorner() {
+        return new Coordonnee(getRightEdge(), getTopEdge());
+    }
+
+    public Coordonnee getBottomLeftCorner() {
+        return new Coordonnee(getLeftEdge(), getBottomEdge());
+    }
+
+    public Coordonnee getBottomRightCorner() {
+        return new Coordonnee(getRightEdge(), getBottomEdge());
+    }
+
+    public Collection<Coordonnee> getSommets() {
+        return List.of(getTopLeftCorner(), getTopRightCorner(), getBottomRightCorner(), getBottomLeftCorner());
+    }
+
     @Override
     public void calculateSommets() {
         sommetsByVue.clear();
@@ -90,10 +137,10 @@ public abstract class Accessoire extends Drawable {
 
     private void calculateSommetsAccessoire() {
         List<Coordonnee> sommetsAccessoire = new ArrayList<>();
-        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getTopEdge())));
-        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getTopEdge())));
-        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getBottomEdge())));
-        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getBottomEdge())));
+        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getTopEdge()))); // top left
+        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getTopEdge()))); // top right
+        sommetsAccessoire.add(new Coordonnee(getRightEdge(), chalet.getHauteur().subtract(getBottomEdge()))); // bottom right
+        sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getBottomEdge())));  // bottom left
         sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
     }
 }
