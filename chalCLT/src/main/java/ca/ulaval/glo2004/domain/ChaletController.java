@@ -33,10 +33,12 @@ public class ChaletController implements Observable {
     private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
     private Chalet chalet;
 
+    private ChaletDTO chaletDTO;
+
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new AfficheurPlan(chalet, Vue.PLAN);
-
+        //initializeDefaultChalet();
     }
 
     public Chalet getDefaultChalet() {
@@ -48,8 +50,7 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void initializeDefaultValue(){
-        chalet.resetChaletDefaut();
+    public void initializeDefaultChalet() {
         notifyObservers();
     }
 
