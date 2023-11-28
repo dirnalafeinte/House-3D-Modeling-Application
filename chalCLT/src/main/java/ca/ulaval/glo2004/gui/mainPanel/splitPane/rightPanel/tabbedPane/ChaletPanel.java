@@ -134,6 +134,7 @@ public class ChaletPanel extends JPanel implements Observer {
             longueurField.setText(chaletDTO.longueur());
             hauteurField.setText(chaletDTO.hauteur());
             epaisseurField.setText(chaletDTO.epaisseurMur());
+            deltaRainureField.setText(chaletDTO.deltaRainure());
             distanceMinField.setText(chaletDTO.distanceMin());
         }
     }
