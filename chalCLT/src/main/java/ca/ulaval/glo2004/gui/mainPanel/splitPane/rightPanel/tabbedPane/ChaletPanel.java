@@ -111,14 +111,6 @@ public class ChaletPanel extends JPanel implements Observer {
         ChaletDTO nouveauChalet = new ChaletDTO(largeur, longueur, hauteur, deltaRainure, epaisseur, distanceMin);
 
         mainWindow.getController().updateDimensions(nouveauChalet);
-//            textField.setText(format(value));
-//            errorLabel.setText("");
-//            mainWindow.repaint();
-//
-//        }else {
-//            errorLabel.setText("Format invalide pour " + textField.getName());
-//        }
-
 
     }
 
