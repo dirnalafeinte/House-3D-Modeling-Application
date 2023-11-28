@@ -110,22 +110,6 @@ public class Chalet {
 
     }
 
-
-    public void resetChaletDefaut() {
-        this.largeur = DEFAULT_LARGEUR;
-        this.longueur = DEFAULT_LONGUEUR;
-        this.hauteur = DEFAULT_HAUTEUR;
-        this.deltaRainure = DEFAULT_DELTA_RAINURE;
-        this.sensDuToit = DEFAULT_SENS_DU_TOIT;
-        this.angleToit = DEFAULT_ANGLE_TOIT;
-        this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
-        this.distanceMin = DEFAULT_DISTANCE_MIN;
-
-
-
-        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR, DEFAULT_DELTA_RAINURE, DEFAULT_DISTANCE_MIN);
-    }
-
     public Imperial getLargeur() {
         return largeur;
     }

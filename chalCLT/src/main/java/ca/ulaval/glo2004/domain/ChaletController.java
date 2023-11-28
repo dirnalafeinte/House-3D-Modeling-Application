@@ -1,6 +1,5 @@
 package ca.ulaval.glo2004.domain;
 
-import ca.ulaval.glo2004.domain.accessoires.Accessoire;
 import ca.ulaval.glo2004.domain.accessoires.Fenetre;
 import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.assemblers.AccessoireAssembler;
@@ -9,8 +8,6 @@ import ca.ulaval.glo2004.domain.drawers.Afficheur;
 import ca.ulaval.glo2004.domain.drawers.AfficheurMur;
 import ca.ulaval.glo2004.domain.drawers.AfficheurPlan;
 import ca.ulaval.glo2004.domain.dtos.*;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
 import ca.ulaval.glo2004.domain.factories.ChaletFactory;
 import ca.ulaval.glo2004.domain.util.Imperial;
@@ -18,7 +15,6 @@ import ca.ulaval.glo2004.domain.util.Imperial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -38,20 +34,6 @@ public class ChaletController implements Observable {
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new AfficheurPlan(chalet, Vue.PLAN);
-        //initializeDefaultChalet();
-    }
-
-    public Chalet getDefaultChalet() {
-        return chaletFactory.createDefaultChalet();
-    }
-
-    public void resetToDefaultChalet(){
-        chalet.resetChaletDefaut();
-        notifyObservers();
-    }
-
-    public void initializeDefaultChalet() {
-        notifyObservers();
     }
 
     public void setVue(Vue vue) {
@@ -123,7 +105,8 @@ public class ChaletController implements Observable {
     }
 
     public void resetChaletDefaut() {
-        chalet.resetChaletDefaut();
+        chalet = chaletFactory.createDefaultChalet();
+        afficheur.setChalet(chalet);
         notifyObservers();
     }
 

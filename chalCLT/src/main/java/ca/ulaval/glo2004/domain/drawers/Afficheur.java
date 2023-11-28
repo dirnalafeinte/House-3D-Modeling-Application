@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class Afficheur {
     protected static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK;
-    protected final Chalet chalet;
+    protected Chalet chalet;
     protected final Vue vue;
     protected final UnitConverter unitConverter = new UnitConverter();
     protected double zoomFactor = 0.25;
@@ -91,4 +91,7 @@ public abstract class Afficheur {
         this.xChalet = xChalet;
     }
 
+    public void setChalet(Chalet chalet) {
+        this.chalet = chalet;
+    }
 }
