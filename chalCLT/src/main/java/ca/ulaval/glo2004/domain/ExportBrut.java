@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -22,7 +23,38 @@ public class ExportBrut extends Export {
         }
     }
 
-    @Override
+    protected void writeFile(String fileName, Panneau panneau) throws IOException {
+        File file = new File(path, fileName);
+        try (FileWriter writer = new FileWriter(file)) {
+            switch (panneau) {
+                case F:
+                    writeStlForF(writer);
+                    break;
+                case A:
+                    writeStlForA(writer);
+                    break;
+                case G:
+                    writeStlForG(writer);
+                    break;
+                case D:
+                    writeStlForD(writer);
+                    break;
+                case T:
+                    writeStlForT(writer);
+                    break;
+                case R:
+                    writeStlForR(writer);
+                    break;
+                case PG:
+                    writeStlForPG(writer);
+                    break;
+                case PD:
+                    writeStlForPD(writer);
+                    break;
+            }
+        }
+    }
+
     protected void writeStlForF(FileWriter writer) throws IOException {
         //debut
         writer.write("solid Panneau F\n");
@@ -42,7 +74,7 @@ public class ExportBrut extends Export {
         writer.write("endsolid Panneau F\n");
     }
 
-    @Override
+
     protected void writeStlForA(FileWriter writer) throws IOException {
         //debut
         writer.write("solid Panneau A\n");
@@ -62,7 +94,7 @@ public class ExportBrut extends Export {
         writer.write("endsolid Panneau A\n");
     }
 
-    @Override
+
     protected void writeStlForG(FileWriter writer) throws IOException {
         //debut
         writer.write("solid Panneau G\n");
@@ -82,7 +114,7 @@ public class ExportBrut extends Export {
         writer.write("endsolid Panneau F\n");
     }
 
-    @Override
+
     protected void writeStlForD(FileWriter writer) throws IOException {
         //debut
         writer.write("solid Panneau F\n");
@@ -102,22 +134,22 @@ public class ExportBrut extends Export {
         writer.write("endsolid Panneau F\n");
     }
 
-    @Override
+
     protected void writeStlForT(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau T");
     }
 
-    @Override
+
     protected void writeStlForR(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau R");
     }
 
-    @Override
+
     protected void writeStlForPG(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau PG");
     }
 
-    @Override
+
     protected void writeStlForPD(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau PD");
     }

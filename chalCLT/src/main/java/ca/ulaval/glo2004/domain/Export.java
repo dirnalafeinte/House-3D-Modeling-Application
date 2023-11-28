@@ -24,37 +24,6 @@ public abstract class Export {
 
     public abstract void export();
 
-    protected void writeFile(String fileName, Panneau panneau) throws IOException {
-        File file = new File(path, fileName);
-        try (FileWriter writer = new FileWriter(file)) {
-            switch (panneau) {
-                case F:
-                    writeStlForF(writer);
-                    break;
-                case A:
-                    writeStlForA(writer);
-                    break;
-                case G:
-                    writeStlForG(writer);
-                    break;
-                case D:
-                    writeStlForD(writer);
-                    break;
-                case T:
-                    writeStlForT(writer);
-                    break;
-                case R:
-                    writeStlForR(writer);
-                    break;
-                case PG:
-                    writeStlForPG(writer);
-                    break;
-                case PD:
-                    writeStlForPD(writer);
-                    break;
-            }
-        }
-    }
     protected static void writeStlForFace(FileWriter writer, double debutRectangleX, double endRectangleX, double debutRectangleY, double endRectangleY, double z, String normalVector) throws IOException{
         writer.write("facet normal " + normalVector + "\n");
         writer.write("outer loop\n");
@@ -104,24 +73,6 @@ public abstract class Export {
         writer.write("endloop\n");
         writer.write("endfacet\n");
     }
-    
-    
-    
-    protected abstract void writeStlForF(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForA(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForG(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForD(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForT(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForR(FileWriter writer) throws IOException;
-
-    protected abstract void writeStlForPG(FileWriter writer) throws IOException;
-
-   protected abstract void writeStlForPD(FileWriter writer) throws IOException;
 
     protected String getFileName(String panelType, Panneau panneau) {
         return String.format("%s_%s_%s.stl", projectName, panelType, panneau);

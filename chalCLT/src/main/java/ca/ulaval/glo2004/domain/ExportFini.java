@@ -3,6 +3,7 @@ package ca.ulaval.glo2004.domain;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -24,6 +25,38 @@ public class ExportFini extends Export {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected void writeFile(String fileName, Panneau panneau) throws IOException {
+        File file = new File(path, fileName);
+        try (FileWriter writer = new FileWriter(file)) {
+            switch (panneau) {
+                case F:
+                    writeStlForF(writer);
+                    break;
+                case A:
+                    writeStlForA(writer);
+                    break;
+                case G:
+                    writeStlForG(writer);
+                    break;
+                case D:
+                    writeStlForD(writer);
+                    break;
+                case T:
+                    writeStlForT(writer);
+                    break;
+                case R:
+                    writeStlForR(writer);
+                    break;
+                case PG:
+                    writeStlForPG(writer);
+                    break;
+                case PD:
+                    writeStlForPD(writer);
+                    break;
+            }
         }
     }
 
@@ -130,7 +163,7 @@ public class ExportFini extends Export {
         return rectangles;
     }
 
-    @Override
+
     protected void writeStlForF(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.FACADE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
@@ -186,7 +219,7 @@ public class ExportFini extends Export {
         writer.write("endsolid Panneau F\n");
     }
 
-    @Override
+
     protected void writeStlForA(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.ARRIERE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
@@ -241,7 +274,7 @@ public class ExportFini extends Export {
         writer.write("endsolid Panneau A\n");
     }
 
-    @Override
+
     protected void writeStlForG(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
@@ -293,7 +326,7 @@ public class ExportFini extends Export {
         writer.write("endsolid Panneau G\n");
     }
 
-    @Override
+
     protected void writeStlForD(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.DROITE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
@@ -344,22 +377,22 @@ public class ExportFini extends Export {
         writer.write("endsolid Panneau D\n");
     }
 
-    @Override
+
     protected void writeStlForT(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau T");
     }
 
-    @Override
+
     protected void writeStlForR(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau R");
     }
 
-    @Override
+
     protected void writeStlForPG(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau PG");
     }
 
-    @Override
+
     protected void writeStlForPD(FileWriter writer) throws IOException {
         writer.write("STL data for Panneau PD");
     }
