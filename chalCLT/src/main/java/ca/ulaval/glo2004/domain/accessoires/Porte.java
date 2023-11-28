@@ -21,13 +21,9 @@ public class Porte extends Accessoire {
     }
 
     @Override
-    public void updateCoordonnees() {
-        Imperial nouvelleLargeurMur = mur.getLargeur();
-        Imperial nouvelleHauteurMur  = mur.getHauteur();
-
-        //super.updateCoordonnees(nouvelleLargeurMur, nouvelleHauteurMur);
-
-
+    public void updateCoordonnee(Imperial xCoord, Imperial yCoord) {
+        this.coordonnee = new Coordonnee(xCoord, new Imperial());
+        calculateSommets();
     }
 
     @Override

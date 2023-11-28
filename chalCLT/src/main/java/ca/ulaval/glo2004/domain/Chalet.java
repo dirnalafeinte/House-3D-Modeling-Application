@@ -74,40 +74,33 @@ public class Chalet {
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
         Imperial ratioLongueur = longueur.divide(this.longueur);
 
-
         this.longueur = longueur;
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
         this.deltaRainure = deltaRainure;
 
-
         for (Mur mur:getMurs()
              ) {
             mur.calculateSommets();
 
-            for(Accessoire accessoire : mur.getAccessoires()) {
+            for (Accessoire accessoire : mur.getAccessoires()) {
                 Imperial coordPrecendenteX = accessoire.getCoordonnee().getX();
                 Imperial coordPrecendentey = accessoire.getCoordonnee().getY();
 
                 Imperial newCoordX;
                 Imperial newCoordY;
 
-                if (mur.getCote(). equals(Orientation.FACADE) || mur.getCote().equals(Orientation.ARRIERE)) {
-
+                if (mur.getCote().equals(Orientation.FACADE) || mur.getCote().equals(Orientation.ARRIERE)) {
                     newCoordX = coordPrecendenteX.multiply(ratioLongueur);
-                    newCoordY = coordPrecendentey.multiply(ratioHauteur);
                 } else {
                     newCoordX = coordPrecendenteX.multiply(ratioLargeur);
-                    newCoordY = coordPrecendentey.multiply(ratioHauteur);
                 }
+                newCoordY = coordPrecendentey.multiply(ratioHauteur);
 
-                accessoire.setCoordonnee(new Coordonnee(newCoordX, newCoordY));
+                accessoire.updateCoordonnee(newCoordX, newCoordY);
             }
         }
-
-
-
     }
 
     public Imperial getLargeur() {
@@ -192,7 +185,6 @@ public class Chalet {
     public Toit getToit() {
         return toit;
     }
-
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);

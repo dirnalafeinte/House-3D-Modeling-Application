@@ -3,7 +3,6 @@ package ca.ulaval.glo2004.domain.accessoires;
 import ca.ulaval.glo2004.domain.Chalet;
 import ca.ulaval.glo2004.domain.DrawableState;
 import ca.ulaval.glo2004.domain.Mur;
-import ca.ulaval.glo2004.domain.error.exceptions.IllegalFenetreException;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
@@ -19,16 +18,6 @@ public class Fenetre extends Accessoire {
 
     public Fenetre(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {
         super(id, largeur, hauteur, coordonnee, AccessoireType.FENETRE, chalet, mur);
-    }
-
-    @Override
-    public void updateCoordonnees() {
-        Imperial nouvelleLargeurMur = mur.getLargeur();
-        Imperial nouvelleHauteurMur  = mur.getHauteur();
-
-        //super.updateCoordonnees(nouvelleLargeurMur, nouvelleHauteurMur);
-
-
     }
 
     @Override

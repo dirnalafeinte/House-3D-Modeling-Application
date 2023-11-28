@@ -12,7 +12,6 @@ public abstract class Accessoire extends Drawable {
     protected Imperial largeur;
     protected Imperial hauteur;
     protected Coordonnee coordonnee;
-    public abstract void updateCoordonnees();
     protected final AccessoireType type;
     protected final Mur mur;
 
@@ -48,8 +47,8 @@ public abstract class Accessoire extends Drawable {
         return coordonnee;
     }
 
-    public void setCoordonnee(Coordonnee nouvellecoord){
-        this.coordonnee = nouvellecoord;
+    public void updateCoordonnee(Imperial xCoord, Imperial yCoord) {
+        this.coordonnee = new Coordonnee(xCoord, yCoord);
         calculateSommets();
     }
     public Orientation getCote() {
@@ -148,26 +147,4 @@ public abstract class Accessoire extends Drawable {
         sommetsAccessoire.add(new Coordonnee(getLeftEdge(), chalet.getHauteur().subtract(getBottomEdge())));  // bottom left
         sommetsByVue.put(getCote().toVue(), sommetsAccessoire);
     }
-
-    public void deplacer(Imperial deltaX, Imperial deltaY) {
-        this.coordonnee.setX(this.coordonnee.getX().add(deltaX));
-        this.coordonnee.setY(this.coordonnee.getY().add(deltaY));
-    }
-
-
-    private void moveBy(Imperial deltaX, Imperial deltaY) {
-        sommetsByVue.forEach((vue, sommets) -> {
-            List<Coordonnee> newSommets = new ArrayList<>();
-            for (Coordonnee sommet : sommets) {
-                Imperial newCoordX = sommet.getX().add(deltaX);
-                Imperial newCoordY = sommet.getY().add(deltaY);
-                newSommets.add(new Coordonnee(newCoordX, newCoordY));
-            }
-            sommets.clear();
-            sommets.addAll(newSommets);
-        });
-    }
-
 }
-
-
