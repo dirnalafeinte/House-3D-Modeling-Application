@@ -87,28 +87,22 @@ public class Chalet {
             mur.calculateSommets();
 
             for(Accessoire accessoire : mur.getAccessoires()) {
-                accessoire.updateCoordonnees();
                 Imperial coordPrecendenteX = accessoire.getCoordonnee().getX();
                 Imperial coordPrecendentey = accessoire.getCoordonnee().getY();
 
-                Imperial newCoordX = accessoire.getCoordonnee().getX();
-                Imperial newCoordY = accessoire.getCoordonnee().getY();
+                Imperial newCoordX;
+                Imperial newCoordY;
 
                 if (mur.getCote(). equals(Orientation.FACADE) || mur.getCote().equals(Orientation.ARRIERE)) {
 
-                    newCoordX = newCoordX.multiply(ratioLongueur);
-                    newCoordY = newCoordY.multiply(ratioHauteur);
+                    newCoordX = coordPrecendenteX.multiply(ratioLongueur);
+                    newCoordY = coordPrecendentey.multiply(ratioHauteur);
                 } else {
-                    newCoordX = newCoordX.multiply(ratioLargeur);
-                    newCoordY = newCoordY.multiply(ratioHauteur);
+                    newCoordX = coordPrecendenteX.multiply(ratioLargeur);
+                    newCoordY = coordPrecendentey.multiply(ratioHauteur);
                 }
 
-                Imperial deltaX = newCoordX.subtract(coordPrecendenteX);
-                Imperial deltaY = newCoordY.subtract(coordPrecendentey);
-
-                accessoire.deplacer(deltaX, deltaY);
-//                accessoire.getCoordonnee().setX(newCoordX);
-//                accessoire.getCoordonnee().setY(newCoordY);
+                accessoire.setCoordonnee(new Coordonnee(newCoordX, newCoordY));
             }
         }
 

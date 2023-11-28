@@ -107,21 +107,15 @@ public class ChaletController implements Observable {
 
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
-    public void updateDimensions(double newLargeur, double newLongueur, double newHauteur, double newEpaisseur, double newDelaRainure, double newDistanceMin) {
-        Imperial defaultLargeur = chalet.getLargeur();
-        Imperial defaultLongueur = chalet.getLongueur();
-        Imperial defaultHauteur = chalet.getHauteur();
-        Imperial defaultEpaisseur = chalet.getEpaisseurMur();
-        Imperial defaultDeltaRainure = chalet.getDeltaRainure();
-        Imperial defaultDistanceMin = chalet.getDistanceMin();
+    public void updateDimensions(ChaletDTO chalets) {
 
+        Imperial updatedLongueur = Imperial.fromString(chalets.longueur());
+        Imperial updatedLargeur = Imperial.fromString(chalets.largeur());
+        Imperial updatedHauteur = Imperial.fromString(chalets.hauteur());
+        Imperial updatedEpaisseur = Imperial.fromString(chalets.epaisseurMur());
+        Imperial updatedDeltaRainure = Imperial.fromString(chalets.deltaRainure());
+        Imperial updatedDistanceMin = Imperial.fromString(chalets.distanceMin());
 
-        Imperial updatedLargeur = Optional.ofNullable(newLargeur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultLargeur);
-        Imperial updatedLongueur = Optional.ofNullable(newLongueur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultLongueur);
-        Imperial updatedHauteur = Optional.ofNullable(newHauteur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultHauteur);
-        Imperial updatedEpaisseur = Optional.ofNullable(newEpaisseur).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultEpaisseur);
-        Imperial updatedDeltaRainure = Optional.ofNullable(newDelaRainure).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultDeltaRainure);
-        Imperial updatedDistanceMin = Optional.ofNullable(newDistanceMin).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultDistanceMin);
 
         chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin);
         notifyObservers();
@@ -162,4 +156,7 @@ public class ChaletController implements Observable {
         exportRetrait.export();
     }
 
+    public ChaletDTO getChalet() {
+        return dtoAssembler.toChaletDTO(chalet);
+    }
 }

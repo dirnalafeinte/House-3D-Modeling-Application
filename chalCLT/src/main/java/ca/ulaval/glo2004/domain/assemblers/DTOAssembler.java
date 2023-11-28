@@ -11,8 +11,8 @@ public class DTOAssembler {
                 chalet.getLongueur().toString(),
                 chalet.getHauteur().toString(),
                 chalet.getDeltaRainure().toString(),
-                chalet.getSensDuToit().toString(),
-                chalet.getAngleToit(),
+//                chalet.getSensDuToit().toString(),
+//                chalet.getAngleToit(),
                 chalet.getEpaisseurMur().toString(),
                 chalet.getDistanceMin().toString());
     }

@@ -48,6 +48,10 @@ public abstract class Accessoire extends Drawable {
         return coordonnee;
     }
 
+    public void setCoordonnee(Coordonnee nouvellecoord){
+        this.coordonnee = nouvellecoord;
+        calculateSommets();
+    }
     public Orientation getCote() {
         return mur.getCote();
     }

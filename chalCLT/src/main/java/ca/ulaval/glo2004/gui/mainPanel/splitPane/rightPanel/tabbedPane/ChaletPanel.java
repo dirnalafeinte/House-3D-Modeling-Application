@@ -1,5 +1,7 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
+import ca.ulaval.glo2004.domain.Observer;
+import ca.ulaval.glo2004.domain.dtos.ChaletDTO;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
 import ca.ulaval.glo2004.domain.Chalet;
@@ -12,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class ChaletPanel extends JPanel {
+public class ChaletPanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
     private  Chalet chalet;
 
@@ -20,16 +22,18 @@ public class ChaletPanel extends JPanel {
 
     private JTextField largeurField, longueurField, hauteurField, epaisseurField, deltaRainureField, distanceMinField;
 
+    private ChaletDTO chaletDTO;
+
     public ChaletPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.chalet = chalet;
         init();
-        initDefaultValues();
     }
 
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainWindow.getController().registerObserver(this);
 
         setBorder(BorderFactory.createTitledBorder("Redimentionner Chalet:"));
 
@@ -59,19 +63,8 @@ public class ChaletPanel extends JPanel {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                initDefaultValues();
 
-                Chalet defaultChalet = mainWindow.getController().getDefaultChalet();
-                largeurField.setText(String.valueOf(defaultChalet.getLargeur().toFeet()));
-                longueurField.setText(String.valueOf(defaultChalet.getLongueur().toFeet()));
-                hauteurField.setText(String.valueOf(defaultChalet.getHauteur().toFeet()));
-                epaisseurField.setText(String.valueOf(defaultChalet.getEpaisseurMur().toInches()));
-                deltaRainureField.setText(String.valueOf(defaultChalet.getDeltaRainure().toInches()));
-                distanceMinField.setText(String.valueOf(defaultChalet.getDistanceMin().toInches()));
-
-                errorLabel.setText("");
                 mainWindow.getController().resetChaletDefaut();
-                mainWindow.repaint();
             }
         });
 
@@ -97,65 +90,37 @@ public class ChaletPanel extends JPanel {
 
     }
 
-    private void initDefaultValues() {
-        Chalet defaultChalet = mainWindow.getController().getDefaultChalet();
 
-        largeurField.setText(formatFeet(defaultChalet.getLargeur()));
-        longueurField.setText(formatFeet(defaultChalet.getLongueur()));
-        hauteurField.setText(formatFeet(defaultChalet.getHauteur()));
-        epaisseurField.setText(formatInches(defaultChalet.getEpaisseurMur()));
-        deltaRainureField.setText(formatInches(defaultChalet.getDeltaRainure()));
-        distanceMinField.setText(formatInches(defaultChalet.getDistanceMin()));
-    }
-
-    private String formatFeet(Imperial imperial) {
-        return imperial.toFeet() + "'";
-    }
-
-    private String formatInches(Imperial imperial) {
-        return imperial.toInches() + "''";
-    }
 
     private void addFocusListenerToTextField (JTextField textField) {
         textField.addFocusListener(new FocusAdapter() {
 
             @Override
             public void focusLost(FocusEvent e) {
-                updateField(textField);
+                updateChalet(textField);
             }
         });
     }
 
-    private void updateField (JTextField textField) {
-        String text = textField.getText().trim();
+    private void updateChalet (JTextField textField) {
 
+        String largeur = largeurField.getText();
+        String longueur = longueurField.getText();
+        String hauteur = hauteurField.getText();
+        String epaisseur = epaisseurField.getText();
+        String distanceMin= distanceMinField.getText();
+        String deltaRainure = deltaRainureField.getText();
 
-        if(isValidImperialFormat(text)) {
-            Imperial value = Imperial.fromString(text);
+        ChaletDTO nouveauChalet = new ChaletDTO(largeur, longueur, hauteur,deltaRainure, epaisseur, distanceMin);
 
-//            if (textField == largeurField || textField == longueurField || textField == hauteurField) {
-//                value = value.multiplyBy(12);
-//            }else if (textField == epaisseurField || textField ==  deltaRainureField) {
-//                value = value.divideBy(12);
-//            }
-            System.out.println("Updated value: " + value);
-
-            mainWindow.getController().updateDimensions(
-                    parseDoubleorNull(largeurField.getText()),
-                    parseDoubleorNull(longueurField.getText()),
-                    parseDoubleorNull(hauteurField.getText()),
-                    parseDoubleorNull(epaisseurField.getText()),
-                    parseDoubleorNull(deltaRainureField.getText()),
-                    parseDoubleorNull(distanceMinField.getText())
-
-            );
-            textField.setText(format(value));
-            errorLabel.setText("");
-            mainWindow.repaint();
-
-        }else {
-            errorLabel.setText("Format invalide pour " + textField.getName());
-        }
+        mainWindow.getController().updateDimensions(nouveauChalet);
+//            textField.setText(format(value));
+//            errorLabel.setText("");
+//            mainWindow.repaint();
+//
+//        }else {
+//            errorLabel.setText("Format invalide pour " + textField.getName());
+//        }
 
 
 
@@ -190,6 +155,21 @@ public class ChaletPanel extends JPanel {
         } catch (NumberFormatException e){
             return null;
         }
+    }
+
+    @Override
+    public void update() {
+        chaletDTO = mainWindow.getController().getChalet();
+        updatefields();
+
+    }
+
+    private void updatefields() {
+        largeurField.setText(chaletDTO.largeur());
+        longueurField.setText(chaletDTO.longueur());
+        hauteurField.setText(chaletDTO.hauteur());
+        epaisseurField.setText(chaletDTO.epaisseurMur());
+        distanceMinField.setText(chaletDTO.distanceMin());
     }
 }
 
