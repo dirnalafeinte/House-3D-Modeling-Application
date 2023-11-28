@@ -1,7 +1,12 @@
 package ca.ulaval.glo2004.domain;
 
+
+import ca.ulaval.glo2004.domain.accessoires.Accessoire;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +33,7 @@ public class Chalet {
     private final Pignon pignonGauche = new Pignon(this, false);
     private final Rallonge rallonge = new Rallonge(this);
     private Imperial distanceMin;
+    private ChaletController chaletController;
 
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
@@ -63,17 +69,36 @@ public class Chalet {
 
     void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure) {
 
+        Imperial ratioLargeur = largeur.divide(this.largeur);
+        Imperial ratioHauteur = hauteur.divide(this.hauteur);
+        Imperial ratioLongueur = longueur.divide(this.longueur);
+
+
         this.longueur = longueur;
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
         this.deltaRainure = deltaRainure;
 
+
         for (Mur mur:getMurs()
              ) {
             mur.calculateSommets();
+
+            for(Accessoire accessoire : mur.getAccessoires()) {
+                accessoire.updateCoordonnees();
+                Imperial newCoordX = accessoire.getCoordonnee().getX().multiply(ratioLargeur);
+                Imperial newCoordY = accessoire.getCoordonnee().getY().multiply(ratioHauteur);
+
+                accessoire.getCoordonnee().setX(newCoordX);
+                accessoire.getCoordonnee().setY(newCoordY);
+            }
         }
+
+
+
     }
+
 
     public void resetChaletDefaut() {
         this.largeur = DEFAULT_LARGEUR;
@@ -173,12 +198,9 @@ public class Chalet {
         return toit;
     }
 
-    public List<Drawable> getComposanteVisible(Vue vue) {
-        // TODO
-        return null;
-    }
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
     }
+
 }

@@ -2,6 +2,7 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.gui.MainWindow;
+import ca.ulaval.glo2004.domain.Chalet;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,11 +14,14 @@ import java.awt.event.FocusEvent;
 
 public class ChaletPanel extends JPanel {
     private final MainWindow mainWindow;
+
+    private JLabel errorLabel;
     private JTextField largeurField, longueurField, hauteurField, epaisseurField, deltaRainureField;
 
     public ChaletPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         init();
+        initialiseDefaultValues();
     }
 
     private void init() {
@@ -37,31 +41,12 @@ public class ChaletPanel extends JPanel {
         JLabel deltaRainureLabel = new JLabel("Retrait additonnel");
         deltaRainureField= new JTextField(5);
 
-//        JButton updateButton = new JButton("Update chalet");
 
         addFocusListenerToTextField(largeurField);
         addFocusListenerToTextField(longueurField);
         addFocusListenerToTextField(hauteurField);
         addFocusListenerToTextField(epaisseurField);
         addFocusListenerToTextField(deltaRainureField);
-
-//        updateButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                double largeur = parseDoubleorNull(largeurField.getText());
-//                double longueur = parseDoubleorNull(longueurField.getText());
-//                double hauteur = parseDoubleorNull(hauteurField.getText());
-//                double epaisseur = parseDoubleorNull(epaisseurField.getText());
-//                double deltaRainure = parseDoubleorNull(deltaRainureField.getText());
-//
-////                Chalet defaultChalet = mainWindow.getController().getD
-//
-//
-//                mainWindow.getController().updateDimensions(largeur, longueur, hauteur, epaisseur, deltaRainure);
-//                mainWindow.repaint();
-//            }
-//        });
 
 
 
@@ -70,6 +55,16 @@ public class ChaletPanel extends JPanel {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                initialiseDefaultValues();
+
+                Chalet defaultChalet = mainWindow.getController().getDefaultChalet();
+                largeurField.setText(String.valueOf(defaultChalet.getLargeur().toFeet()));
+                longueurField.setText(String.valueOf(defaultChalet.getLongueur().toFeet()));
+                hauteurField.setText(String.valueOf(defaultChalet.getHauteur().toFeet()));
+                epaisseurField.setText(String.valueOf(defaultChalet.getEpaisseurMur().toInches()));
+                deltaRainureField.setText(String.valueOf(defaultChalet.getDeltaRainure().toInches()));
+
+                errorLabel.setText("");
                 mainWindow.getController().resetChaletDefaut();
                 mainWindow.repaint();
             }
@@ -87,9 +82,32 @@ public class ChaletPanel extends JPanel {
         addComponentToPanel(epaisseurField);
         addComponentToPanel(deltaRainureLabel);
         addComponentToPanel(deltaRainureField);
-//        addComponentToPanel(updateButton);
         addComponentToPanel(resetButton);
+
+        errorLabel = new JLabel("");
+        errorLabel.setForeground(Color.RED);
+        addComponentToPanel(errorLabel);
+
     }
+
+    private void initialiseDefaultValues() {
+        Chalet defaultChalet = mainWindow.getController().getDefaultChalet();
+
+        largeurField.setText(formatFeet(defaultChalet.getLargeur()));
+        longueurField.setText(formatFeet(defaultChalet.getLongueur()));
+        hauteurField.setText(formatFeet(defaultChalet.getHauteur()));
+        epaisseurField.setText(formatInches(defaultChalet.getEpaisseurMur()));
+        deltaRainureField.setText(formatInches(defaultChalet.getDeltaRainure()));
+    }
+
+    private String formatFeet(Imperial imperial) {
+        return imperial.toFeet() + "'";
+    }
+
+    private String formatInches(Imperial imperial) {
+        return imperial.toInches() + "''";
+    }
+
     private void addFocusListenerToTextField (JTextField textField) {
         textField.addFocusListener(new FocusAdapter() {
 
@@ -101,12 +119,21 @@ public class ChaletPanel extends JPanel {
     }
 
     private void updateField (JTextField textField) {
-        double value;
-        if (textField.getText().trim().isEmpty()) {
-            value = getDefaultFieldValue(textField);
-        } else {
-            value = parseDoubleorNull(textField.getText());
+        String text = textField.getText().trim();
+        double value = parseDoubleorNull(text);
+
+//        if (!isValidValue(textField, value)) {
+//            System.out.println("Invalid value: " + textField.getText());
+//            return;
+//        }
+
+        if (textField == largeurField || textField == longueurField || textField == hauteurField) {
+            value *= 12;
+        }else if (textField == epaisseurField || textField ==  deltaRainureField) {
+            value /= 12;
         }
+
+        System.out.println("Updated value: " + value);
 
         mainWindow.getController().updateDimensions(
                 parseDoubleorNull(largeurField.getText()),
@@ -116,31 +143,38 @@ public class ChaletPanel extends JPanel {
                 parseDoubleorNull(deltaRainureField.getText())
         );
 
+        errorLabel.setText("");
         mainWindow.repaint();
     }
 
-    private double getDefaultFieldValue(JTextField textField) {
 
-        if (textField == largeurField){
-            return 10;
-        } else if (textField == longueurField) {
-            return 10;
-        } else if (textField == hauteurField) {
-            return 8;
-        } else if (textField == epaisseurField) {
-            return 1;
-        }else if (textField == deltaRainureField) {
-            return 1;
-        } else {
-            return 0.0;
-        }
-    }
     private void addComponentToPanel(JComponent component) {
         component.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(component);
         this.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
+//    private boolean isValidValue(JTextField textField, double value) {
+//        String text = textField.getText().trim();
+//
+//        if(text.isEmpty()) {
+//            return true;
+//        }
+//
+//        if (text.matches("\\d+'\"")) {
+//            return true;
+//        }
+//
+//        if(text.matches("\\d+\\.?\\d*''")) {
+//            return true;
+//        }
+//
+//        //errorLabel.setText("Veuillez saisir une valeur en feet (') ou inches('') pour les valeurs correspondantes");
+//        return false;
+
+
+
+    //}
     private Double parseDoubleorNull(String value){
         if (value.trim().isEmpty()) {
             return null;

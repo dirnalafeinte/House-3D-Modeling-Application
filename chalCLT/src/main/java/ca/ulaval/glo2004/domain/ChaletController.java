@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.accessoires.Accessoire;
 import ca.ulaval.glo2004.domain.accessoires.Fenetre;
 import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.assemblers.AccessoireAssembler;
@@ -20,7 +21,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+
 public class ChaletController implements Observable {
+
     public Afficheur afficheur;
     private final List<Observer> observers = new ArrayList<>();
     private final AccessoireFactory accessoireFactory = new AccessoireFactory();
@@ -32,6 +36,21 @@ public class ChaletController implements Observable {
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new AfficheurPlan(chalet, Vue.PLAN);
+
+    }
+
+    public Chalet getDefaultChalet() {
+        return chaletFactory.createDefaultChalet();
+    }
+
+    public void resetToDefaultChalet(){
+        chalet.resetChaletDefaut();
+        notifyObservers();
+    }
+
+    public void initializeDefaultValue(){
+        chalet.resetChaletDefaut();
+        notifyObservers();
     }
 
     public void setVue(Vue vue) {
@@ -112,11 +131,12 @@ public class ChaletController implements Observable {
         Imperial defaultDeltaRainure = chalet.getDeltaRainure();
 
 
+
         Imperial updatedLargeur = Optional.ofNullable(newLargeur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultLargeur);
         Imperial updatedLongueur = Optional.ofNullable(newLongueur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultLongueur);
         Imperial updatedHauteur = Optional.ofNullable(newHauteur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultHauteur);
-        Imperial updatedEpaisseur = Optional.ofNullable(newEpaisseur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultEpaisseur);
-        Imperial updatedDeltaRainure = Optional.ofNullable(newDelaRainure).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultDeltaRainure);
+        Imperial updatedEpaisseur = Optional.ofNullable(newEpaisseur).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultEpaisseur);
+        Imperial updatedDeltaRainure = Optional.ofNullable(newDelaRainure).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultDeltaRainure);
 
         chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure);
         notifyObservers();

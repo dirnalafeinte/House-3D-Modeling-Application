@@ -247,11 +247,11 @@ public class Mur extends Drawable {
         return chalet.getLongueur();
     }
 
-    private Imperial getLargeur() {
+    public Imperial getLargeur() {
         return chalet.getLargeur();
     }
 
-    private Imperial getHauteur() {
+    public Imperial getHauteur() {
         return chalet.getHauteur();
     }
 

@@ -20,6 +20,16 @@ public class Porte extends Accessoire {
     }
 
     @Override
+    public void updateCoordonnees() {
+        Imperial nouvelleLargeurMur = mur.getLargeur();
+        Imperial nouvelleHauteurMur  = mur.getHauteur();
+
+        //super.updateCoordonnees(nouvelleLargeurMur, nouvelleHauteurMur);
+
+
+    }
+
+    @Override
     public void validate() {
         if (!mur.contains(this)) {
             isValid = false;

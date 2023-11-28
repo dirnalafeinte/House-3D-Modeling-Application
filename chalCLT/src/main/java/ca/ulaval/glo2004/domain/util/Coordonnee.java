@@ -20,8 +20,17 @@ public class Coordonnee {
         return x;
     }
 
+
     public Imperial getY() {
         return y;
+    }
+
+    public Coordonnee setX(Imperial newX) {
+        return new Coordonnee(newX, y);
+    }
+
+    public Coordonnee setY(Imperial newY) {
+        return new Coordonnee(x, newY);
     }
 }
 
