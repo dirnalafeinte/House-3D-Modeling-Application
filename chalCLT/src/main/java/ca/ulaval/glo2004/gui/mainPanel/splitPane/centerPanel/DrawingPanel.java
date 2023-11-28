@@ -15,20 +15,20 @@ public class DrawingPanel extends JPanel implements Observer {
     private static final double HEIGHT_RATIO = 1;
     private final MainWindow mainWindow;
     private final ZoomHandler zoomHandler;
-    private final PanningHandler panningHandler;
+    //private final PanningHandler panningHandler;
 
 
     public DrawingPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         zoomHandler = new ZoomHandler(mainWindow);
-        panningHandler = new PanningHandler(mainWindow);
+        //panningHandler = new PanningHandler(mainWindow);
         init();
     }
 
     private void init() {
         this.setLayout(new FlowLayout());
         addMouseWheelListener(zoomHandler);
-        addMouseMotionListener(panningHandler);
+        //addMouseMotionListener(panningHandler);
         setBackground(BACKGROUD_COLOR);
 
         mainWindow.getController().registerObserver(this);
