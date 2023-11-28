@@ -81,8 +81,7 @@ public class Chalet {
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
 
-        for (Mur mur:getMurs()
-             ) {
+        for (Mur mur:getMurs()) {
             mur.calculateSommets();
 
             for (Accessoire accessoire : mur.getAccessoires()) {
@@ -101,6 +100,7 @@ public class Chalet {
 
                 accessoire.updateCoordonnee(newCoordX, newCoordY);
             }
+            mur.getAccessoires().forEach(Accessoire::validate);
         }
     }
 

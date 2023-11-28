@@ -44,6 +44,18 @@ public class ExportFini extends Export {
                 case D:
                     writeStlForD(writer);
                     break;
+                //case PD:
+                //    writeStlForPD(writer);
+                //    break;
+                //case PG:
+                //    writeStlForPG(writer);
+                //    break;
+                //case R:
+                //    writeStlForR(writer);
+                //    break;
+                //case T:
+                //    writeStlForT(writer);
+                //    break;
             }
         }
     }
