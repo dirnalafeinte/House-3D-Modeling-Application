@@ -28,7 +28,7 @@ public class ExportFiniMenuItem extends JMenuItem {
                 int userSelection = fileChooser.showSaveDialog(mainWindow);
 
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    File selectedDirectory = fileChooser.getCurrentDirectory();
+                    File selectedDirectory = fileChooser.getSelectedFile();
                     mainWindow.getController().exportPanneauxFinis(selectedDirectory.getPath());
                 } else if (userSelection == JFileChooser.CANCEL_OPTION) {
                     // User canceled the operation
