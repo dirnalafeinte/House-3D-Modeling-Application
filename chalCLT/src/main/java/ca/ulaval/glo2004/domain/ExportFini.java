@@ -136,11 +136,21 @@ public class ExportFini extends Export {
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         writer.write("solid Panneau F\n");
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
         }
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            if (rectangle.get(0).getX().toInches() <= chalet.getDeltaRainure().toInches()) {
+                writeStlForFace(writer, chalet.getDeltaRainure().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches()+5, normalAvant);
+            }
+            else if (rectangle.get(1).getX().toInches() > (chalet.getLargeur().toInches() - chalet.getDeltaRainure().toInches())) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),chalet.getLargeur().toInches()-chalet.getDeltaRainure().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches()+5, normalAvant);
+            }
+        }
+
         for (ArrayList<Coordonnee> rectangle : rectangles) {
             writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
         }
+
         for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
@@ -148,6 +158,7 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
+
         writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
         writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
@@ -212,7 +223,7 @@ public class ExportFini extends Export {
             writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
             writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
         }
-        for(int i=0; i<chalet.getMurByOrientation(Orientation.FACADE).getAccessoires().size();i++){
+        for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
