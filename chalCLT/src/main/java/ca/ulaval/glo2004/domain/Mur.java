@@ -145,10 +145,10 @@ public class Mur extends Drawable {
         sommetsPlan.add(new Coordonnee(getDistanceStartMur(), getLargeur()));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()), getLargeur()));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()), getLargeur().subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur()), getLargeur().subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur()), getLargeur().subtract(getEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getSmallEpaisseur()), getLargeur().subtract(getEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getSmallEpaisseur()), getLargeur().subtract(getSmallEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur()), getLargeur().subtract(getSmallEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur()), getLargeur().subtract(getEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getBigEpaisseur()), getLargeur().subtract(getEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getBigEpaisseur()), getLargeur().subtract(getSmallEpaisseur())));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur(), getLargeur().subtract(getSmallEpaisseur())));
         sommetsByVue.put(Vue.PLAN, sommetsPlan);
     }
@@ -158,10 +158,10 @@ public class Mur extends Drawable {
         sommetsPlan.add(new Coordonnee(getDistanceStartMur(), new Imperial()));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()), new Imperial()));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()), getSmallEpaisseur()));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur()), getSmallEpaisseur()));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur()), getEpaisseur()));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getSmallEpaisseur()), getEpaisseur()));
-        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getSmallEpaisseur()), getSmallEpaisseur()));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur()), getSmallEpaisseur()));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur()), getEpaisseur()));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getBigEpaisseur()), getEpaisseur()));
+        sommetsPlan.add(new Coordonnee(getDistanceStartMur().add(getBigEpaisseur()), getSmallEpaisseur()));
         sommetsPlan.add(new Coordonnee(getDistanceStartMur(), getSmallEpaisseur()));
         sommetsByVue.put(Vue.PLAN, sommetsPlan);
     }
@@ -171,10 +171,10 @@ public class Mur extends Drawable {
         sommetsPlan.add(new Coordonnee(new Imperial(), getDistanceStartMur()));
         sommetsPlan.add(new Coordonnee(new Imperial(), getDistanceStartMur().add(getLongueurMur())));
         sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur().add(getLongueurMur())));
-        sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getEpaisseur(), getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getEpaisseur(), getDistanceStartMur().add(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur().add(getSmallEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getEpaisseur(), getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getEpaisseur(), getDistanceStartMur().add(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur().add(getBigEpaisseur())));
         sommetsPlan.add(new Coordonnee(getSmallEpaisseur(), getDistanceStartMur()));
         sommetsByVue.put(Vue.PLAN, sommetsPlan);
     }
@@ -184,10 +184,10 @@ public class Mur extends Drawable {
         sommetsPlan.add(new Coordonnee(getLongueur(), getDistanceStartMur()));
         sommetsPlan.add(new Coordonnee(getLongueur(), getDistanceStartMur().add(getLongueurMur())));
         sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur().add(getLongueurMur())));
-        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getEpaisseur()), getDistanceStartMur().add(getLongueurMur()).subtract(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getEpaisseur()), getDistanceStartMur().add(getSmallEpaisseur())));
-        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur().add(getSmallEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getEpaisseur()), getDistanceStartMur().add(getLongueurMur()).subtract(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getEpaisseur()), getDistanceStartMur().add(getBigEpaisseur())));
+        sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur().add(getBigEpaisseur())));
         sommetsPlan.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), getDistanceStartMur()));
         sommetsByVue.put(Vue.PLAN, sommetsPlan);
     }
@@ -196,7 +196,7 @@ public class Mur extends Drawable {
         if (isCoteLong()) {
             return getLongueurCote();
         } else {
-            return getLongueurCote().subtract(getEpaisseur());
+            return getLongueurCote().subtract(getEpaisseur()).subtract(chalet.getDeltaRainure());
         }
     }
 
@@ -204,7 +204,7 @@ public class Mur extends Drawable {
         if (isCoteLong()) {
             return new Imperial();
         } else {
-            return getSmallEpaisseur();
+            return getBigEpaisseur();
         }
     }
 
