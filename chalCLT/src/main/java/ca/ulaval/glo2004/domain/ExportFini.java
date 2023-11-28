@@ -135,20 +135,13 @@ public class ExportFini extends Export {
         Mur mur = chalet.getMurByOrientation(Orientation.FACADE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         writer.write("solid Panneau F\n");
+        double premiereEpaisseurDuMurRainure= 1; //TODO: changer pour la bonne valeur
         for (ArrayList<Coordonnee> rectangle : rectangles) {
                 writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
         }
-        for (ArrayList<Coordonnee> rectangle : rectangles) {
-            if (rectangle.get(0).getX().toInches() <= chalet.getDeltaRainure().toInches()) {
-                writeStlForFace(writer, chalet.getDeltaRainure().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches()+5, normalAvant);
-            }
-            else if (rectangle.get(1).getX().toInches() > (chalet.getLargeur().toInches() - chalet.getDeltaRainure().toInches())) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(),chalet.getLargeur().toInches()-chalet.getDeltaRainure().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches()+5, normalAvant);
-            }
-        }
 
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
         }
 
         for(int i=0; i<mur.getAccessoires().size();i++){
@@ -159,11 +152,36 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
-        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
-        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
-        //TODO: Rainure je suis perdu
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
+
+        //Rainure
+        double distanceXRainure= 1;//TODO:Changer pour la bonne largeur de rainure sur x
+        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+
+
+            if (rectangle.get(0).getX().toInches() < distanceXRainure) {
+                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){
+                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+                else{
+                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+            }
+            else if (rectangle.get(1).getX().toInches() > (chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches())) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+            else {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+        }
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
 
         writer.write("endsolid Panneau F\n");
     }
@@ -173,10 +191,15 @@ public class ExportFini extends Export {
         Mur mur = chalet.getMurByOrientation(Orientation.ARRIERE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         writer.write("solid Panneau F\n");
+        double premiereEpaisseurDuMurRainure= 1; //TODO: changer pour la bonne valeur 
         for (ArrayList<Coordonnee> rectangle : rectangles) {
             writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
         }
+
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
+        }
+
         for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
@@ -184,10 +207,37 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
-        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
-        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
+
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
+
+        //Rainure
+        double distanceXRainure= 1;//TODO:Changer pour la bonne largeur de rainure sur x
+        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+
+
+            if (rectangle.get(0).getX().toInches() < distanceXRainure) {
+                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){
+                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+                else{
+                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+            }
+            else if (rectangle.get(1).getX().toInches() > (chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches())) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+            else {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+        }
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
         writer.write("endsolid Panneau F\n");
     }
 
@@ -207,6 +257,7 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
+        //TODO: Changer les cotés et les up and down pour les murs + rainure
         writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
         writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);
@@ -230,6 +281,7 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
+        //TODO: Changer les cotés et les up and down pour les murs + rainure
         writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
         writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, 0, chalet.getEpaisseurMur().toInches(), normalHaut);

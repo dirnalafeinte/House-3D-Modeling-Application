@@ -64,20 +64,35 @@ public class ExportRetrait extends Export {
     @Override
     protected void writeStlForF(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.FACADE);
-
+        writer.write("solid Panneau F\n");
         for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
-            writer.write("solid Panneau F\n");
             writeStlForFace(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, normalAvant);
             writeStlForFace(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalHaut);
             writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalBas);
             writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
-            writer.write("endsolid Panneau F\n");
         }
 
-
+        /* Ébauche de la rainure
+        double rainureEpaisseur= 1; //TODO:Changer pour l'epaisseur de la rainure
+        //rainure 1
+        writeStlForFace(writer, 0, rainureEpaisseur,0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches()-rainureEpaisseur, normalAvant);
+        writeStlForFace(writer, 0, rainureEpaisseur,0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), normalArriere);
+        writeStlForUpAndDown(writer, 0, rainureEpaisseur, 0, 0, rainureEpaisseur, normalHaut);
+        writeStlForUpAndDown(writer, 0, rainureEpaisseur, chalet.getHauteur().toInches(), 0, rainureEpaisseur, normalBas);
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, rainureEpaisseur, normalGauche);
+        writeStlForCote(writer, rainureEpaisseur, 0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches()-rainureEpaisseur, chalet.getEpaisseurMur().toInches(), normalDroite);
+        //rainure 2
+        writeStlForFace(writer, chalet.getLargeur().toInches()-rainureEpaisseur, chalet.getLargeur().toInches(),0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches()-rainureEpaisseur, normalAvant);
+        writeStlForFace(writer, chalet.getLargeur().toInches()-rainureEpaisseur, chalet.getLargeur().toInches(),0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+        writeStlForUpAndDown(writer, chalet.getLargeur().toInches()-rainureEpaisseur, chalet.getLargeur().toInches(), 0, 0, rainureEpaisseur, normalHaut);
+        writeStlForUpAndDown(writer, chalet.getLargeur().toInches()-rainureEpaisseur, chalet.getLargeur().toInches(), chalet.getHauteur().toInches(), 0, rainureEpaisseur, normalBas);
+        writeStlForCote(writer, chalet.getLargeur().toInches()-rainureEpaisseur, 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches()-rainureEpaisseur, normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches(), 0, chalet.getHauteur().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+        */
+        writer.write("endsolid Panneau F\n");
     }
 
     @Override
