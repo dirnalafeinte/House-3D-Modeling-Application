@@ -44,18 +44,6 @@ public class ExportFini extends Export {
                 case D:
                     writeStlForD(writer);
                     break;
-                case T:
-                    writeStlForT(writer);
-                    break;
-                case R:
-                    writeStlForR(writer);
-                    break;
-                case PG:
-                    writeStlForPG(writer);
-                    break;
-                case PD:
-                    writeStlForPD(writer);
-                    break;
             }
         }
     }
@@ -378,22 +366,22 @@ public class ExportFini extends Export {
     }
 
 
-    protected void writeStlForT(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau T");
-    }
-
-
-    protected void writeStlForR(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau R");
-    }
-
-
-    protected void writeStlForPG(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau PG");
-    }
-
-
-    protected void writeStlForPD(FileWriter writer) throws IOException {
-        writer.write("STL data for Panneau PD");
-    }
+//    protected void writeStlForT(FileWriter writer) throws IOException {
+//        writer.write("STL data for Panneau T");
+//    }
+//
+//
+//    protected void writeStlForR(FileWriter writer) throws IOException {
+//        writer.write("STL data for Panneau R");
+//    }
+//
+//
+//    protected void writeStlForPG(FileWriter writer) throws IOException {
+//        writer.write("STL data for Panneau PG");
+//    }
+//
+//
+//    protected void writeStlForPD(FileWriter writer) throws IOException {
+//        writer.write("STL data for Panneau PD");
+//    }
 }
