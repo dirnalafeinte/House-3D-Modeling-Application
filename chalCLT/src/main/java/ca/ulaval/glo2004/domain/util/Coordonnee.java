@@ -25,6 +25,12 @@ public class Coordonnee {
         return y;
     }
 
+    public Imperial getDistanceFrom(Coordonnee that) {
+        Imperial deltaX = x.subtract(that.y);
+        Imperial deltaY = y.subtract(that.y);
+        return (deltaX.pow(2).add(deltaY.pow(2))).sqrt();
+    }
+
     public Coordonnee setX(Imperial newX) {
         return new Coordonnee(newX, y);
     }

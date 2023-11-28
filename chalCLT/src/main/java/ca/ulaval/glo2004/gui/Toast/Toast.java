@@ -1,5 +1,6 @@
-package ca.ulaval.glo2004.gui;
+package ca.ulaval.glo2004.gui.Toast;
 
+import ca.ulaval.glo2004.gui.MainWindow;
 import ca.ulaval.glo2004.gui.action.FadeOutToastAction;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class Toast extends JWindow {
         messageLabel.setVerticalAlignment(JLabel.CENTER);
         add(messageLabel);
 
-        int x = (int) (mainWindow.getLocation().getX() + (mainWindow.getWidth() / 2));
+        int x = (int) (mainWindow.getLocation().getX() + (mainWindow.getWidth() / 2) - (getWidth() / 2));
         int y = (int) (mainWindow.getLocation().getY() + mainWindow.getHeight() - DISTANCE_FROM_BOTTOM);
         setLocation(new Point(x, y));
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), TOAST_RADIUS, TOAST_RADIUS));

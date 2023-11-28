@@ -3,7 +3,7 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.centerPanel;
 import ca.ulaval.glo2004.domain.Observer;
 import ca.ulaval.glo2004.domain.drawers.Afficheur;
 import ca.ulaval.glo2004.gui.MainWindow;
-import ca.ulaval.glo2004.gui.mouse.MouseListener;
+import ca.ulaval.glo2004.gui.mouse.PanningHandler;
 import ca.ulaval.glo2004.gui.mouse.ZoomHandler;
 
 import javax.swing.*;
@@ -15,20 +15,20 @@ public class DrawingPanel extends JPanel implements Observer {
     private static final double HEIGHT_RATIO = 1;
     private final MainWindow mainWindow;
     private final ZoomHandler zoomHandler;
-    private final MouseListener mouseListener;
+    private final PanningHandler panningHandler;
 
 
     public DrawingPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         zoomHandler = new ZoomHandler(mainWindow);
-        mouseListener = new MouseListener(mainWindow);
+        panningHandler = new PanningHandler(mainWindow);
         init();
     }
 
     private void init() {
         this.setLayout(new FlowLayout());
         addMouseWheelListener(zoomHandler);
-        addMouseListener(mouseListener);
+        addMouseMotionListener(panningHandler);
         setBackground(BACKGROUD_COLOR);
 
         mainWindow.getController().registerObserver(this);
@@ -54,6 +54,7 @@ public class DrawingPanel extends JPanel implements Observer {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.scale(afficheur().getZoomFactor(), afficheur().getZoomFactor());
         g2d.translate(afficheur().getxOffset(), afficheur().getyOffset());
+        g2d.translate(afficheur().getxChalet(), afficheur().getyChalet());
         mainWindow.getController().afficheur.draw(g2d);
         g2d.dispose();
     }

@@ -17,8 +17,8 @@ public abstract class Afficheur {
     protected double lastZoomFactor = 1.0;
     protected double xOffset = 240;
     protected double yOffset = 100;
-    protected int yChalet = 0;
-    protected int xChalet = 0;
+    protected double yChalet = 0;
+    protected double xChalet = 0;
 
 
     public Afficheur(Chalet chalet, Vue vue) {
@@ -39,11 +39,11 @@ public abstract class Afficheur {
     }
 
     private int[] getScaledSommetsX(List<Coordonnee> sommets) {
-        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel((coordonnee.getX().toInches())) + xChalet)).toArray();
+        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel(coordonnee.getX().toInches()))).toArray();
     }
 
     private int[] getScaledSommetsY(List<Coordonnee> sommets) {
-        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel((coordonnee.getY().toInches())) + yChalet)).toArray();
+        return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel(coordonnee.getY().toInches()))).toArray();
     }
 
     public double getZoomFactor() {
@@ -79,7 +79,7 @@ public abstract class Afficheur {
         return yChalet;
     }
 
-    public void setyChalet(int yChalet) {
+    public void setyChalet(double yChalet) {
         this.yChalet = yChalet;
     }
 
@@ -87,7 +87,7 @@ public abstract class Afficheur {
         return xChalet;
     }
 
-    public void setxChalet(int xChalet) {
+    public void setxChalet(double xChalet) {
         this.xChalet = xChalet;
     }
 

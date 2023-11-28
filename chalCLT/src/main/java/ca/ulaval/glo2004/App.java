@@ -1,7 +1,7 @@
 package ca.ulaval.glo2004;
 
-import ca.ulaval.glo2004.gui.ExceptionHandler;
 import ca.ulaval.glo2004.gui.MainWindow;
+import ca.ulaval.glo2004.gui.Toast.ExceptionHandler;
 
 import javax.swing.*;
 

@@ -3,8 +3,11 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 import ca.ulaval.glo2004.domain.Observer;
 import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.AddPorteDTO;
+import ca.ulaval.glo2004.domain.dtos.FenetreDTO;
 import ca.ulaval.glo2004.domain.dtos.PorteDTO;
+import ca.ulaval.glo2004.domain.error.exceptions.IllegalPorteException;
 import ca.ulaval.glo2004.gui.MainWindow;
+import ca.ulaval.glo2004.gui.Toast.Toast;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,11 +94,14 @@ public class PortePanel extends JPanel implements Observer {
                 String largeur = largeurField.getText();
                 String hauteur = hauteurField.getText();
                 String orientation = orientationComboBox.getSelectedItem().toString();
-                AddPorteDTO porteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
+                AddPorteDTO addPorteDTO = new AddPorteDTO(largeur, hauteur, coordonneX, orientation);
                 xField.setText("");
                 largeurField.setText("");
                 hauteurField.setText("");
-                mainWindow.getController().addPorte(porteDTO);
+                PorteDTO porteDTO = mainWindow.getController().addPorte(addPorteDTO);
+                if (!porteDTO.state().isValid()) {
+                    throw new IllegalPorteException(porteDTO.state().errorMessage());
+                }
             }
         });
 
@@ -152,12 +158,15 @@ public class PortePanel extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = idComboBox.getSelectedItem().toString();
-                PorteDTO oldPorte = portes.get(id);
+                PorteDTO oldPortDTO = portes.get(id);
                 String coordonneX = modifierXField.getText();
                 String largeur = modifierLargeurField.getText();
                 String hauteur = modifierHauteurField.getText();
-                PorteDTO porte = new PorteDTO(id, largeur, hauteur, coordonneX, oldPorte.orientation());
-                mainWindow.getController().modifyPorte(porte);
+                PorteDTO modifiedPorteDTO = new PorteDTO(id, largeur, hauteur, coordonneX, oldPortDTO.orientation(), oldPortDTO.state());
+                PorteDTO newPorteDTO = mainWindow.getController().modifyPorte(modifiedPorteDTO);
+                if (!newPorteDTO.state().isValid()) {
+                    throw new IllegalPorteException(newPorteDTO.state().errorMessage());
+                }
             }
         });
         supprimer.addActionListener(new ActionListener() {

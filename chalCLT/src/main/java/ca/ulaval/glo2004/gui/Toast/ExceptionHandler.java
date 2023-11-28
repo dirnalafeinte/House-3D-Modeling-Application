@@ -1,4 +1,6 @@
-package ca.ulaval.glo2004.gui;
+package ca.ulaval.glo2004.gui.Toast;
+
+import ca.ulaval.glo2004.gui.MainWindow;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final MainWindow mainWindow;

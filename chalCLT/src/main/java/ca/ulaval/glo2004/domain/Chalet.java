@@ -6,6 +6,7 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class Chalet {
         mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
-    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure) {
+    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -87,11 +88,27 @@ public class Chalet {
 
             for(Accessoire accessoire : mur.getAccessoires()) {
                 accessoire.updateCoordonnees();
-                Imperial newCoordX = accessoire.getCoordonnee().getX().multiply(ratioLargeur);
-                Imperial newCoordY = accessoire.getCoordonnee().getY().multiply(ratioHauteur);
+                Imperial coordPrecendenteX = accessoire.getCoordonnee().getX();
+                Imperial coordPrecendentey = accessoire.getCoordonnee().getY();
 
-                accessoire.getCoordonnee().setX(newCoordX);
-                accessoire.getCoordonnee().setY(newCoordY);
+                Imperial newCoordX = accessoire.getCoordonnee().getX();
+                Imperial newCoordY = accessoire.getCoordonnee().getY();
+
+                if (mur.getCote(). equals(Orientation.FACADE) || mur.getCote().equals(Orientation.ARRIERE)) {
+
+                    newCoordX = newCoordX.multiply(ratioLongueur);
+                    newCoordY = newCoordY.multiply(ratioHauteur);
+                } else {
+                    newCoordX = newCoordX.multiply(ratioLargeur);
+                    newCoordY = newCoordY.multiply(ratioHauteur);
+                }
+
+                Imperial deltaX = newCoordX.subtract(coordPrecendenteX);
+                Imperial deltaY = newCoordY.subtract(coordPrecendentey);
+
+                accessoire.deplacer(deltaX, deltaY);
+//                accessoire.getCoordonnee().setX(newCoordX);
+//                accessoire.getCoordonnee().setY(newCoordY);
             }
         }
 
@@ -112,7 +129,7 @@ public class Chalet {
 
 
 
-        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR, DEFAULT_DELTA_RAINURE);
+        recalculerChalet(DEFAULT_LONGUEUR, DEFAULT_LARGEUR, DEFAULT_HAUTEUR, DEFAULT_EPAISSEUR_MUR, DEFAULT_DELTA_RAINURE, DEFAULT_DISTANCE_MIN);
     }
 
     public Imperial getLargeur() {

@@ -1,6 +1,6 @@
 package ca.ulaval.glo2004.gui.action;
 
-import ca.ulaval.glo2004.gui.Toast;
+import ca.ulaval.glo2004.gui.Toast.Toast;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

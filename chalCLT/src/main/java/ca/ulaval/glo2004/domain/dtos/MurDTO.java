@@ -1,4 +1,6 @@
 package ca.ulaval.glo2004.domain.dtos;
 
-public record MurDTO(String id, String cote) {
+import ca.ulaval.glo2004.domain.DrawableState;
+
+public record MurDTO(String id, String cote, DrawableState state) {
 }

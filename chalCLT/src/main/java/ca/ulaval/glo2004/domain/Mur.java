@@ -34,7 +34,7 @@ public class Mur extends Drawable {
 
     @Override
     public Color getColor() {
-        return isValid ? isCoteLong() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
+        return state.isValid() ? isCoteLong() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
     }
 
     public boolean contains(Accessoire that) {
@@ -46,21 +46,18 @@ public class Mur extends Drawable {
         return isLeft && isRight && isTop && isBottom;
     }
 
-    public Imperial getMinDistance(Fenetre that) {
+    public boolean isMinDistance(Accessoire that) {
         Imperial distanceTop = getHauteur().subtract(that.getTopEdge()).abs();
         Imperial distanceBottom = (new Imperial()).subtract(that.getBottomEdge()).abs();
-        Imperial distanceLeft = getDistanceStartMur().subtract(that.getLeftEdge()).abs();
-        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getRightEdge()).abs();
+        Imperial distanceY = Imperial.min(distanceTop, distanceBottom);
+        boolean isMinDistanceY = distanceY.greaterOrEquals(chalet.getDistanceMin());
 
-        return Imperial.min(Imperial.min(distanceTop, distanceBottom), Imperial.min(distanceLeft, distanceRight));
-    }
+        Imperial distanceLeft = (new Imperial()).subtract(that.getLeftEdge()).abs();
+        Imperial distanceRight = getLongueurCote().subtract(that.getRightEdge()).abs();
+        Imperial distanceX = Imperial.min(distanceLeft, distanceRight);
+        boolean isMinDistanceX = distanceX.greaterOrEquals(chalet.getEpaisseurMur().add(chalet.getDistanceMin()));
 
-    public Imperial getMinDistance(Porte that) {
-        Imperial distanceTop = getHauteur().subtract(that.getTopEdge()).abs();
-        Imperial distanceLeft = getDistanceStartMur().subtract(that.getLeftEdge()).abs();
-        Imperial distanceRight = getDistanceStartMur().add(getLongueurMur()).subtract(that.getRightEdge()).abs();
-
-        return Imperial.min(distanceTop, Imperial.min(distanceLeft, distanceRight));
+        return isMinDistanceX && isMinDistanceY;
     }
 
     public Orientation getCote() {
@@ -257,13 +254,11 @@ public class Mur extends Drawable {
 
     public void addAccessoire(Accessoire accessoire) {
         accessoiresById.put(accessoire.getId(), accessoire);
-        accessoire.validate();
         accessoiresById.values().forEach(Accessoire::validate);
     }
 
     public void modifyAccessoire(Accessoire accessoire) {
         accessoiresById.replace(accessoire.getId(), accessoire);
-        accessoire.validate();
         accessoiresById.values().forEach(Accessoire::validate);
     }
 

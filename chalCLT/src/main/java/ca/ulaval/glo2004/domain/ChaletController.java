@@ -61,26 +61,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void addPorte(AddPorteDTO addPorteDTO)  {
+    public PorteDTO addPorte(AddPorteDTO addPorteDTO)  {
         Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
-        } catch (IllegalPorteException exception) {
-            throw new IllegalPorteException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
+        notifyObservers();
+        return dtoAssembler.toPorteDTO(porte);
     }
 
-    public void addFenetre(AddFenetreDTO addFenetreDTO) {
+    public FenetreDTO addFenetre(AddFenetreDTO addFenetreDTO) {
         Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
-        } catch (IllegalFenetreException exception) {
-            throw new IllegalFenetreException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
+        notifyObservers();
+        return dtoAssembler.toFenetreDTO(fenetre);
     }
 
     public void deleteFenetre(FenetreDTO fenetreDTO) {
@@ -93,26 +85,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
-    public void modifyPorte(PorteDTO porteDTO) {
+    public PorteDTO modifyPorte(PorteDTO porteDTO) {
         Porte porte = accessoireAssembler.toPorte(porteDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
-        } catch (IllegalPorteException exception) {
-            throw new IllegalPorteException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
+        notifyObservers();
+        return dtoAssembler.toPorteDTO(porte);
     }
 
-    public void modifyFenetre(FenetreDTO fenetreDTO) {
+    public FenetreDTO modifyFenetre(FenetreDTO fenetreDTO) {
         Fenetre fenetre = accessoireAssembler.toFenetre(fenetreDTO, chalet);
-        try {
-            chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
-        } catch (IllegalFenetreException exception) {
-            throw new IllegalFenetreException(exception.getMessage());
-        } finally {
-            notifyObservers();
-        }
+        chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
+        notifyObservers();
+        return dtoAssembler.toFenetreDTO(fenetre);
     }
 
     public Map<String, PorteDTO> getPortesById() {
@@ -123,13 +107,13 @@ public class ChaletController implements Observable {
 
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
-    public void updateDimensions(double newLargeur, double newLongueur, double newHauteur, double newEpaisseur, double newDelaRainure) {
+    public void updateDimensions(double newLargeur, double newLongueur, double newHauteur, double newEpaisseur, double newDelaRainure, double newDistanceMin) {
         Imperial defaultLargeur = chalet.getLargeur();
         Imperial defaultLongueur = chalet.getLongueur();
         Imperial defaultHauteur = chalet.getHauteur();
         Imperial defaultEpaisseur = chalet.getEpaisseurMur();
         Imperial defaultDeltaRainure = chalet.getDeltaRainure();
-
+        Imperial defaultDistanceMin = chalet.getDistanceMin();
 
 
         Imperial updatedLargeur = Optional.ofNullable(newLargeur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultLargeur);
@@ -137,8 +121,9 @@ public class ChaletController implements Observable {
         Imperial updatedHauteur = Optional.ofNullable(newHauteur).map(value -> Imperial.fromFeet(value.intValue())).orElse(defaultHauteur);
         Imperial updatedEpaisseur = Optional.ofNullable(newEpaisseur).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultEpaisseur);
         Imperial updatedDeltaRainure = Optional.ofNullable(newDelaRainure).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultDeltaRainure);
+        Imperial updatedDistanceMin = Optional.ofNullable(newDistanceMin).map(value -> Imperial.fromInches(value.intValue())).orElse(defaultDistanceMin);
 
-        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure);
+        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin);
         notifyObservers();
     }
 
@@ -162,17 +147,17 @@ public class ChaletController implements Observable {
         }
     }
 
-    public void exportPanneauxBruts(String path){
+    public void exportPanneauxBruts(String path) {
         ExportBrut exportBrut = new ExportBrut(chalet, path);
         exportBrut.export();
     }
 
-    public void exportPanneauxFinis(String path){
+    public void exportPanneauxFinis(String path) {
         ExportFini exportFini = new ExportFini(chalet, path);
         exportFini.export();
     }
 
-    public void exportRetraits(String path){
+    public void exportRetraits(String path) {
         ExportRetrait exportRetrait = new ExportRetrait(chalet, path);
         exportRetrait.export();
     }
