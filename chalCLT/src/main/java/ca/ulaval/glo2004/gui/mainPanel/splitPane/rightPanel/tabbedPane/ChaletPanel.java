@@ -111,7 +111,6 @@ public class ChaletPanel extends JPanel implements Observer {
         ChaletDTO nouveauChalet = new ChaletDTO(largeur, longueur, hauteur, deltaRainure, epaisseur, distanceMin);
 
         mainWindow.getController().updateDimensions(nouveauChalet);
-
     }
 
     private void addComponentToPanel(JComponent component) {

@@ -79,6 +79,7 @@ public class Chalet {
         this.hauteur = hauteur;
         this.epaisseurMur = epaisseur;
         this.deltaRainure = deltaRainure;
+        this.distanceMin = distanceMin;
 
         for (Mur mur:getMurs()
              ) {
