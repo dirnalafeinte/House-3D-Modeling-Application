@@ -30,4 +30,8 @@ public class TopPanel extends JPanel {
         add(topCenterPanel);
         add(topRightPanel);
     }
+
+    public TopRightPanel getTopRightPanel() {
+        return topRightPanel;
+    }
 }

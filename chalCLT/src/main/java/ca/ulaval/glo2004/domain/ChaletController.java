@@ -28,7 +28,6 @@ public class ChaletController implements Observable {
     private final DTOAssembler dtoAssembler = new DTOAssembler();
     private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
     private Chalet chalet;
-
     private ChaletDTO chaletDTO;
 
     public ChaletController() {

@@ -51,17 +51,26 @@ public class DrawingPanel extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        afficherGrille(g);
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.scale(afficheur().getZoomFactor(), afficheur().getZoomFactor());
         g2d.translate(afficheur().getxOffset(), afficheur().getyOffset());
         g2d.translate(afficheur().getxChalet(), afficheur().getyChalet());
-        mainWindow.getController().afficheur.draw(g2d);
+        afficheur().draw(g2d);
         g2d.dispose();
     }
 
     @Override
     public void update() {
         repaint();
+    }
+
+    private void afficherGrille(Graphics g2d) {
+        boolean isGrille = mainWindow.getMainPanel().getTopPanel().getTopRightPanel().isGrille();
+
+        if (isGrille) {
+            afficheur().drawGrille(g2d, getWidth(), getHeight());
+        }
     }
 
     private Afficheur afficheur(){

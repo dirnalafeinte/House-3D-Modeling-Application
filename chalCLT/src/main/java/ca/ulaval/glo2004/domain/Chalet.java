@@ -191,4 +191,7 @@ public class Chalet {
         return mursByOrientation.get(orientation);
     }
 
+    public ChaletController getChaletController() {
+        return chaletController;
+    }
 }

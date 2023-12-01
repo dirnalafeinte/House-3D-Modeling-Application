@@ -5,7 +5,6 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 public abstract class Afficheur {
@@ -19,6 +18,7 @@ public abstract class Afficheur {
     protected double yOffset = 100;
     protected double yChalet = 0;
     protected double xChalet = 0;
+    protected int intervalLigne = 30;
 
 
     public Afficheur(Chalet chalet, Vue vue) {
@@ -45,6 +45,30 @@ public abstract class Afficheur {
     private int[] getScaledSommetsY(List<Coordonnee> sommets) {
         return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel(coordonnee.getY().toInches()))).toArray();
     }
+
+    public void drawGrille(Graphics g, int largeur, int hauteur)
+    {
+        g.setColor(Color.LIGHT_GRAY);
+
+        for (int x = 0; x < largeur; x += intervalLigne) {
+            g.drawLine(x, 0, x, hauteur);
+        }
+
+        for (int y = 0; y < hauteur; y += intervalLigne) {
+            g.drawLine(0, y, largeur, y);
+        }
+    }
+
+
+//    public void Draw(Graphics2D g)
+//    {
+//        if ()
+//        afficherGrille(g, 30);
+//
+//        g.setStroke(new BasicStroke(3));
+//
+//        g.setColor(Color.BLACK);
+//    }
 
     public double getZoomFactor() {
         return zoomFactor;

@@ -28,4 +28,8 @@ public class MainPanel extends JPanel {
     public SplitPane getSplitPane() {
         return splitPane;
     }
+
+    public TopPanel getTopPanel() {
+        return topPanel;
+    }
 }
