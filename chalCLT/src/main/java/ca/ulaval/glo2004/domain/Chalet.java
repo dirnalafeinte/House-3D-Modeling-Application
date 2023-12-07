@@ -1,11 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
-
 import ca.ulaval.glo2004.domain.accessoires.Accessoire;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
-
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +25,7 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
+    private final Map<Orientation, Mur> mursByVue = new HashMap<>();
     private final Toit toit = new Toit(this);
     private final Pignon pignonDroit = new Pignon(this, true);
     private final Pignon pignonGauche = new Pignon(this, false);
@@ -68,7 +65,7 @@ public class Chalet {
         mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
     }
 
-    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
+    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -81,7 +78,7 @@ public class Chalet {
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
 
-        for (Mur mur:getMurs()) {
+        for (Mur mur : getMurs()) {
             mur.calculateSommets();
 
             for (Accessoire accessoire : mur.getAccessoires()) {
@@ -102,6 +99,44 @@ public class Chalet {
             }
             mur.getAccessoires().forEach(Accessoire::validate);
         }
+    }
+
+    public List<Drawable> getVisibleComponents(Vue vue) {
+        List<Drawable> components = new ArrayList<>();
+        Mur facadeMur = getMurByOrientation(Orientation.FACADE);
+        Mur gaucheMur = getMurByOrientation(Orientation.GAUCHE);
+        Mur droiteMur = getMurByOrientation(Orientation.DROITE);
+        Mur arriereMur = getMurByOrientation(Orientation.ARRIERE);
+
+        switch (vue) {
+            case PLAN:
+                components.addAll(getMurs());
+                break;
+            case FACADE:
+                components.add(facadeMur);
+                components.addAll(facadeMur.getAccessoires());
+                break;
+            case GAUCHE:
+                for (Mur mur : getMurs()) {
+                    if (mur != droiteMur)
+                        components.add(mur);
+                }
+                components.addAll(gaucheMur.getAccessoires());
+                break;
+            case DROITE:
+                for (Mur mur : getMurs()) {
+                    if (mur != gaucheMur)
+                        components.add(mur);
+                }
+                components.addAll(droiteMur.getAccessoires());
+                break;
+            case ARRIERE:
+                components.add(arriereMur);
+                components.addAll(arriereMur.getAccessoires());
+                break;
+        }
+
+        return components;
     }
 
     public Imperial getLargeur() {
@@ -163,6 +198,7 @@ public class Chalet {
     public Imperial getEpaisseurMur() {
         return epaisseurMur;
     }
+
     public void setEpaisseurMur(Imperial epaisseurMur) {
         this.epaisseurMur = epaisseurMur;
     }
@@ -189,9 +225,5 @@ public class Chalet {
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
-    }
-
-    public ChaletController getChaletController() {
-        return chaletController;
     }
 }

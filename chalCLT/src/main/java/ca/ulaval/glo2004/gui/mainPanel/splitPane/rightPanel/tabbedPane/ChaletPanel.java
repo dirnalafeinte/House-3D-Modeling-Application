@@ -127,7 +127,7 @@ public class ChaletPanel extends JPanel implements Observer {
     }
 
     private void updatefields() {
-        chaletDTO = mainWindow.getController().getChalet();
+        chaletDTO = mainWindow.getController().getChaletDTO();
         if (chaletDTO != null) {
             largeurField.setText(chaletDTO.largeur());
             longueurField.setText(chaletDTO.longueur());

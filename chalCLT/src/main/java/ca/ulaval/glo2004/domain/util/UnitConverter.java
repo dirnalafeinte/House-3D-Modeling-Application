@@ -7,8 +7,9 @@ public class UnitConverter {
         return (int) (inches * Toolkit.getDefaultToolkit().getScreenResolution() / 12);
     }
 
-    public double pixelToInches(double pixels) {
-        return pixels / Toolkit.getDefaultToolkit().getScreenResolution();
+    public Imperial pixelToInches(int pixels) {
+        int inches = pixels * 12 / Toolkit.getDefaultToolkit().getScreenResolution();
+        return new Imperial(0,inches,0,0);
     }
 
     public int feetToPixel(double feet) {

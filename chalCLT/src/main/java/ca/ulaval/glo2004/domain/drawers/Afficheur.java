@@ -14,11 +14,11 @@ public abstract class Afficheur {
     protected final UnitConverter unitConverter = new UnitConverter();
     protected double zoomFactor = 0.25;
     protected double lastZoomFactor = 1.0;
-    protected double xOffset = 240;
-    protected double yOffset = 100;
+    protected double xOffset = 100;
+    protected double yOffset = 50;
     protected double yChalet = 0;
     protected double xChalet = 0;
-    protected int intervalLigne = 30;
+    protected int intervalLigne = 10;
 
 
     public Afficheur(Chalet chalet, Vue vue) {
@@ -32,7 +32,7 @@ public abstract class Afficheur {
         List<Coordonnee> sommets = drawable.getSommetsByVue(vue);
         int[] sommetsX = getScaledSommetsX(sommets);
         int[] sommetsY = getScaledSommetsY(sommets);
-        g.setColor(drawable.getColor());
+        g.setColor(getObjectColor(drawable));
         g.fillPolygon(sommetsX, sommetsY, sommets.size());
         g.setColor(DEFAULT_OUTLINE_COLOR);
         g.drawPolygon(sommetsX, sommetsY, sommets.size());
@@ -59,16 +59,11 @@ public abstract class Afficheur {
         }
     }
 
-
-//    public void Draw(Graphics2D g)
-//    {
-//        if ()
-//        afficherGrille(g, 30);
-//
-//        g.setStroke(new BasicStroke(3));
-//
-//        g.setColor(Color.BLACK);
-//    }
+    public Color getObjectColor(Drawable drawable) {
+        if (drawable.isObjectSelected())
+            return (Color.MAGENTA);
+        return (drawable.getColor());
+    }
 
     public double getZoomFactor() {
         return zoomFactor;
@@ -81,6 +76,10 @@ public abstract class Afficheur {
     public void setZoomFactor(double zoomFactor) {
         lastZoomFactor = this.zoomFactor;
         this.zoomFactor = zoomFactor;
+    }
+
+    public Vue getVue() {
+        return vue;
     }
 
     public double getxOffset() {
@@ -117,5 +116,9 @@ public abstract class Afficheur {
 
     public void setChalet(Chalet chalet) {
         this.chalet = chalet;
+    }
+
+    public UnitConverter getUnitConverter() {
+        return unitConverter;
     }
 }
