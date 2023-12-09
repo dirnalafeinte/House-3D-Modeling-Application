@@ -30,7 +30,32 @@ public class Toit extends Drawable {
 
     @Override
     public void calculateSommets() {
-        // TODO
+        sommetsByVue.clear();
+        calculateSommetsToitOverflowMilieu();
+        calculateSommetsToitOverflowBas();
+        calculateSommetsToitOverflowGauche();
+        calculateSommetsToitOverflowDroit();
+        calculateSommetsToitOverflowArriere();
+    }
+
+    private void calculateSommetsToitOverflowMilieu(){
+
+    }
+
+    private void calculateSommetsToitOverflowBas(){
+
+    }
+
+    private void calculateSommetsToitOverflowGauche(){
+
+    }
+
+    private void calculateSommetsToitOverflowDroit(){
+
+    }
+
+    private void calculateSommetsToitOverflowArriere(){
+
     }
 
     @Override

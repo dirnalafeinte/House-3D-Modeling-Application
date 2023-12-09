@@ -29,10 +29,10 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
-    private final Toit toit = new Toit(this);
-    private final Pignon pignonDroit = new Pignon(this, true);
-    private final Pignon pignonGauche = new Pignon(this, false);
-    private final Rallonge rallonge = new Rallonge(this);
+    private Toit toit;
+    private Pignon pignonDroit;
+    private Pignon pignonGauche;
+    private Rallonge rallonge;
     private Imperial distanceMin;
     private ChaletController chaletController;
 
@@ -66,6 +66,10 @@ public class Chalet {
         mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
         mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
         mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
+        this.rallonge = new Rallonge(this);
+        this.toit = new Toit(this);
+        this.pignonDroit = new Pignon(this, true);
+        this.pignonGauche = new Pignon(this, false);
     }
 
     void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {

@@ -16,6 +16,10 @@ public class AfficheurMur extends Afficheur {
     public void draw(Graphics g) {
         drawMur(g);
         drawAccessoires(g);
+        drawRallonge(g);
+//        drawToit(g);
+//        drawPignonDroit(g);
+//        drawPignonGauche(g);
     }
 
     private void drawMur(Graphics g) {
@@ -23,6 +27,30 @@ public class AfficheurMur extends Afficheur {
             if (mur.isVisible(vue)) {
                 drawDrawable(g, mur);
             }
+        }
+    }
+
+    private void drawRallonge(Graphics g) {
+        if (chalet.getRallonge().isVisible(vue)){
+            drawDrawable(g, chalet.getRallonge());
+        }
+    }
+
+    private void drawToit(Graphics g) {
+        if (chalet.getToit().isVisible(vue)){
+            drawDrawable(g, chalet.getToit());
+        }
+    }
+
+    private void drawPignonDroit(Graphics g) {
+        if (chalet.getPignonDroit().isVisible(vue)){
+            drawDrawable(g, chalet.getPignonDroit());
+        }
+    }
+
+    private void drawPignonGauche(Graphics g) {
+        if (chalet.getPignonGauche().isVisible(vue)){
+            drawDrawable(g, chalet.getPignonGauche());
         }
     }
 
