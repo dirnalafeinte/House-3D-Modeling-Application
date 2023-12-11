@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 public class MouseListener implements java.awt.event.MouseListener {
     private final MainWindow mainWindow;
+    private boolean dragging = false;
     public MouseListener(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
@@ -27,10 +28,15 @@ public class MouseListener implements java.awt.event.MouseListener {
 
         singleSelection(drawable);
 
-        if (drawable != null) {
-            boolean currentState = drawable.isObjectSelected();
-            drawable.setObjectSelected(!currentState);
+        if (!dragging) {
+            toggleSelection(drawable);
             mainWindow.getMainPanel().getSplitPane().getCenterPanel().getDrawingPanel().update();
+        }
+    }
+
+    private void toggleSelection(Drawable drawable) {
+        if (drawable != null) {
+            drawable.setObjectSelected(!drawable.isObjectSelected());
         }
     }
 
@@ -42,10 +48,13 @@ public class MouseListener implements java.awt.event.MouseListener {
         }
     }
 
+    public void setDragging(boolean dragging) {
+        this.dragging = dragging;
+    }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        dragging = false;
     }
 
     @Override
@@ -57,5 +66,7 @@ public class MouseListener implements java.awt.event.MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+
 
 }

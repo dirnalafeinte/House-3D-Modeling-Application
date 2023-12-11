@@ -60,7 +60,7 @@ public abstract class Afficheur {
     }
 
     public Color getObjectColor(Drawable drawable) {
-        if (drawable.isObjectSelected())
+        if (drawable.isObjectSelected() && drawable.getState().isValid())
             return (Color.MAGENTA);
         return (drawable.getColor());
     }
