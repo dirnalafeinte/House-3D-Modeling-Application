@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 
 public class MouseListener implements java.awt.event.MouseListener {
     private final MainWindow mainWindow;
-    private boolean dragging = false;
     public MouseListener(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
@@ -25,13 +24,9 @@ public class MouseListener implements java.awt.event.MouseListener {
         int y = e.getY();
         Coordonnee mouseCoord = mainWindow.getController().getMousePostionInCoordonnee(x, y);
         Drawable drawable = mainWindow.getController().getObjectAtCoord(mouseCoord);
-
         singleSelection(drawable);
-
-        if (!dragging) {
-            toggleSelection(drawable);
-            mainWindow.getMainPanel().getSplitPane().getCenterPanel().getDrawingPanel().update();
-        }
+        toggleSelection(drawable);
+        mainWindow.getMainPanel().getSplitPane().getCenterPanel().getDrawingPanel().update();
     }
 
     private void toggleSelection(Drawable drawable) {
@@ -41,20 +36,25 @@ public class MouseListener implements java.awt.event.MouseListener {
     }
 
     private void singleSelection(Drawable drawable) {
-        for (Drawable object : mainWindow.getController().getChalet().getVisibleComponents(mainWindow.getController().afficheur.getVue())) {
-            if (object != drawable && object.isObjectSelected()) {
-                throw new IllegalObjectSelection("Un autre objet est déjà sélectionné.");
-            }
+        Drawable selectedObject = getObjectSelected();
+        if (selectedObject != null && selectedObject != drawable) {
+            selectedObject.setObjectSelected(false);
         }
     }
 
-    public void setDragging(boolean dragging) {
-        this.dragging = dragging;
+    private Drawable getObjectSelected() {
+        for (Drawable object : mainWindow.getController().getChalet().getVisibleComponents(mainWindow.getController().afficheur.getVue())) {
+            if (object.isObjectSelected()) {
+                System.out.println(object);
+                return object;
+            }
+        }
+        return null;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        dragging = false;
+
     }
 
     @Override
