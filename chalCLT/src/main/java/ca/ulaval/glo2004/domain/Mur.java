@@ -267,4 +267,9 @@ public class Mur extends Drawable {
         accessoiresById.remove(id);
         accessoiresById.values().forEach(Accessoire::validate);
     }
+
+    @Override
+    public String toString() {
+        return "Mur: " + this.cote;
+    }
 }

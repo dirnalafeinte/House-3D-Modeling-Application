@@ -17,7 +17,7 @@ public class Imperial {
         this.denominator = 1;
     }
 
-    private Imperial(int feet, int inches, int numerator, int denominator) {
+    public Imperial(int feet, int inches, int numerator, int denominator) {
         this.feet = feet;
         this.inches = inches;
         this.numerator = numerator;

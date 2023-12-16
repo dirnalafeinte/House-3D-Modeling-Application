@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.accessoires.Accessoire;
 import ca.ulaval.glo2004.domain.accessoires.Fenetre;
 import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.assemblers.AccessoireAssembler;
@@ -10,7 +11,9 @@ import ca.ulaval.glo2004.domain.drawers.AfficheurPlan;
 import ca.ulaval.glo2004.domain.dtos.*;
 import ca.ulaval.glo2004.domain.factories.AccessoireFactory;
 import ca.ulaval.glo2004.domain.factories.ChaletFactory;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
+import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +142,50 @@ public class ChaletController implements Observable {
         exportRetrait.export();
     }
 
-    public ChaletDTO getChalet() {
+    public Drawable getObjectAtCoord(Coordonnee coordonnee) {
+        List<Drawable> components = chalet.getVisibleComponents(afficheur.getVue());
+        List<Accessoire> accessoires = new ArrayList<>();
+        List<Mur> murs = new ArrayList<>();
+
+        for (Drawable drawable : components) {
+            if (drawable instanceof Mur)
+                murs.add((Mur) drawable);
+            else if (drawable instanceof Accessoire)
+                accessoires.add((Accessoire) drawable);
+        }
+
+        for (Accessoire accessoire : accessoires){
+            if (accessoire.estContenu(afficheur.getVue(), coordonnee))
+                return accessoire;
+        }
+
+        for (Mur mur : murs) {
+            if (mur.estContenu(afficheur.getVue(), coordonnee))
+                return mur;
+        }
+
+        return null;
+    }
+
+    public Coordonnee getMousePostionInCoordonnee(int x, int y) {
+        double zoom = afficheur.getZoomFactor();
+        double offsetX = afficheur.getxOffset() * zoom;
+        double offsetY = afficheur.getyOffset() * zoom;
+
+        int mouseX = (int) ((x - offsetX) / zoom);
+        int mouseY = (int) ((y - offsetY) / zoom);
+
+        UnitConverter unitConverter = afficheur.getUnitConverter();;
+        Imperial mouseCoordX = unitConverter.pixelToInches(mouseX);
+        Imperial mouseCoordY = unitConverter.pixelToInches(mouseY);
+
+        return new Coordonnee(mouseCoordX, mouseCoordY);
+    }
+
+    public ChaletDTO getChaletDTO() {
         return dtoAssembler.toChaletDTO(chalet);
+    }
+    public Chalet getChalet() {
+        return this.chalet;
     }
 }

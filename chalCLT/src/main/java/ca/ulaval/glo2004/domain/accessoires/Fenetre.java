@@ -67,4 +67,8 @@ public class Fenetre extends Accessoire {
     public Color getColor() {
         return state.isValid() ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
+    @Override
+    public String toString() {
+        return "fenetre: " + mur.getCote();
+    }
 }

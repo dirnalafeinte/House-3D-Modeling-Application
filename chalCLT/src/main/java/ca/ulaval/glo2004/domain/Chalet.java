@@ -29,6 +29,7 @@ public class Chalet {
     private int angleToit;
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
+    private final Map<Orientation, Mur> mursByVue = new HashMap<>();
     private Toit toit;
     private Pignon pignonDroit;
     private Pignon pignonGauche;
@@ -72,7 +73,7 @@ public class Chalet {
         this.pignonGauche = new Pignon(this, false);
     }
 
-    void recalculerChalet(Imperial longueur,Imperial largeur,Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
+    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -85,7 +86,7 @@ public class Chalet {
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
 
-        for (Mur mur:getMurs()) {
+        for (Mur mur : getMurs()) {
             mur.calculateSommets();
 
             for (Accessoire accessoire : mur.getAccessoires()) {
@@ -106,6 +107,44 @@ public class Chalet {
             }
             mur.getAccessoires().forEach(Accessoire::validate);
         }
+    }
+
+    public List<Drawable> getVisibleComponents(Vue vue) {
+        List<Drawable> components = new ArrayList<>();
+        Mur facadeMur = getMurByOrientation(Orientation.FACADE);
+        Mur gaucheMur = getMurByOrientation(Orientation.GAUCHE);
+        Mur droiteMur = getMurByOrientation(Orientation.DROITE);
+        Mur arriereMur = getMurByOrientation(Orientation.ARRIERE);
+
+        switch (vue) {
+            case PLAN:
+                components.addAll(getMurs());
+                break;
+            case FACADE:
+                components.add(facadeMur);
+                components.addAll(facadeMur.getAccessoires());
+                break;
+            case GAUCHE:
+                for (Mur mur : getMurs()) {
+                    if (mur != droiteMur)
+                        components.add(mur);
+                }
+                components.addAll(gaucheMur.getAccessoires());
+                break;
+            case DROITE:
+                for (Mur mur : getMurs()) {
+                    if (mur != gaucheMur)
+                        components.add(mur);
+                }
+                components.addAll(droiteMur.getAccessoires());
+                break;
+            case ARRIERE:
+                components.add(arriereMur);
+                components.addAll(arriereMur.getAccessoires());
+                break;
+        }
+
+        return components;
     }
 
     public Imperial getLargeur() {
@@ -167,6 +206,7 @@ public class Chalet {
     public Imperial getEpaisseurMur() {
         return epaisseurMur;
     }
+
     public void setEpaisseurMur(Imperial epaisseurMur) {
         this.epaisseurMur = epaisseurMur;
     }
