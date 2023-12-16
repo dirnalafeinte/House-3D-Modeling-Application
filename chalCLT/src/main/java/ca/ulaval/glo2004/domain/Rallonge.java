@@ -74,7 +74,7 @@ public class Rallonge extends Drawable {
         sommets.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), new Imperial()));
         sommets.add(new Coordonnee(getLargeur(), new Imperial()));
         sommets.add(new Coordonnee(getLargeur(), hauteurRallonge.negate()));
-        sommets.add(new Coordonnee(getLargeur().subtract(getSmallEpaisseur()), calculerYSommetTriangulation().negate()));// TODO : doit calculer le triangle
+        sommets.add(new Coordonnee(getLargeur().subtract(getSmallEpaisseur()), calculerYSommetTriangulation().negate()));
         return sommets;
     }
 

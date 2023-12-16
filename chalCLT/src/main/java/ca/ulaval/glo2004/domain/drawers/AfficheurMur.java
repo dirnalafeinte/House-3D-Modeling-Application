@@ -17,9 +17,9 @@ public class AfficheurMur extends Afficheur {
         drawMur(g);
         drawAccessoires(g);
         drawRallonge(g);
-//        drawToit(g);
-//        drawPignonDroit(g);
-//        drawPignonGauche(g);
+        drawToit(g);
+        drawPignonDroit(g);
+        drawPignonGauche(g);
     }
 
     private void drawMur(Graphics g) {
