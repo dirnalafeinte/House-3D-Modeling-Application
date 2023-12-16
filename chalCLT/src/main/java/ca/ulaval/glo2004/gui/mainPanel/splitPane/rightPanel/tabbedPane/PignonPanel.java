@@ -91,7 +91,7 @@ public class PignonPanel extends JPanel implements Observer {
     }
 
     private void updatefields() {
-        chaletDTO = mainWindow.getController().getChalet();
+        chaletDTO = mainWindow.getController().getChaletDTO();
         if (chaletDTO != null) {
             longueurField.setText(chaletDTO.longueur());
             hauteurField.setText(chaletDTO.hauteur());
