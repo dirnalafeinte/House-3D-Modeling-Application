@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Chalet {
+import java.io.Serializable;
+
+public class Chalet implements Serializable{
     private static final Imperial DEFAULT_LARGEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_LONGUEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);

@@ -15,6 +15,7 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 
 
-public class ChaletController implements Observable {
+public class ChaletController implements Observable, Serializable {
 
     public Afficheur afficheur;
     private final List<Observer> observers = new ArrayList<>();
@@ -106,11 +107,18 @@ public class ChaletController implements Observable {
         notifyObservers();
     }
 
+    public void sauvegarderFichier(String filePath) throws IOException {
+        try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            objectOutputStream.writeObject(chalet);
+        }
+    }
+
     public void resetChaletDefaut() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur.setChalet(chalet);
         notifyObservers();
     }
+
 
     public void registerObserver(Observer newObserver) {
         observers.add(newObserver);
