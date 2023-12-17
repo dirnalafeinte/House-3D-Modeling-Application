@@ -10,10 +10,12 @@ public class TopRightPanel extends JPanel implements ActionListener {
     private static final LayoutManager LAYOUT_MANAGER = new FlowLayout(FlowLayout.RIGHT);
     private final MainWindow mainWindow;
     private final GrilleCheckBox grilleCheckBox;
+    private final TextField textField;
 
     public TopRightPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         grilleCheckBox = new GrilleCheckBox(mainWindow);
+        textField = new TextField(4);
         init();
     }
 
@@ -23,9 +25,15 @@ public class TopRightPanel extends JPanel implements ActionListener {
 
     private void init() {
         setLayout(LAYOUT_MANAGER);
-
+        JLabel label = new JLabel("Distance : ");
+        add(label);
+        add(textField);
         add(grilleCheckBox);
         grilleCheckBox.addActionListener(this);
+    }
+
+    public TextField getTextField() {
+        return textField;
     }
 
     @Override

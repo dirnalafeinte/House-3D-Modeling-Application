@@ -2,6 +2,7 @@ package ca.ulaval.glo2004.domain.drawers;
 
 import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
 import java.awt.*;
@@ -14,11 +15,11 @@ public abstract class Afficheur {
     protected final UnitConverter unitConverter = new UnitConverter();
     protected double zoomFactor = 0.25;
     protected double lastZoomFactor = 1.0;
-    protected double xOffset = 100;
-    protected double yOffset = 50;
+    protected double xOffset = 500;
+    protected double yOffset = 1000;
     protected double yChalet = 0;
     protected double xChalet = 0;
-    protected int intervalLigne = 10;
+    protected String intervalLigne = "10\"";
 
 
     public Afficheur(Chalet chalet, Vue vue) {
@@ -50,11 +51,13 @@ public abstract class Afficheur {
     {
         g.setColor(Color.LIGHT_GRAY);
 
-        for (int x = 0; x < largeur; x += intervalLigne) {
+        Imperial intervalle = Imperial.fromString(intervalLigne);
+
+        for (int x = 0; x < largeur; x += (int) intervalle.toInches()) {
             g.drawLine(x, 0, x, hauteur);
         }
 
-        for (int y = 0; y < hauteur; y += intervalLigne) {
+        for (int y = 0; y < hauteur; y += (int) intervalle.toInches()) {
             g.drawLine(0, y, largeur, y);
         }
     }
@@ -116,6 +119,14 @@ public abstract class Afficheur {
 
     public void setChalet(Chalet chalet) {
         this.chalet = chalet;
+    }
+
+    public void setIntervalLigne(String intervalLigne) {
+        this.intervalLigne = intervalLigne;
+    }
+
+    public String getIntervalLigne() {
+        return intervalLigne;
     }
 
     public UnitConverter getUnitConverter() {

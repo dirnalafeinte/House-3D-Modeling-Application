@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rallonge extends Drawable {
-    private static final Color DEFAULT_COLOR = Color.MAGENTA;
+    private static final Color DEFAULT_COLOR = Color.GREEN;
     private Imperial longueurRallonge = new Imperial();
     private Imperial hauteurRallonge = new Imperial();
     public Rallonge(Chalet chalet) {
