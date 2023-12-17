@@ -91,14 +91,14 @@ public class Pignon extends Drawable {
         return isPignonDroit;
     }
     
-    private void calculerDimensionPignon(Orientation sensToit) {
+    public void calculerDimensionPignon(Orientation sensToit) {
         if (Orientation.GAUCHE.equals(sensToit) || Orientation.DROITE.equals(sensToit)){
-            this.longueurPignon = getLargeur().subtract(getBigEpaisseur());
+            this.longueurPignon = getLongueur().subtract(getBigEpaisseur());
             Imperial tempHauteurPignon =  getLongueur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit()))); // longueur / tan(angle) = hauteur
             this.hauteurPignon = tempHauteurPignon.subtract(getBigEpaisseur()); // Le panneau du toit recouvre la rallonge, donc on soustrait moitie de l'epaisseur du panneau
         }
         if (Orientation.FACADE.equals(sensToit) || Orientation.ARRIERE.equals(sensToit)){
-            this.longueurPignon = getLongueur().subtract(getBigEpaisseur());
+            this.longueurPignon = getLargeur().subtract(getBigEpaisseur());
             Imperial tempHauteurPignon =  getLargeur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit()))); // largeur / tan(angle) = hauteur
             this.hauteurPignon = tempHauteurPignon.subtract(getBigEpaisseur());
         }
@@ -108,19 +108,24 @@ public class Pignon extends Drawable {
         //brief : Triangulation de la partie superieur de la rallonge pour les Overflows.
         //return : la coordonnee Y du sommet du Overflow qui cree la triangulation
         int tetaPrime = 180 - (90 + chalet.getAngleToit());
-        Imperial oppose = getSmallEpaisseur().multiplyBy(Math.tan(Math.toRadians(tetaPrime))); // Oppose = Adjacent * tan(tetaPrime), donc: Oppose = MoitieEpaisseur * tan(tetaPrime)
+        Imperial oppose = getBigEpaisseur().multiplyBy(Math.tan(Math.toRadians(tetaPrime))); // Oppose = Adjacent * tan(tetaPrime), donc: Oppose = MoitieEpaisseur * tan(tetaPrime)
         return hauteurPignon.subtract(oppose);
     }
 
     public Imperial getEpaisseur() {
         return chalet.getEpaisseurMur();
     }
+
     public Imperial getSmallEpaisseur() {
         return getEpaisseur().divideBy(2).subtract(chalet.getDeltaRainure().divideBy(2));
     }
 
     public Imperial getBigEpaisseur() {
         return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure().divideBy(2));
+    }
+
+    public Imperial getBigEpaisseurFullDelta() {
+        return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure());
     }
 
     private Imperial getLongueur() {

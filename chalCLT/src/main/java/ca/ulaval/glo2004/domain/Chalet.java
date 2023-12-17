@@ -107,6 +107,16 @@ public class Chalet {
             }
             mur.getAccessoires().forEach(Accessoire::validate);
         }
+
+        this.toit.calculerDimensionToit(this.sensDuToit);
+        this.pignonDroit.calculerDimensionPignon(this.sensDuToit);
+        this.pignonGauche.calculerDimensionPignon(this.sensDuToit);
+        this.rallonge.calculerDimensionRallonge(this.sensDuToit);
+
+        this.toit.calculateSommets();
+        this.pignonDroit.calculateSommets();
+        this.pignonGauche.calculateSommets();
+        this.rallonge.calculateSommets();
     }
 
     public List<Drawable> getVisibleComponents(Vue vue) {

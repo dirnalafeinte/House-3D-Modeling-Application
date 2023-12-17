@@ -31,16 +31,16 @@ public class Toit extends Drawable {
     private void calculateSommetsToitOverflowMilieu(){
         switch (chalet.getSensDuToit()) {
             case GAUCHE:
-                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetForOverflowMilieu());
+                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetForOverflowMilieuWithLargeur());
                 break;
             case DROITE:
-                sommetsByVue.put(Orientation.DROITE.toVue(), sommetForOverflowMilieu());
+                sommetsByVue.put(Orientation.DROITE.toVue(), sommetForOverflowMilieuWithLargeur());
                 break;
             case FACADE:
-                sommetsByVue.put(Orientation.FACADE.toVue(), sommetForOverflowMilieu());
+                sommetsByVue.put(Orientation.FACADE.toVue(), sommetForOverflowMilieuWithLongueur());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetForOverflowMilieu());
+                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetForOverflowMilieuWithLongueur());
                 break;
         }
     }
@@ -49,16 +49,16 @@ public class Toit extends Drawable {
     private void calculateSommetsToitOverflowBas(){
         switch (chalet.getSensDuToit()) {
             case GAUCHE:
-                sommetForOverflowBas(Orientation.GAUCHE);
+                sommetForOverflowBasWithLargeur(Orientation.GAUCHE);
                 break;
             case DROITE:
-                sommetForOverflowBas(Orientation.DROITE);
+                sommetForOverflowBasWithLargeur(Orientation.DROITE);
                 break;
             case FACADE:
-                sommetForOverflowBas(Orientation.FACADE);
+                sommetForOverflowBasWithLongueur(Orientation.FACADE);
                 break;
             case ARRIERE:
-                sommetForOverflowBas(Orientation.ARRIERE);
+                sommetForOverflowBasWithLongueur(Orientation.ARRIERE);
                 break;
         }
     }
@@ -103,51 +103,77 @@ public class Toit extends Drawable {
     private void calculateSommetsToitOverflowArriere(){
         switch (chalet.getSensDuToit()) {
             case GAUCHE:
-                sommetsByVue.put(Orientation.DROITE.toVue(), sommetOverflowArriere());
+                sommetsByVue.put(Orientation.DROITE.toVue(), sommetOverflowArriereWithLargeur());
                 break;
             case DROITE:
-                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetOverflowArriere());
+                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetOverflowArriereWithLargeur());
                 break;
             case FACADE:
-                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetOverflowArriere());
+                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetOverflowArriereWithLongueur());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.FACADE.toVue(), sommetOverflowArriere());
+                sommetsByVue.put(Orientation.FACADE.toVue(), sommetOverflowArriereWithLongueur());
                 break;
         }
     }
 
-    private List<Coordonnee> sommetOverflowArriere() {
+    private List<Coordonnee> sommetOverflowArriereWithLargeur() {
         List<Coordonnee> sommetsToit = new ArrayList<>();
         sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.subtract(getSmallEpaisseur()).negate()));
-        sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.subtract(getSmallEpaisseur()).negate()));
-        sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.negate()));
+        sommetsToit.add(new Coordonnee(getLargeur(), hauteurToit.subtract(getSmallEpaisseur()).negate()));
+        sommetsToit.add(new Coordonnee(getLargeur(), hauteurToit.negate()));
         sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.negate()));
         return sommetsToit;
     }
 
-    private List<Coordonnee> sommetForOverflowMilieu() {
+    private List<Coordonnee> sommetOverflowArriereWithLongueur() {
+        List<Coordonnee> sommetsToit = new ArrayList<>();
+        sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.subtract(getSmallEpaisseur()).negate()));
+        sommetsToit.add(new Coordonnee(getLongueur(), hauteurToit.subtract(getSmallEpaisseur()).negate()));
+        sommetsToit.add(new Coordonnee(getLongueur(), hauteurToit.negate()));
+        sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.negate()));
+        return sommetsToit;
+    }
+
+    private List<Coordonnee> sommetForOverflowMilieuWithLargeur() {
         List<Coordonnee> sommetsToit = new ArrayList<>();
         sommetsToit.add(new Coordonnee(new Imperial(), getBigEpaisseur().negate()));
-        sommetsToit.add(new Coordonnee(longueurToit, getBigEpaisseur().negate()));
-        sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.negate()));
+        sommetsToit.add(new Coordonnee(getLargeur(), getBigEpaisseur().negate()));
+        sommetsToit.add(new Coordonnee(getLargeur(), hauteurToit.negate()));
         sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.negate()));
         return sommetsToit;
     }
 
-    private void sommetForOverflowBas(Orientation orientation) {
+    private List<Coordonnee> sommetForOverflowMilieuWithLongueur() {
+        List<Coordonnee> sommetsToit = new ArrayList<>();
+        sommetsToit.add(new Coordonnee(new Imperial(), getBigEpaisseur().negate()));
+        sommetsToit.add(new Coordonnee(getLongueur(), getBigEpaisseur().negate()));
+        sommetsToit.add(new Coordonnee(getLongueur(), hauteurToit.negate()));
+        sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.negate()));
+        return sommetsToit;
+    }
+
+    private void sommetForOverflowBasWithLargeur(Orientation orientation) {
         List<Coordonnee> sommetsToit = sommetsByVue.get(orientation.toVue());
         sommetsToit.add(new Coordonnee(new Imperial(), new Imperial()));
-        sommetsToit.add(new Coordonnee(longueurToit, new Imperial()));
-        sommetsToit.add(new Coordonnee(longueurToit, getBigEpaisseur().negate()));
+        sommetsToit.add(new Coordonnee(getLargeur(), new Imperial()));
+        sommetsToit.add(new Coordonnee(getLargeur(), getBigEpaisseur().negate()));
+        sommetsToit.add(new Coordonnee(new Imperial(), getBigEpaisseur().negate()));
+    }
+
+    private void sommetForOverflowBasWithLongueur(Orientation orientation) {
+        List<Coordonnee> sommetsToit = sommetsByVue.get(orientation.toVue());
+        sommetsToit.add(new Coordonnee(new Imperial(), new Imperial()));
+        sommetsToit.add(new Coordonnee(getLongueur(), new Imperial()));
+        sommetsToit.add(new Coordonnee(getLongueur(), getBigEpaisseur().negate()));
         sommetsToit.add(new Coordonnee(new Imperial(), getBigEpaisseur().negate()));
     }
 
     //brief : Overflow du Toit vue de cote, le cote sureleve est a gauche
     private List<Coordonnee> sommetOverflowToit() {
         List<Coordonnee> sommetsToit = new ArrayList<>();
-        sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.subtract(getBigEpaisseur()).negate()));
-        sommetsToit.add(new Coordonnee(longueurToit.subtract(getBigEpaisseur()), new Imperial()));
+        sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.subtract(getSmallEpaisseur()).negate()));
+        sommetsToit.add(new Coordonnee(longueurToit.subtract(getSmallEpaisseur()), new Imperial()));
         sommetsToit.add(new Coordonnee(longueurToit, new Imperial()));
         sommetsToit.add(new Coordonnee(longueurToit, getEpaisseur().divideBy(2).negate()));
         sommetsToit.add(new Coordonnee(new Imperial(), hauteurToit.negate()));
@@ -158,8 +184,8 @@ public class Toit extends Drawable {
     private List<Coordonnee> sommetOverflowToitInverse() {
         List<Coordonnee> sommetsToit = new ArrayList<>();
         sommetsToit.add(new Coordonnee(new Imperial(), new Imperial()));
-        sommetsToit.add(new Coordonnee(getBigEpaisseur(), new Imperial()));
-        sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.subtract(getBigEpaisseur()).negate()));
+        sommetsToit.add(new Coordonnee(getSmallEpaisseur(), new Imperial()));
+        sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.subtract(getSmallEpaisseur()).negate()));
         sommetsToit.add(new Coordonnee(longueurToit, hauteurToit.negate()));
         sommetsToit.add(new Coordonnee(new Imperial(), getEpaisseur().divideBy(2).negate()));
         return sommetsToit;
@@ -170,13 +196,13 @@ public class Toit extends Drawable {
         return state.isValid() ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 
-    private void calculerDimensionToit(Orientation sensToit) {
+    public void calculerDimensionToit(Orientation sensToit) {
         if (Orientation.GAUCHE.equals(sensToit) || Orientation.DROITE.equals(sensToit)){
-            this.longueurToit = getLargeur();
+            this.longueurToit = getLongueur();
             this.hauteurToit = getLongueur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
         }
         if (Orientation.FACADE.equals(sensToit) || Orientation.ARRIERE.equals(sensToit)){
-            this.longueurToit = getLongueur();
+            this.longueurToit = getLargeur();
             this.hauteurToit = getLargeur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
         }
     }

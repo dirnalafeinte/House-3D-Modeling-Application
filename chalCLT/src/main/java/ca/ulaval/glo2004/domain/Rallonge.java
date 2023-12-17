@@ -71,7 +71,7 @@ public class Rallonge extends Drawable {
 
     private List<Coordonnee> sommetForOverflowGaucheFacadeEtArriere(){
         List<Coordonnee> sommets = new ArrayList<>();
-        sommets.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), new Imperial()));
+        sommets.add(new Coordonnee(getLargeur().subtract(getSmallEpaisseur()), new Imperial()));
         sommets.add(new Coordonnee(getLargeur(), new Imperial()));
         sommets.add(new Coordonnee(getLargeur(), hauteurRallonge.negate()));
         sommets.add(new Coordonnee(getLargeur().subtract(getSmallEpaisseur()), calculerYSommetTriangulation().negate()));
@@ -83,7 +83,7 @@ public class Rallonge extends Drawable {
         sommets.add(new Coordonnee(getLargeur().subtract(getSmallEpaisseur()), new Imperial()));
         sommets.add(new Coordonnee(getLongueur(), new Imperial()));
         sommets.add(new Coordonnee(getLongueur(), hauteurRallonge.negate()));
-        sommets.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), calculerYSommetTriangulation().negate()));// TODO : doit calculer le triangle
+        sommets.add(new Coordonnee(getLongueur().subtract(getSmallEpaisseur()), calculerYSommetTriangulation().negate()));
         return sommets;
     }
 
@@ -110,16 +110,16 @@ public class Rallonge extends Drawable {
         return state.isValid() ? DEFAULT_COLOR : DEFAULT_ERROR_COLOR;
     }
 
-    private void calculerDimensionRallonge(Orientation sensToit) {
+    public void calculerDimensionRallonge(Orientation sensToit) {
       if (Orientation.GAUCHE.equals(sensToit) || Orientation.DROITE.equals(sensToit)){
           this.longueurRallonge = getLargeur();
           Imperial tempHauteurRallonge =  getLongueur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit()))); // longueur / tan(angle) = hauteur
-          this.hauteurRallonge = tempHauteurRallonge.subtract(getSmallEpaisseur()); // Le panneau du toit recouvre la rallonge, donc on soustrait moitie de l'epaisseur du panneau
+          this.hauteurRallonge = tempHauteurRallonge.subtract(getBigEpaisseur()); // Le panneau du toit recouvre la rallonge, donc on soustrait moitie de l'epaisseur du panneau
       }
       if (Orientation.FACADE.equals(sensToit) || Orientation.ARRIERE.equals(sensToit)){
           this.longueurRallonge = getLongueur();
           Imperial tempHauteurRallonge =  getLargeur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit()))); // largeur / tan(angle) = hauteur
-          this.hauteurRallonge = tempHauteurRallonge.subtract(getSmallEpaisseur());
+          this.hauteurRallonge = tempHauteurRallonge.subtract(getBigEpaisseur());
       }
     }
 
