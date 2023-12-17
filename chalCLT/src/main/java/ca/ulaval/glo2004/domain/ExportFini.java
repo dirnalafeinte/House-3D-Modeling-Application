@@ -225,26 +225,27 @@ public class ExportFini extends Export {
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         writer.write("solid Panneau A\n");
         double premiereEpaisseurDuMurRainure= mur.getSmallEpaisseur().toInches();
+        double deuxiemeEpaisseurDuMurRainure= mur.getBigEpaisseur().toInches();
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches(), normalAvant);
         }
 
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalArriere);
         }
 
         for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
-            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
-            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
-        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
-        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
-        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
-        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalBas);
 
         //Rainure
         double distanceXRainure= mur.getBigEpaisseur().toInches();
@@ -254,74 +255,79 @@ public class ExportFini extends Export {
 
             if (rectangle.get(0).getX().toInches() < distanceXRainure) {
                 if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){
-                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
                 else{
-                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(),chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
             }
             else if (rectangle.get(1).getX().toInches() > (chalet.getLongueur().toInches() - chalet.getEpaisseurMur().toInches())) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalAvant);
             }
             else {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalAvant);
             }
         }
-        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure,chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches()  , normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure,chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure,chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure,chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalHaut);
         writer.write("endsolid Panneau A\n");
     }
 
 
     protected void writeStlForG(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
-        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
-        double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
+        List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
         writer.write("solid Panneau G\n");
+        double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
+        double distanceXRainure = mur.getBigEpaisseur().toInches();
+        double distanceXRainure2 = chalet.getLargeur().toInches() - distanceXRainure;
+
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
-        }
-        for(int i=0; i<mur.getAccessoires().size();i++){
-            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
-            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
-            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
         }
 
-        writeStlForCote(writer, mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
-        writeStlForCote(writer, chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
-        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
-        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
-
-        //Rainure
-        double distanceXRainure= mur.getBigEpaisseur().toInches() * 2;
-        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-
-
             if (rectangle.get(0).getX().toInches() < distanceXRainure) {
-                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){ // si les deux parties du rectangle sont superieur a la rainure
-                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                if (rectangle.get(1).getX().toInches() > distanceXRainure2) {
+                    writeStlForFace(writer, distanceXRainure, distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                } else {
+                    writeStlForFace(writer, distanceXRainure, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
-                else{
-                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-                }
-            }
-            else if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-            }
-            else {
+            } else if (rectangle.get(1).getX().toInches() > distanceXRainure2) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            } else {
                 writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
             }
         }
-        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalBas);
+
+        // Rainure
+        double rainureDistanceX = mur.getBigEpaisseur().toInches();
+        double rainureDistanceX2 = chalet.getLargeur().toInches() - rainureDistanceX;
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            if (rectangle.get(0).getX().toInches() < rainureDistanceX) {
+                if (rectangle.get(1).getX().toInches() > rainureDistanceX2) {
+                    writeStlForFace(writer, rainureDistanceX, rainureDistanceX2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+                } else {
+                    writeStlForFace(writer, rainureDistanceX, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+            } else if (rectangle.get(1).getX().toInches() > rainureDistanceX2) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rainureDistanceX2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+            } else {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+        }
+
+        writeStlForCote(writer, rainureDistanceX, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalGauche);
+        writeStlForCote(writer, rainureDistanceX2, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, rainureDistanceX, rainureDistanceX2, 0, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, rainureDistanceX, rainureDistanceX2, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalBas);
 
         writer.write("endsolid Panneau G\n");
     }
@@ -329,53 +335,55 @@ public class ExportFini extends Export {
 
     protected void writeStlForD(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.DROITE);
-        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
-        double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
+        List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
         writer.write("solid Panneau D\n");
+        double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
+        double distanceXRainure = mur.getBigEpaisseur().toInches();
+        double distanceXRainure2 = chalet.getLongueur().toInches() - distanceXRainure;
+
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
         }
-        for(int i=0; i<mur.getAccessoires().size();i++){
+
+        for (ArrayList<Coordonnee> rectangle : rectangles) {
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalArriere);
+        }
+
+        for (int i = 0; i < mur.getAccessoires().size(); i++) {
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
-            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
-            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
-        writeStlForCote(writer, mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
-        writeStlForCote(writer, chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
-        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
-        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
+        writeStlForCote(writer, chalet.getLargeur().toInches() - distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalDroite);
+        writeStlForUpAndDown(writer, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLongueur().toInches(), 0, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalHaut);
+        writeStlForUpAndDown(writer, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalHaut);
 
-        //Rainure
-        double distanceXRainure= mur.getBigEpaisseur().toInches() * 2;
-        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-
-
             if (rectangle.get(0).getX().toInches() < distanceXRainure) {
-                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){ // si les deux parties du rectangle sont superieur a la rainure
-                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
+                    writeStlForFace(writer, distanceXRainure, distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+                } else {
+                    writeStlForFace(writer, distanceXRainure, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
-                else{
-                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-                }
-            }
-            else if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-            }
-            else {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            } else if (rectangle.get(1).getX().toInches() > (chalet.getLongueur().toInches() - chalet.getEpaisseurMur().toInches())) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+            } else {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
             }
         }
-        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalHaut);
+
         writer.write("endsolid Panneau D\n");
     }
+
 
 
 //    protected void writeStlForT(FileWriter writer) throws IOException {
