@@ -91,6 +91,10 @@ public class Imperial implements Serializable{
         return sb.toString().trim();
     }
 
+    public Imperial negate() {
+        return new Imperial(-feet, -inches, -numerator, denominator);
+    }
+
     public Imperial add(Imperial that) {
         double inches = toInches() + that.toInches();
         return Imperial.fromInches(inches);

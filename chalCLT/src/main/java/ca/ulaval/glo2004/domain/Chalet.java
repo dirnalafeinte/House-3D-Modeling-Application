@@ -1,7 +1,11 @@
 package ca.ulaval.glo2004.domain;
 
+
 import ca.ulaval.glo2004.domain.accessoires.Accessoire;
+import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
+
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,10 +32,10 @@ public class Chalet implements Serializable{
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
-    private final Toit toit = new Toit(this);
-    private final Pignon pignonDroit = new Pignon(this, true);
-    private final Pignon pignonGauche = new Pignon(this, false);
-    private final Rallonge rallonge = new Rallonge(this);
+    private Toit toit;
+    private Pignon pignonDroit;
+    private Pignon pignonGauche;
+    private Rallonge rallonge;
     private Imperial distanceMin;
     private ChaletController chaletController;
 
@@ -65,6 +69,10 @@ public class Chalet implements Serializable{
         mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
         mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
         mursByOrientation.put(Orientation.DROITE, new Mur(this, Orientation.DROITE));
+        this.rallonge = new Rallonge(this);
+        this.toit = new Toit(this);
+        this.pignonDroit = new Pignon(this, true);
+        this.pignonGauche = new Pignon(this, false);
     }
 
     void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
@@ -101,6 +109,16 @@ public class Chalet implements Serializable{
             }
             mur.getAccessoires().forEach(Accessoire::validate);
         }
+
+        this.toit.calculerDimensionToit(this.sensDuToit);
+        this.pignonDroit.calculerDimensionPignon(this.sensDuToit);
+        this.pignonGauche.calculerDimensionPignon(this.sensDuToit);
+        this.rallonge.calculerDimensionRallonge(this.sensDuToit);
+
+        this.toit.calculateSommets();
+        this.pignonDroit.calculateSommets();
+        this.pignonGauche.calculateSommets();
+        this.rallonge.calculateSommets();
     }
 
     public List<Drawable> getVisibleComponents(Vue vue) {
@@ -227,5 +245,9 @@ public class Chalet implements Serializable{
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
+    }
+
+    public ChaletController getChaletController() {
+        return chaletController;
     }
 }
