@@ -1,8 +1,9 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Rallonge extends Drawable {
+public class Rallonge extends Drawable implements Serializable{
     private static final Color DEFAULT_COLOR = Color.GREEN;
 
     public Rallonge(Chalet chalet) {

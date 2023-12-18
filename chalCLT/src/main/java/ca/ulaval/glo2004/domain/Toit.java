@@ -1,8 +1,9 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Toit extends Drawable {
+public class Toit extends Drawable implements Serializable {
     private static final Color DEFAULT_COLOR = Color.GREEN;
 
     public Toit(Chalet chalet) {

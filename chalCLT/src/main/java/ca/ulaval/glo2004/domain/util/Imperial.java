@@ -1,8 +1,9 @@
 package ca.ulaval.glo2004.domain.util;
 
 import java.util.Objects;
+import java.io.Serializable;
 
-public class Imperial {
+public class Imperial implements Serializable{
     public static final Imperial MAX_VALUE = Imperial.fromFeet(Integer.MAX_VALUE);
     private static final double PRECISION = 1000000000;
     private int feet;

@@ -8,12 +8,13 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mur extends Drawable {
+public class Mur extends Drawable implements Serializable {
     private static final Color DEFAULT_COLOR_1 = Color.BLUE;
     private static final Color DEFAULT_COLOR_2 = Color.ORANGE;
     private final Orientation cote;

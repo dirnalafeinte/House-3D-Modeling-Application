@@ -6,13 +6,16 @@ import ca.ulaval.glo2004.gui.menu.MenuBar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements Serializable {
     private final MenuBar menuBar;
     private final MainPanel mainPanel;
     private final ChaletController controller = new ChaletController();
 
+
     public MainWindow() {
+        //this.controller = controller;
         menuBar = new MenuBar(this);
         mainPanel = new MainPanel(this);
         init();
@@ -30,6 +33,10 @@ public class MainWindow extends JFrame {
         add(mainPanel);
 
         revalidate();
+    }
+
+    public void ouvrirFichier(String filePath) {
+        this.controller.importerFichier(filePath);
     }
 
     public MainPanel getMainPanel() {

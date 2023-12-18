@@ -1,8 +1,9 @@
 package ca.ulaval.glo2004.domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Pignon extends Drawable {
+public class Pignon extends Drawable implements Serializable{
     private static final Color DEFAULT_COLOR = Color.GREEN;
     private final boolean isPignonDroit;
 

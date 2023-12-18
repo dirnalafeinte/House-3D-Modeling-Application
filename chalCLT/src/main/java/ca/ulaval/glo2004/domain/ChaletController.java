@@ -113,6 +113,16 @@ public class ChaletController implements Observable, Serializable {
         }
     }
 
+    public void importerFichier(String filePath) {
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))){
+            ChaletController controller = (ChaletController) input.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        notifyObservers();
+    }
+
     public void resetChaletDefaut() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur.setChalet(chalet);
