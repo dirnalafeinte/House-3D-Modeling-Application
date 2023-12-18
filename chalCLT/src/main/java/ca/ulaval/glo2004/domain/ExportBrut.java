@@ -48,9 +48,9 @@ public class ExportBrut extends Export {
                 //case R:
                 //    writeStlForR(writer);
                 //    break;
-                //case T:
-                //    writeStlForT(writer);
-                //    break;
+                case T:
+                    writeStlForT(writer);
+                    break;
             }
         }
     }
@@ -140,6 +140,7 @@ public class ExportBrut extends Export {
         //writeStlForFace(writer,  0, chalet.Toit.sommetByVue("FACADE").value(1)[0].toInches(),chalet.toit.sommetByVue("FACADE").value(2)[0].toInches(),chalet.toit.sommetByVue("FACADE").value(1)[1].toInches()+chalet.getHauteur().toInches(),chalet.toit.sommetByVue("FACADE").value(3)[1].toInches()+ chalet.getHauteur().toInches(),normalAvant);
         //arriere
      //   writeStlForFace(writer,  0, chalet.toit.sommetByVue("ARRIERE").value(1)[0].toInches(),chalet.toit.sommetByVue("ARRIERE").value(2)[0].toInches(),chalet.toit.sommetByVue("ARRIERE").value(1)[1].toInches())+chalet.getHauteur().toInches(),-(chalet.toit.sommetByVue("ARRIERE").value(3)[1].toInches())+ chalet.getHauteur().toInches(),normalArriere);
+
         //gauche
         writer.write("facet normal " + normalDroite + "\n");
         writer.write("outer loop\n");
@@ -170,6 +171,16 @@ public class ExportBrut extends Export {
         writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+chalet.getSmallEpaisseur().toInches() + " " + chalet.getSmallEpaisseur().toInches() + "\n");
         writer.write("vertex " + 0 + " " + chalet.Toit.getHauteurToitSecondaire().toInches()+chalet.getHauteur().toInches() + " " + chalet.getSmallEpaisseur().toInches() + "\n");
         writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
         writer.write("endfacet\n");
         //droite
         writer.write("facet normal " + normalDroite + "\n");
@@ -201,6 +212,16 @@ public class ExportBrut extends Export {
         writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.getSmallEpaisseur().toInches() + " " + chalet.getSmallEpaisseur().toInches() + "\n");
         writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.Toit.getHauteurToitSecondaire().toInches()+chalet.getHauteur().toInches() + " " + chalet.getSmallEpaisseur().toInches() + "\n");
         writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
         writer.write("endfacet\n");
         //haut
         writer.write("facet normal " + normalHaut + "\n");
@@ -246,6 +267,18 @@ public class ExportBrut extends Export {
         writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
         writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + chalet.Toit.getSmallEpaisseur().toInches() + "\n");
         writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + chalet.Toit.getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()+chalet.Toit.getHauteurToit().toInches-chalet.getEpaisseur().toInches() + " " + chalet.Toit.getLongueurToit().toInches()-chalet.getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()-chalet.Toit.getSmallEpaisseur().toInches() + " " + chalet.getHauteur().toInches()-chalet.Toit.getBigEpaisseur().toInches() + " " + chalet.getEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
         writer.write("endfacet\n");
         writer.write("endsolid Panneau T\n");
     }
