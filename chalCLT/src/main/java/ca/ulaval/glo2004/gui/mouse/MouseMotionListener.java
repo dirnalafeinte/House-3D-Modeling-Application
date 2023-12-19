@@ -35,6 +35,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
         for (Accessoire accessoire : accessoires) {
             if (accessoire.isObjectSelected()) { //&& controller().getObjectAtCoord(mouseCoord) == accessoire
                 accessoire.updateCoordonnee(mouseCoord.getX(), mouseCoord.getY());
+                controller().saveState();
                 controller().notifyObservers();
                 accessoire.validate();
                 }

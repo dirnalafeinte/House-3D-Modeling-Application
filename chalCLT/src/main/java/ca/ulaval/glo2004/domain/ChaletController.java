@@ -256,7 +256,7 @@ public class ChaletController implements Observable, Serializable {
         return this.chalet;
     }
 
-    private void saveState() {
+    public void saveState() {
         Chalet state = caretaker.clone(chalet);
         caretaker.addMemento(new ChaletMemento(this, state));
     }
