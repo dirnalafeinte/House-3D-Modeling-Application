@@ -3,8 +3,9 @@ package ca.ulaval.glo2004.domain;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class Export {
+public abstract class Export implements Serializable {
     private static final String DEFAULT_PROJECT_NAME = "ChalCLT";
     private final String projectName;
     protected static Chalet chalet;

@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-public enum Orientation {
+import java.io.Serializable;
+
+public enum Orientation implements Serializable {
     FACADE,
     ARRIERE,
     GAUCHE,

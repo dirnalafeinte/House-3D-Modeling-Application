@@ -4,11 +4,12 @@ import ca.ulaval.glo2004.domain.*;
 import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class Accessoire extends Drawable {
+public abstract class Accessoire extends Drawable implements Serializable {
     protected Imperial largeur;
     protected Imperial hauteur;
     protected Coordonnee coordonnee;

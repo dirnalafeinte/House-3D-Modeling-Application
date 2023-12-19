@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain.util;
 
-public class Coordonnee {
+import java.io.Serializable;
+
+public class Coordonnee implements Serializable {
     private final Imperial x;
     private final Imperial y;
 

@@ -4,10 +4,11 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Toit extends Drawable {
+public class Toit extends Drawable implements Serializable {
     private static final Color DEFAULT_COLOR = Color.cyan;
     private Imperial hauteurToit = new Imperial();
     private Imperial longueurToit = new Imperial();

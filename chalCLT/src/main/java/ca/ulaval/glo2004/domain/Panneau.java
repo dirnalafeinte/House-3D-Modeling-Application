@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-public enum Panneau {
+import java.io.Serializable;
+
+public enum Panneau implements Serializable {
     F,
     G,
     D,

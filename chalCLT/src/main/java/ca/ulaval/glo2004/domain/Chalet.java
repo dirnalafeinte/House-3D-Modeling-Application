@@ -2,7 +2,6 @@ package ca.ulaval.glo2004.domain;
 
 
 import ca.ulaval.glo2004.domain.accessoires.Accessoire;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 
@@ -28,7 +27,7 @@ public class Chalet implements Serializable{
     private Imperial hauteur;
     private Imperial deltaRainure;
     private Orientation sensDuToit;
-    private int angleToit;
+    private double angleToit;
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
@@ -48,17 +47,18 @@ public class Chalet implements Serializable{
         this.angleToit = DEFAULT_ANGLE_TOIT;
         this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
         this.distanceMin = DEFAULT_DISTANCE_MIN;
+
         init();
     }
 
     public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit,
-                  int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
+                  double angleToit, Imperial epaisseurMur, Imperial distanceMin) {
         this.largeur = largeur;
         this.longueur = longueur;
         this.hauteur = hauteur;
         this.deltaRainure = deltaRainure;
         this.sensDuToit = sensDuToit;
-        this.angleToit = angleToit;
+        this.angleToit = (int) angleToit;
         this.epaisseurMur = epaisseurMur;
         this.distanceMin = distanceMin;
         init();
@@ -75,7 +75,7 @@ public class Chalet implements Serializable{
         this.pignonGauche = new Pignon(this, false);
     }
 
-    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
+    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -87,6 +87,7 @@ public class Chalet implements Serializable{
         this.epaisseurMur = epaisseur;
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
+        this.angleToit = angleToit;
 
         for (Mur mur : getMurs()) {
             mur.calculateSommets();
@@ -207,7 +208,7 @@ public class Chalet implements Serializable{
         this.sensDuToit = sensDuToit;
     }
 
-    public int getAngleToit() {
+    public double getAngleToit() {
         return angleToit;
     }
 

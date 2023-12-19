@@ -4,10 +4,11 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pignon extends Drawable {
+public class Pignon extends Drawable implements Serializable {
     private static final Color DEFAULT_COLOR = Color.gray;
     private Imperial longueurPignon = new Imperial();
     private Imperial hauteurPignon = new Imperial();
@@ -107,7 +108,7 @@ public class Pignon extends Drawable {
     private Imperial calculerYSommetTriangulation(){
         //brief : Triangulation de la partie superieur de la rallonge pour les Overflows.
         //return : la coordonnee Y du sommet du Overflow qui cree la triangulation
-        int tetaPrime = 180 - (90 + chalet.getAngleToit());
+        double tetaPrime = 180 - (90 + chalet.getAngleToit());
         Imperial oppose = getBigEpaisseur().multiplyBy(Math.tan(Math.toRadians(tetaPrime))); // Oppose = Adjacent * tan(tetaPrime), donc: Oppose = MoitieEpaisseur * tan(tetaPrime)
         return hauteurPignon.subtract(oppose);
     }
