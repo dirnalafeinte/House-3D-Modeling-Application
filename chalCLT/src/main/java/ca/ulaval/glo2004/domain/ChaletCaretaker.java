@@ -16,14 +16,14 @@ public class ChaletCaretaker {
         if (!canUndo()) return;
         ChaletMemento memento = undoHistory.pop();
         redoHistory.push(memento);
-        memento.restore();
+        undoHistory.peek().restore();
     }
 
     public void redo() {
         if (!canRedo()) return;
         ChaletMemento memento = redoHistory.pop();
         undoHistory.push(memento);
-        memento.restore();
+        undoHistory.peek().restore();
     }
 
     public boolean canUndo() {
@@ -39,10 +39,13 @@ public class ChaletCaretaker {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(chalet);
+            oos.close();
 
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Chalet) ois.readObject();
+            Chalet clone = (Chalet) ois.readObject();
+            ois.close();
+            return clone;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;

@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-public record DrawableState(boolean isValid, String errorMessage) {
+import java.io.Serializable;
+
+public record DrawableState(boolean isValid, String errorMessage) implements Serializable {
     public DrawableState(boolean isValid) {
         this(isValid, "");
     }

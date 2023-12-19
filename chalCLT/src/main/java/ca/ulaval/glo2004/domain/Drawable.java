@@ -14,7 +14,7 @@ public abstract class Drawable implements Serializable {
     protected final String id;
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected final Chalet chalet;
-    protected transient DrawableState state = new DrawableState(true);
+    protected DrawableState state = new DrawableState(true);
     protected boolean objectSelected;
 
     public Drawable(Chalet chalet) {

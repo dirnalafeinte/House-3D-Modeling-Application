@@ -35,6 +35,7 @@ public class ChaletController implements Observable, Serializable {
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new AfficheurPlan(chalet, Vue.PLAN);
+        saveState();
     }
 
     public void setVue(Vue vue) {
@@ -233,12 +234,10 @@ public class ChaletController implements Observable, Serializable {
 
     public void undo() {
         caretaker.undo();
-        notifyObservers();
     }
 
     public void redo() {
         caretaker.redo();
-        notifyObservers();
     }
 
     public boolean canUndo() {
@@ -252,5 +251,6 @@ public class ChaletController implements Observable, Serializable {
     public void restore(Chalet state) {
         chalet = state;
         afficheur.setChalet(chalet);
+        notifyObservers();
     }
 }
