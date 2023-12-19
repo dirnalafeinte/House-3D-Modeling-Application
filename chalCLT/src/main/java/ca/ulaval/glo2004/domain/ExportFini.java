@@ -42,7 +42,7 @@ public class ExportFini extends Export {
                     writeStlForG(writer);
                     break;
                 case D:
-                    writeStlForD(writer);
+                    writeStlForT(writer);
                     break;
                 //case PD:
                 //    writeStlForPD(writer);
@@ -53,9 +53,9 @@ public class ExportFini extends Export {
                 //case R:
                 //    writeStlForR(writer);
                 //    break;
-                //case T:
-                //    writeStlForT(writer);
-                //    break;
+                case T:
+                    writeStlForT(writer);
+                    break;
             }
         }
     }
@@ -242,10 +242,10 @@ public class ExportFini extends Export {
             writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
-        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalGauche);
-        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalDroite);
-        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalHaut);
-        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, normalBas);
+        writeStlForCote(writer, 0, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, chalet.getLargeur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, chalet.getLargeur().toInches(), normalDroite);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), 0, chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, chalet.getLargeur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-deuxiemeEpaisseurDuMurRainure, chalet.getLargeur().toInches(), normalBas);
 
         //Rainure
         double distanceXRainure= mur.getBigEpaisseur().toInches();
@@ -278,56 +278,51 @@ public class ExportFini extends Export {
 
     protected void writeStlForG(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
-        List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
-        writer.write("solid Panneau G\n");
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
-        double distanceXRainure = mur.getBigEpaisseur().toInches();
-        double distanceXRainure2 = chalet.getLargeur().toInches() - distanceXRainure;
-
+        writer.write("solid Panneau G\n");
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForCote(writer,rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForCote(writer,rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+        }
+        for(int i=0; i<mur.getAccessoires().size();i++){
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
+        writeStlForCote(writer, mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
+        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
+        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
+
+        //Rainure
+        double distanceXRainure= mur.getBigEpaisseur().toInches() * 2;
+        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
         for (ArrayList<Coordonnee> rectangle : rectangles) {
+
+
             if (rectangle.get(0).getX().toInches() < distanceXRainure) {
-                if (rectangle.get(1).getX().toInches() > distanceXRainure2) {
-                    writeStlForFace(writer, distanceXRainure, distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-                } else {
-                    writeStlForFace(writer, distanceXRainure, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){ // si les deux parties du rectangle sont superieur a la rainure
+                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
-            } else if (rectangle.get(1).getX().toInches() > distanceXRainure2) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
-            } else {
+                else{
+                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+            }
+            else if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+            else {
                 writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
             }
         }
-
-        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalGauche);
-        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalDroite);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalBas);
-
-        // Rainure
-        double rainureDistanceX = mur.getBigEpaisseur().toInches();
-        double rainureDistanceX2 = chalet.getLargeur().toInches() - rainureDistanceX;
-        for (ArrayList<Coordonnee> rectangle : rectangles) {
-            if (rectangle.get(0).getX().toInches() < rainureDistanceX) {
-                if (rectangle.get(1).getX().toInches() > rainureDistanceX2) {
-                    writeStlForFace(writer, rainureDistanceX, rainureDistanceX2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-                } else {
-                    writeStlForFace(writer, rainureDistanceX, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-                }
-            } else if (rectangle.get(1).getX().toInches() > rainureDistanceX2) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rainureDistanceX2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-            } else {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-            }
-        }
-
-        writeStlForCote(writer, rainureDistanceX, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalGauche);
-        writeStlForCote(writer, rainureDistanceX2, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalDroite);
-        writeStlForUpAndDown(writer, rainureDistanceX, rainureDistanceX2, 0, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, rainureDistanceX, rainureDistanceX2, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches(), normalBas);
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
 
         writer.write("endsolid Panneau G\n");
     }
@@ -335,60 +330,205 @@ public class ExportFini extends Export {
 
     protected void writeStlForD(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.DROITE);
-        List<ArrayList<Coordonnee>> rectangles = prepareRectangleForStl(mur);
-        writer.write("solid Panneau D\n");
+        List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
-        double distanceXRainure = mur.getBigEpaisseur().toInches();
-        double distanceXRainure2 = chalet.getLongueur().toInches() - distanceXRainure;
-
+        writer.write("solid Panneau D\n");
         for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), 0, normalAvant);
+            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), premiereEpaisseurDuMurRainure, normalArriere);
         }
-
-        for (ArrayList<Coordonnee> rectangle : rectangles) {
-            writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalArriere);
-        }
-
-        for (int i = 0; i < mur.getAccessoires().size(); i++) {
+        for(int i=0; i<mur.getAccessoires().size();i++){
             List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalArriere);
-            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
-            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalDroite);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalAvant);
+            writeStlForUpAndDown(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalArriere);
+            writeStlForCote(writer, accessoryPoints.get(0).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalGauche);
+            writeStlForCote(writer, accessoryPoints.get(1).getX().toInches(), accessoryPoints.get(0).getY().toInches(), accessoryPoints.get(2).getY().toInches(), 0, chalet.getEpaisseurMur().toInches(), normalDroite);
         }
 
-        writeStlForCote(writer, chalet.getLargeur().toInches() - distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalGauche);
-        writeStlForCote(writer, chalet.getLongueur().toInches(), 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalDroite);
-        writeStlForUpAndDown(writer, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLongueur().toInches(), 0, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalHaut);
-        writeStlForUpAndDown(writer, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, normalHaut);
+        writeStlForCote(writer, mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalGauche);
+        writeStlForCote(writer, chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalDroite);
+        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), 0, 0, premiereEpaisseurDuMurRainure, normalHaut);
+        writeStlForUpAndDown(writer, mur.getBigEpaisseur().toInches(), chalet.getLargeur().toInches() - mur.getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), 0, premiereEpaisseurDuMurRainure, normalBas);
 
+        //Rainure
+        double distanceXRainure= mur.getBigEpaisseur().toInches() * 2;
+        double distanceXRainure2= chalet.getLargeur().toInches()-distanceXRainure;
         for (ArrayList<Coordonnee> rectangle : rectangles) {
+
+
             if (rectangle.get(0).getX().toInches() < distanceXRainure) {
-                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
-                    writeStlForFace(writer, distanceXRainure, distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-                } else {
-                    writeStlForFace(writer, distanceXRainure, rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+                if (rectangle.get(1).getX().toInches() > (distanceXRainure2)){ // si les deux parties du rectangle sont superieur a la rainure
+                    writeStlForFace(writer, distanceXRainure,distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
                 }
-            } else if (rectangle.get(1).getX().toInches() > (chalet.getLongueur().toInches() - chalet.getEpaisseurMur().toInches())) {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
-            } else {
-                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalAvant);
+                else{
+                    writeStlForFace(writer, distanceXRainure,rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+                }
+            }
+            else if (rectangle.get(1).getX().toInches() > (distanceXRainure2)) {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(),distanceXRainure2, rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
+            }
+            else {
+                writeStlForFace(writer, rectangle.get(0).getX().toInches(), rectangle.get(1).getX().toInches(), rectangle.get(0).getY().toInches(), rectangle.get(2).getY().toInches(), chalet.getEpaisseurMur().toInches(), normalAvant);
             }
         }
-
-        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalGauche);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), chalet.getLargeur().toInches() - distanceXRainure, chalet.getLargeur().toInches() - chalet.getEpaisseurMur().toInches(), normalHaut);
-
+        writeStlForCote(writer, distanceXRainure, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForCote(writer, distanceXRainure2, 0, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, 0, premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, distanceXRainure, distanceXRainure2, chalet.getHauteur().toInches(), premiereEpaisseurDuMurRainure, chalet.getEpaisseurMur().toInches(), normalHaut);
         writer.write("endsolid Panneau D\n");
     }
 
 
 
-//    protected void writeStlForT(FileWriter writer) throws IOException {
-//        writer.write("STL data for Panneau T");
-//    }
+
+    protected void writeStlForT(FileWriter writer) throws IOException {
+        writer.write("solid Panneau T\n");
+        //avant
+        //writeStlForFace(writer,  0, chalet.toit.sommetsByVue("FACADE").value(1)[0].toInches(),chalet.toit.sommetByVue("FACADE").value(2)[0].toInches(),chalet.toit.sommetByVue("FACADE").value(1)[1].toInches()+chalet.getHauteur().toInches(),chalet.toit.sommetByVue("FACADE").value(3)[1].toInches()+ chalet.getHauteur().toInches(),normalAvant);
+        //arriere
+        //writeStlForFace(writer,  0, chalet.toit.sommetsByVue("Arriere",1),chalet.toit.sommetByVue("ARRIERE").value(2)[0].toInches(),chalet.toit.sommetByVue("ARRIERE").value(1)[1].toInches())+chalet.getHauteur().toInches(),-(chalet.toit.sommetByVue("ARRIERE").value(3)[1].toInches())+ chalet.getHauteur().toInches(),normalArriere);
+
+        //gauche
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + (chalet.toit.getHauteurToit().toInches()+(chalet.getHauteur().toInches()-getBigEpaisseur().toInches())) + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + 0 + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToitSecondaire().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + ((chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches())) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + ((chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches())) + " " + ((chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches())) + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + ((chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches())) + " " + ((chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches())) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + ((chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches())) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("endfacet\n");
+        //droite
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches()-getSmallEpaisseur().toInches()) + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + 0 + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.toit.getHauteurToitSecondaire().toInches()+chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("endfacet\n");
+        //haut
+        writer.write("facet normal " + normalHaut + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+getSmallEpaisseur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches()+chalet.toit.getHauteurToitSecondaire().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        //bas
+        writer.write("facet normal " + normalBas + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + chalet.toit.getLongueurToit().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + 0 + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + chalet.getHauteur().toInches() + " " + getSmallEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        //rainure
+        writer.write("outer loop\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()+chalet.toit.getHauteurToit().toInches()-getEpaisseur().toInches()) + " " + (chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getSmallEpaisseur().toInches()) + " " + (chalet.getHauteur().toInches()-getBigEpaisseur().toInches()) + " " + getEpaisseur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        writer.write("endsolid Panneau T\n");
+   }
 //
 //
 //    protected void writeStlForR(FileWriter writer) throws IOException {
