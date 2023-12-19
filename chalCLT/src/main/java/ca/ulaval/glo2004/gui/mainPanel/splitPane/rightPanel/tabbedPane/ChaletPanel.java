@@ -5,7 +5,6 @@ import ca.ulaval.glo2004.domain.Orientation;
 import ca.ulaval.glo2004.domain.dtos.ChaletDTO;
 import ca.ulaval.glo2004.gui.MainWindow;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -35,7 +34,6 @@ public class ChaletPanel extends JPanel implements Observer {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
-
         setBorder(BorderFactory.createTitledBorder("Redimentionner Chalet:"));
 
         JLabel largeurLabel = new JLabel("Largeur:");
@@ -63,7 +61,6 @@ public class ChaletPanel extends JPanel implements Observer {
         addFocusListenerToTextField(distanceMinField);
         addFocusListenerToTextField(angleToitField);
 
-
         JButton resetButton = new JButton("Reset to Default");
 
         resetButton.addActionListener(new ActionListener() {
@@ -81,7 +78,6 @@ public class ChaletPanel extends JPanel implements Observer {
                 updateChaletOrientation(orientationSelectionnee);
             }
         });
-
 
         addComponentToPanel(largeurLabel);
         addComponentToPanel(largeurField);
@@ -101,7 +97,6 @@ public class ChaletPanel extends JPanel implements Observer {
         addComponentToPanel(orientationToitComboBox);
         addComponentToPanel(resetButton);
 
-
         errorLabel = new JLabel("");
         errorLabel.setForeground(Color.RED);
         addComponentToPanel(errorLabel);
@@ -120,7 +115,6 @@ public class ChaletPanel extends JPanel implements Observer {
     }
 
     private void updateChalet(JTextField textField) {
-
         String largeur = largeurField.getText();
         String longueur = longueurField.getText();
         String hauteur = hauteurField.getText();
@@ -129,7 +123,7 @@ public class ChaletPanel extends JPanel implements Observer {
         String deltaRainure = deltaRainureField.getText();
         String angleToit = angleToitField.getText();
 
-        ChaletDTO nouveauChalet = new ChaletDTO(largeur, longueur, hauteur, deltaRainure, epaisseur, distanceMin, angleToit, chaletDTO.sensDuToit());
+        ChaletDTO nouveauChalet = new ChaletDTO(largeur, longueur, hauteur, deltaRainure, epaisseur, distanceMin, Double.valueOf(angleToit), chaletDTO.sensDuToit());
 
         mainWindow.getController().updateDimensions(nouveauChalet);
     }
@@ -167,7 +161,7 @@ public class ChaletPanel extends JPanel implements Observer {
             epaisseurField.setText(chaletDTO.epaisseurMur());
             deltaRainureField.setText(chaletDTO.deltaRainure());
             distanceMinField.setText(chaletDTO.distanceMin());
-            angleToitField.setText(chaletDTO.angleToit());
+            angleToitField.setText(String.valueOf(chaletDTO.angleToit()));
         }
     }
 }

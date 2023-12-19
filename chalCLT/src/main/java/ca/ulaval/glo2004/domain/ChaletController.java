@@ -113,20 +113,17 @@ public class ChaletController implements Observable, Serializable {
         return chalet.getMurs().stream().collect(Collectors.toMap(Mur::getCote, dtoAssembler::toMurDTO));
     }
 
-    public void updateDimensions(ChaletDTO chalets) {
+    public void updateDimensions(ChaletDTO chalet) {
+        Imperial updatedLongueur = Imperial.fromString(chalet.longueur());
+        Imperial updatedLargeur = Imperial.fromString(chalet.largeur());
+        Imperial updatedHauteur = Imperial.fromString(chalet.hauteur());
+        Imperial updatedEpaisseur = Imperial.fromString(chalet.epaisseurMur());
+        Imperial updatedDeltaRainure = Imperial.fromString(chalet.deltaRainure());
+        Imperial updatedDistanceMin = Imperial.fromString(chalet.distanceMin());
+        double angleToit = 90 - chalet.angleToit();
+        Orientation sensDuToit = Orientation.valueOf(chalet.sensDuToit());
 
-        Imperial updatedLongueur = Imperial.fromString(chalets.longueur());
-        Imperial updatedLargeur = Imperial.fromString(chalets.largeur());
-        Imperial updatedHauteur = Imperial.fromString(chalets.hauteur());
-        Imperial updatedEpaisseur = Imperial.fromString(chalets.epaisseurMur());
-        Imperial updatedDeltaRainure = Imperial.fromString(chalets.deltaRainure());
-        Imperial updatedDistanceMin = Imperial.fromString(chalets.distanceMin());
-        double angleToit = 90 - Double.parseDouble(chalets.angleToit());
-        Orientation sensDuToit = Orientation.valueOf(chalets.sensDuToit());
-
-
-
-        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit, sensDuToit);
+        this.chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit, sensDuToit);
         saveState();
         notifyObservers();
     }
