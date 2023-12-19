@@ -17,7 +17,7 @@ public class OuvrirMenuItem extends JMenuItem {
     public OuvrirMenuItem(MainWindow mainWindow) {
         super(TEXT_OUVRIR);
         this.mainWindow = mainWindow;
-        this.chaletController = chaletController;
+        this.chaletController = mainWindow.getController();
 
         init();
     }
@@ -35,36 +35,26 @@ public class OuvrirMenuItem extends JMenuItem {
         JFileChooser fileChooser = new JFileChooser();
         int selection = fileChooser.showOpenDialog(mainWindow);
 
-        if(selection == JFileChooser.APPROVE_OPTION) {
+        if (selection == JFileChooser.APPROVE_OPTION) {
             File fichierSelectionne = fileChooser.getSelectedFile();
             String filePath = fichierSelectionne.getAbsolutePath();
 
-        }
-    }
-
-
-    private Chalet deserialize(String path) throws FileNotFoundException {
-        Chalet chalet = null;
-        ObjectInputStream oi = null;
-
-        try{
-            FileInputStream fichier = new FileInputStream(path);
-            oi = new ObjectInputStream(fichier);
-            chalet = (Chalet) oi.readObject();
-
-        } catch (IOException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(mainWindow, "Erreur" + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            try {
-                if (oi != null) {
-                    oi.close();
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(mainWindow, "Erreur lors de la fermeture du fichier : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            Chalet chalet = lire(filePath);
+            if (chalet != null) {
+                mainWindow.getController().setChalet(chalet);
+                mainWindow.getController().notifyObservers();
             }
         }
-
-            return chalet;
-        }
     }
+
+    private Chalet lire(String path) {
+        Chalet chalet = null;
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(path))) {
+            chalet = (Chalet) oi.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+        }
+        return chalet;
+
+    }
+}
 

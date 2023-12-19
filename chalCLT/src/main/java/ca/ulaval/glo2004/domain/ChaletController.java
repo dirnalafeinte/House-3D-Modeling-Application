@@ -47,6 +47,13 @@ public class ChaletController implements Observable, Serializable {
         notifyObservers();
     }
 
+    public void setChalet(Chalet newChalet){
+        this.chalet = newChalet;
+        if(afficheur != null) {
+            afficheur.setChalet(newChalet);
+        }
+        notifyObservers();
+    }
     public PorteDTO addPorte(AddPorteDTO addPorteDTO)  {
         Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
         chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
@@ -103,7 +110,6 @@ public class ChaletController implements Observable, Serializable {
         Imperial updatedDistanceMin = Imperial.fromString(chalets.distanceMin());
         double angleToit = Double.parseDouble(chalets.angleToit());
         Orientation sensDuToit = Orientation.valueOf(chalets.sensDuToit());
-
 
 
 

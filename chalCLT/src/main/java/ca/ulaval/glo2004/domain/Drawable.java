@@ -4,6 +4,8 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,12 @@ public abstract class Drawable implements Serializable {
         }
 
         return estContenu;
+    }
+
+    private void readObject(ObjectInputStream on) throws IOException, ClassNotFoundException{
+        on.defaultReadObject();
+
+        state = new DrawableState(true);
     }
 }
 
