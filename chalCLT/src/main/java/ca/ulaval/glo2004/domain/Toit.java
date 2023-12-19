@@ -72,13 +72,13 @@ public class Toit extends Drawable implements Serializable {
                 sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetOverflowToit());
                 break;
             case DROITE:
-                sommetsByVue.put(Orientation.FACADE.toVue(), sommetOverflowToitInverse());
+                sommetsByVue.put(Orientation.FACADE.toVue(), sommetOverflowToit());
                 break;
             case FACADE:
                 sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetOverflowToit());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.DROITE.toVue(), sommetOverflowToitInverse());
+                sommetsByVue.put(Orientation.DROITE.toVue(), sommetOverflowToit());
                 break;
         }
 
@@ -90,13 +90,13 @@ public class Toit extends Drawable implements Serializable {
                 sommetsByVue.put(Orientation.FACADE.toVue(), sommetOverflowToitInverse());
                 break;
             case DROITE:
-                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetOverflowToit());
+                sommetsByVue.put(Orientation.ARRIERE.toVue(), sommetOverflowToitInverse());
                 break;
             case FACADE:
                 sommetsByVue.put(Orientation.DROITE.toVue(), sommetOverflowToitInverse());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetOverflowToit());
+                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetOverflowToitInverse());
                 break;
         }
 
