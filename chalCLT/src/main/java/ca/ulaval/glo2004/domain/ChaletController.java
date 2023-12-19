@@ -6,6 +6,7 @@ import ca.ulaval.glo2004.domain.accessoires.Porte;
 import ca.ulaval.glo2004.domain.assemblers.AccessoireAssembler;
 import ca.ulaval.glo2004.domain.assemblers.DTOAssembler;
 import ca.ulaval.glo2004.domain.drawers.Afficheur;
+import ca.ulaval.glo2004.domain.drawers.AfficheurDrawable;
 import ca.ulaval.glo2004.domain.drawers.AfficheurMur;
 import ca.ulaval.glo2004.domain.drawers.AfficheurPlan;
 import ca.ulaval.glo2004.domain.dtos.*;
@@ -19,6 +20,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -98,6 +100,11 @@ public class ChaletController implements Observable, Serializable {
 
         return chalet.getMurs().stream().map(Mur::getFenetres).flatMap(List::stream).collect(Collectors.toMap(Fenetre::getId, dtoAssembler::toFenetreDTO));
     }
+
+    public Map<Orientation, MurDTO> getMursByOrientation() {
+        return chalet.getMurs().stream().collect(Collectors.toMap(Mur::getCote, dtoAssembler::toMurDTO));
+    }
+
     public void updateDimensions(ChaletDTO chalets) {
 
         Imperial updatedLongueur = Imperial.fromString(chalets.longueur());
@@ -252,5 +259,14 @@ public class ChaletController implements Observable, Serializable {
         chalet = state;
         afficheur.setChalet(chalet);
         notifyObservers();
+    }
+
+    public void afficherDrawable(String id, Orientation orientation) {
+        List<Drawable> components = chalet.getVisibleComponents(orientation.toVue());
+        Optional<Drawable> drawable = components.stream().findAny().filter(drawable1 -> drawable1.getId().equals(id));
+        drawable.ifPresent(drawable1 -> {
+            this.afficheur = new AfficheurDrawable(chalet, afficheur.getVue(), drawable1);
+            notifyObservers();
+        });
     }
 }
