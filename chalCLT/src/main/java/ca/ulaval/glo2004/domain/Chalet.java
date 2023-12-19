@@ -1,25 +1,21 @@
 package ca.ulaval.glo2004.domain;
 
-
 import ca.ulaval.glo2004.domain.accessoires.Accessoire;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
-
-
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.io.Serializable;
-
-public class Chalet implements Serializable{
+public class Chalet implements Serializable {
     private static final Imperial DEFAULT_LARGEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_LONGUEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
     private static final Imperial DEFAULT_DELTA_RAINURE = new Imperial();
     private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
-    private static final int DEFAULT_ANGLE_TOIT = 15;
+    private static final double DEFAULT_ANGLE_TOIT = 15.0;
     private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
     private static final Imperial DEFAULT_DISTANCE_MIN = Imperial.fromInches(3);
     private Imperial largeur;
@@ -31,12 +27,11 @@ public class Chalet implements Serializable{
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
-    public Toit toit;
-    public Pignon pignonDroit;
-    public Pignon pignonGauche;
-    public Rallonge rallonge;
+    private Toit toit;
+    private Pignon pignonDroit;
+    private Pignon pignonGauche;
+    private Rallonge rallonge;
     private Imperial distanceMin;
-    private ChaletController chaletController;
 
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
@@ -47,24 +42,6 @@ public class Chalet implements Serializable{
         this.angleToit = DEFAULT_ANGLE_TOIT;
         this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
         this.distanceMin = DEFAULT_DISTANCE_MIN;
-
-        init();
-    }
-
-    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit,
-                  double angleToit, Imperial epaisseurMur, Imperial distanceMin) {
-        this.largeur = largeur;
-        this.longueur = longueur;
-        this.hauteur = hauteur;
-        this.deltaRainure = deltaRainure;
-        this.sensDuToit = sensDuToit;
-        this.angleToit = (int) angleToit;
-        this.epaisseurMur = epaisseurMur;
-        this.distanceMin = distanceMin;
-        init();
-    }
-
-    private void init() {
         mursByOrientation.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
         mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
         mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
@@ -76,7 +53,6 @@ public class Chalet implements Serializable{
     }
 
     void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit, Orientation sensDuToit) {
-
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
         Imperial ratioLongueur = longueur.divide(this.longueur);
@@ -140,15 +116,13 @@ public class Chalet implements Serializable{
                 break;
             case GAUCHE:
                 for (Mur mur : getMurs()) {
-                    if (mur != droiteMur)
-                        components.add(mur);
+                    if (mur != droiteMur) components.add(mur);
                 }
                 components.addAll(gaucheMur.getAccessoires());
                 break;
             case DROITE:
                 for (Mur mur : getMurs()) {
-                    if (mur != gaucheMur)
-                        components.add(mur);
+                    if (mur != gaucheMur) components.add(mur);
                 }
                 components.addAll(droiteMur.getAccessoires());
                 break;
@@ -247,9 +221,5 @@ public class Chalet implements Serializable{
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
-    }
-
-    public ChaletController getChaletController() {
-        return chaletController;
     }
 }

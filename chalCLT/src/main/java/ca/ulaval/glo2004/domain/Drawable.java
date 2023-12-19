@@ -1,7 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
-import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
 import java.io.IOException;
@@ -17,7 +16,7 @@ public abstract class Drawable implements Serializable {
     protected final String id;
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected final Chalet chalet;
-    protected transient DrawableState state = new DrawableState(true);
+    protected DrawableState state = new DrawableState(true);
     protected boolean objectSelected;
 
     public Drawable(Chalet chalet) {

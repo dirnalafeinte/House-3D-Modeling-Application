@@ -22,21 +22,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-
 public class ChaletController implements Observable, Serializable {
-
     public Afficheur afficheur;
     private final List<Observer> observers = new ArrayList<>();
     private final AccessoireFactory accessoireFactory = new AccessoireFactory();
     private final ChaletFactory chaletFactory = new ChaletFactory();
     private final DTOAssembler dtoAssembler = new DTOAssembler();
     private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
+    private final ChaletCaretaker caretaker = new ChaletCaretaker();
     private Chalet chalet;
-    private ChaletDTO chaletDTO;
 
     public ChaletController() {
         chalet = chaletFactory.createDefaultChalet();
         afficheur = new AfficheurPlan(chalet, Vue.PLAN);
+        saveState();
     }
 
     public void setVue(Vue vue) {
@@ -57,6 +56,7 @@ public class ChaletController implements Observable, Serializable {
     public PorteDTO addPorte(AddPorteDTO addPorteDTO)  {
         Porte porte = accessoireFactory.createPorte(addPorteDTO, chalet);
         chalet.getMurByOrientation(Orientation.valueOf(addPorteDTO.orientation())).addAccessoire(porte);
+        saveState();
         notifyObservers();
         return dtoAssembler.toPorteDTO(porte);
     }
@@ -64,23 +64,27 @@ public class ChaletController implements Observable, Serializable {
     public FenetreDTO addFenetre(AddFenetreDTO addFenetreDTO) {
         Fenetre fenetre = accessoireFactory.createFenetre(addFenetreDTO, chalet);
         chalet.getMurByOrientation(Orientation.valueOf(addFenetreDTO.orientation())).addAccessoire(fenetre);
+        saveState();
         notifyObservers();
         return dtoAssembler.toFenetreDTO(fenetre);
     }
 
     public void deleteFenetre(FenetreDTO fenetreDTO) {
         chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).removeAccessoireById(fenetreDTO.id());
+        saveState();
         notifyObservers();
     }
 
     public void deletePorte(PorteDTO porteDTO) {
         chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).removeAccessoireById(porteDTO.id());
+        saveState();
         notifyObservers();
     }
 
     public PorteDTO modifyPorte(PorteDTO porteDTO) {
         Porte porte = accessoireAssembler.toPorte(porteDTO, chalet);
         chalet.getMurByOrientation(Orientation.valueOf(porteDTO.orientation())).modifyAccessoire(porte);
+        saveState();
         notifyObservers();
         return dtoAssembler.toPorteDTO(porte);
     }
@@ -88,6 +92,7 @@ public class ChaletController implements Observable, Serializable {
     public FenetreDTO modifyFenetre(FenetreDTO fenetreDTO) {
         Fenetre fenetre = accessoireAssembler.toFenetre(fenetreDTO, chalet);
         chalet.getMurByOrientation(Orientation.valueOf(fenetreDTO.orientation())).modifyAccessoire(fenetre);
+        saveState();
         notifyObservers();
         return dtoAssembler.toFenetreDTO(fenetre);
     }
@@ -114,6 +119,7 @@ public class ChaletController implements Observable, Serializable {
 
 
         chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit, sensDuToit);
+        saveState();
         notifyObservers();
     }
 
@@ -226,5 +232,32 @@ public class ChaletController implements Observable, Serializable {
     }
     public Chalet getChalet() {
         return this.chalet;
+    }
+
+    private void saveState() {
+        Chalet state = caretaker.clone(chalet);
+        caretaker.addMemento(new ChaletMemento(this, state));
+    }
+
+    public void undo() {
+        caretaker.undo();
+    }
+
+    public void redo() {
+        caretaker.redo();
+    }
+
+    public boolean canUndo() {
+        return caretaker.canUndo();
+    }
+
+    public boolean canRedo() {
+        return caretaker.canRedo();
+    }
+
+    public void restore(Chalet state) {
+        chalet = state;
+        afficheur.setChalet(chalet);
+        notifyObservers();
     }
 }

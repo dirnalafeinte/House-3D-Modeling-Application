@@ -16,5 +16,4 @@ public class QuitterMenuItem extends JMenuItem {
     private void init() {
         addActionListener(new QuitterSelectAction());
     }
-
 }
