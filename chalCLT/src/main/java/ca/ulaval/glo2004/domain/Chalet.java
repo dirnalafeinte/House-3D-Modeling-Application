@@ -15,7 +15,7 @@ public class Chalet implements Serializable {
     private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
     private static final Imperial DEFAULT_DELTA_RAINURE = new Imperial();
     private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
-    private static final double DEFAULT_ANGLE_TOIT = 15.0;
+    private static final double DEFAULT_ANGLE_TOIT = 75.0;
     private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
     private static final Imperial DEFAULT_DISTANCE_MIN = Imperial.fromInches(3);
     private Imperial largeur;
