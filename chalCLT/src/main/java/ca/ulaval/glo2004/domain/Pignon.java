@@ -43,7 +43,7 @@ public class Pignon extends Drawable implements Serializable {
                 sommetsByVue.put(Orientation.DROITE.toVue(), sommetsTriangleInverse());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetsTriangle());
+                sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetsTriangleInverse());
                 break;
         }
     }
@@ -60,7 +60,7 @@ public class Pignon extends Drawable implements Serializable {
                 sommetsByVue.put(Orientation.GAUCHE.toVue(), sommetsTriangle());
                 break;
             case ARRIERE:
-                sommetsByVue.put(Orientation.DROITE.toVue(), sommetsTriangleInverse());
+                sommetsByVue.put(Orientation.DROITE.toVue(), sommetsTriangle());
                 break;
         }
     }
