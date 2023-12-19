@@ -1,5 +1,6 @@
 package ca.ulaval.glo2004.domain;
 
+import java.io.*;
 import java.util.Stack;
 
 public class ChaletCaretaker {
@@ -31,5 +32,20 @@ public class ChaletCaretaker {
 
     public boolean canRedo() {
         return !redoHistory.isEmpty();
+    }
+
+    public Chalet clone(Chalet chalet) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(chalet);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Chalet) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

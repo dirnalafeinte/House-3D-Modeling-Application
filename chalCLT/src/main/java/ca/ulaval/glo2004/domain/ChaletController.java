@@ -227,16 +227,18 @@ public class ChaletController implements Observable, Serializable {
     }
 
     private void saveState() {
-        //ChaletMemento chaletMemento = new ChaletMemento(chalet, chalet.clone());
-        //caretaker.addMemento(chaletMemento);
+        Chalet state = caretaker.clone(chalet);
+        caretaker.addMemento(new ChaletMemento(this, state));
     }
 
     public void undo() {
         caretaker.undo();
+        notifyObservers();
     }
 
     public void redo() {
         caretaker.redo();
+        notifyObservers();
     }
 
     public boolean canUndo() {
@@ -245,5 +247,10 @@ public class ChaletController implements Observable, Serializable {
 
     public boolean canRedo() {
         return caretaker.canRedo();
+    }
+
+    public void restore(Chalet state) {
+        chalet = state;
+        afficheur.setChalet(chalet);
     }
 }

@@ -53,7 +53,6 @@ public class Chalet implements Serializable {
     }
 
     void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit, Orientation sensDuToit) {
-
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
         Imperial ratioLongueur = longueur.divide(this.longueur);
@@ -222,24 +221,5 @@ public class Chalet implements Serializable {
 
     public Mur getMurByOrientation(Orientation orientation) {
         return mursByOrientation.get(orientation);
-    }
-
-    public void restore(Chalet chalet) {
-        this.largeur = chalet.largeur;
-        this.longueur = chalet.longueur;
-        this.hauteur = chalet.hauteur;
-        this.deltaRainure = chalet.deltaRainure;
-        this.sensDuToit = chalet.sensDuToit;
-        this.angleToit = chalet.angleToit;
-        this.epaisseurMur = chalet.epaisseurMur;
-        this.distanceMin = chalet.distanceMin;
-        this.mursByOrientation.clear();
-        this.mursByOrientation.putAll(chalet.mursByOrientation);
-        this.mursByVue.clear();
-        this.mursByVue.putAll(chalet.mursByVue);
-        this.toit = chalet.toit;
-        this.pignonDroit = chalet.pignonDroit;
-        this.pignonGauche = chalet.pignonGauche;
-        this.rallonge = chalet.rallonge;
     }
 }
