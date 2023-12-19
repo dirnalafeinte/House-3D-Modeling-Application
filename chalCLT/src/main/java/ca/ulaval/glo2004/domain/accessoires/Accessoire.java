@@ -24,6 +24,7 @@ public abstract class Accessoire extends Drawable implements Serializable {
         this.type = type;
         this.mur = mur;
         calculateSommets();
+        validate();
     }
 
     public Accessoire(String id, Imperial largeur, Imperial hauteur, Coordonnee coordonnee, AccessoireType type, Chalet chalet, Mur mur) {
@@ -34,6 +35,7 @@ public abstract class Accessoire extends Drawable implements Serializable {
         this.type = type;
         this.mur = mur;
         calculateSommets();
+        validate();
     }
 
     public Imperial getLargeur() {

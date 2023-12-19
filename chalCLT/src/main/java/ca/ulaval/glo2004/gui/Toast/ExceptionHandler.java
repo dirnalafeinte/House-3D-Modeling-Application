@@ -11,6 +11,10 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
+        if (e.getClass() == NullPointerException.class) {
+            e.printStackTrace();
+            return;
+        }
         new Toast(mainWindow, e.getMessage());
         e.printStackTrace();
     }
