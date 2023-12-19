@@ -279,9 +279,4 @@ public class ChaletController implements Observable, Serializable {
             notifyObservers();
         });
     }
-
-    public void setIntervalGrid(String interval) {
-        afficheur.setInterval(Imperial.fromString(interval));
-        notifyObservers();
-    }
 }

@@ -17,13 +17,7 @@ public class TopRightPanel extends JPanel implements ActionListener {
     public TopRightPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         grilleCheckBox = new GrilleCheckBox(mainWindow);
-        textField = new TextField("6\"", 10);
-        textField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                mainWindow.getController().setIntervalGrid(textField.getText());
-            }
-        });
+        textField = new TextField(10);
         init();
     }
 
