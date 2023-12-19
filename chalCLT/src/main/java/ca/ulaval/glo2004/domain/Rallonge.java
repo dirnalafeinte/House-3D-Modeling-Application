@@ -98,7 +98,7 @@ public class Rallonge extends Drawable implements Serializable {
     }
 
 
-    private Imperial calculerYSommetTriangulation(){
+    public Imperial calculerYSommetTriangulation(){
         //brief : Triangulation de la partie superieur de la rallonge pour les Overflows.
         //return : la coordonnee Y du sommet du Overflow qui cree la triangulation
         int tetaPrime = (int) (180 - (90 + chalet.getAngleToit()));
@@ -124,16 +124,16 @@ public class Rallonge extends Drawable implements Serializable {
       }
     }
 
-    public Imperial getEpaisseur() {
+    private Imperial getEpaisseur() {
         return chalet.getEpaisseurMur();
     }
 
 
-    public Imperial getSmallEpaisseur() {
+    private Imperial getSmallEpaisseur() {
         return getEpaisseur().divideBy(2).subtract(chalet.getDeltaRainure().divideBy(2));
     }
 
-    public Imperial getBigEpaisseur() {
+    private Imperial getBigEpaisseur() {
         return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure().divideBy(2));
     }
 
@@ -141,7 +141,15 @@ public class Rallonge extends Drawable implements Serializable {
         return chalet.getLongueur();
     }
 
-    public Imperial getLargeur() {
+    private Imperial getLargeur() {
         return chalet.getLargeur();
+    }
+
+    public Imperial getHauteurRallonge() {
+        return hauteurRallonge;
+    }
+
+    public Imperial getLongueurRallonge() {
+        return longueurRallonge;
     }
 }
