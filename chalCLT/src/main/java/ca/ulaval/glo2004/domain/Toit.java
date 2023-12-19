@@ -12,6 +12,7 @@ public class Toit extends Drawable implements Serializable {
     private static final Color DEFAULT_COLOR = Color.cyan;
     private Imperial hauteurToit = new Imperial();
     private Imperial longueurToit = new Imperial();
+    private Imperial hauteurToitSecondaire = new Imperial();
 
     public Toit(Chalet chalet) {
         super(chalet);
@@ -201,10 +202,12 @@ public class Toit extends Drawable implements Serializable {
         if (Orientation.GAUCHE.equals(sensToit) || Orientation.DROITE.equals(sensToit)){
             this.longueurToit = getLongueur();
             this.hauteurToit = getLongueur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
+            this.hauteurToitSecondaire= getSmallEpaisseur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
         }
         if (Orientation.FACADE.equals(sensToit) || Orientation.ARRIERE.equals(sensToit)){
             this.longueurToit = getLargeur();
             this.hauteurToit = getLargeur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
+            this.hauteurToitSecondaire= getSmallEpaisseur().divideBy (Math.tan(Math.toRadians(chalet.getAngleToit())));
         }
     }
 
@@ -225,7 +228,19 @@ public class Toit extends Drawable implements Serializable {
         return chalet.getLongueur();
     }
 
-    public Imperial getLargeur() {
+    private Imperial getLargeur() {
         return chalet.getLargeur();
+    }
+
+    public Imperial getHauteurToit() {
+        return hauteurToit;
+    }
+
+    public Imperial getLongueurToit() {
+        return longueurToit;
+    }
+
+    public Imperial getHauteurToitSecondaire() {
+        return hauteurToitSecondaire;
     }
 }
