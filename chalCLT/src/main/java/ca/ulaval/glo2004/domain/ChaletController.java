@@ -290,4 +290,16 @@ public class ChaletController implements Observable, Serializable {
     public ToitDTO getToitDTO() {
         return dtoAssembler.toToitDTO(chalet.getToit());
     }
+
+    public RallongeDTO getRallongeDTO() {
+        return dtoAssembler.toRallongeDTO(chalet.getRallonge());
+    }
+
+    public PignonDTO getPignonDroitDTO() {
+        return dtoAssembler.toPignonDTO(chalet.getPignonDroit());
+    }
+
+    public PignonDTO getPignonGaucheDTO() {
+        return dtoAssembler.toPignonDTO(chalet.getPignonGauche());
+    }
 }

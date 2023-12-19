@@ -1,80 +1,56 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.Observer;
-import ca.ulaval.glo2004.domain.dtos.ChaletDTO;
+import ca.ulaval.glo2004.domain.dtos.PignonDTO;
 import ca.ulaval.glo2004.gui.MainWindow;
-
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
 
 public class PignonPanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
-
-    private JLabel errorLabel;
-
-    private JTextField longueurField, hauteurField;
-
-    private ChaletDTO chaletDTO;
+    private JComboBox pignonComboBox;
+    private JLabel idLabel;
+    private PignonDTO pignonDroitDTO, pignonGaucheDTO;
+    private JButton afficherButton;
 
     public PignonPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-
         init();
-        updatefields();
     }
 
     private void init() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new FlowLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
-
-
-        setBorder(BorderFactory.createTitledBorder("Modifier Pignons:"));
-
-        JLabel longueurLabel = new JLabel("Longueur:");
-        longueurField = new JTextField(5);
-        JLabel hauteurLabel = new JLabel("Hauteur:");
-        hauteurField = new JTextField(5);
-
-        addFocusListenerToTextField(longueurField);
-        addFocusListenerToTextField(hauteurField);
-
-
-        addComponentToPanel(longueurLabel);
-        addComponentToPanel(longueurField);
-        addComponentToPanel(hauteurLabel);
-        addComponentToPanel(hauteurField);
-
-        errorLabel = new JLabel("");
-        errorLabel.setForeground(Color.RED);
-        addComponentToPanel(errorLabel);
-        mainWindow.getController().registerObserver(this);
-    }
-
-
-    private void addFocusListenerToTextField(JTextField textField) {
-        textField.addFocusListener(new FocusAdapter() {
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                updateChalet(textField);
+        setBorder(BorderFactory.createTitledBorder("Pignons:"));
+        pignonComboBox = new JComboBox();
+        pignonComboBox.addItem("Droit");
+        pignonComboBox.addItem("Gauche");
+        pignonComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (pignonComboBox.getSelectedItem().equals("Droit")) {
+                    idLabel.setText(pignonDroitDTO.id());
+                } else {
+                    idLabel.setText(pignonGaucheDTO.id());
+                }
             }
         });
-    }
-
-    private void updateChalet(JTextField textField) {
-
-        String longueur = longueurField.getText();
-        String hauteur = hauteurField.getText();
-
-        ChaletDTO nouveauChalet = new ChaletDTO(chaletDTO.largeur(), longueur, hauteur, chaletDTO.deltaRainure(), chaletDTO.epaisseurMur(), chaletDTO.distanceMin(), chaletDTO.angleToit(), chaletDTO.sensDuToit());
-
-        mainWindow.getController().updateDimensions(nouveauChalet);
+        JLabel idTitleLabel = new JLabel("ID: ");
+        idLabel = new JLabel("");
+        afficherButton = new JButton("Afficher rallonge");
+        afficherButton.addActionListener(e -> {
+            if (idLabel.getText() != null) {
+                mainWindow.getController().afficherDrawable(idLabel.getText());
+            }
+        });
+        addComponentToPanel(pignonComboBox);
+        addComponentToPanel(idTitleLabel);
+        addComponentToPanel(idLabel);
+        addComponentToPanel(afficherButton);
+        mainWindow.getController().registerObserver(this);
+        update();
     }
 
     private void addComponentToPanel(JComponent component) {
@@ -85,16 +61,17 @@ public class PignonPanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-//        chaletDTO = mainWindow.getController().getChalet();
-        updatefields();
-
+        pignonDroitDTO = mainWindow.getController().getPignonDroitDTO();
+        pignonGaucheDTO = mainWindow.getController().getPignonGaucheDTO();
+        updateFields();
     }
 
-    private void updatefields() {
-        chaletDTO = mainWindow.getController().getChaletDTO();
-        if (chaletDTO != null) {
-            longueurField.setText(chaletDTO.longueur());
-            hauteurField.setText(chaletDTO.hauteur());
+    private void updateFields() {
+        String side = (String) pignonComboBox.getSelectedItem();
+        if (side.equals("Droit")) {
+            idLabel.setText(pignonDroitDTO.id());
+        } else {
+            idLabel.setText(pignonGaucheDTO.id());
         }
     }
 }
