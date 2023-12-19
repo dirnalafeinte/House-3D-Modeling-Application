@@ -1,20 +1,15 @@
 package ca.ulaval.glo2004.domain;
 
-
 import ca.ulaval.glo2004.domain.accessoires.Accessoire;
-import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
-
-
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.io.Serializable;
-
-public class Chalet implements Serializable{
+public class Chalet implements Serializable {
     private static final Imperial DEFAULT_LARGEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_LONGUEUR = Imperial.fromFeet(10);
     private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
@@ -32,12 +27,11 @@ public class Chalet implements Serializable{
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
-    public Toit toit;
-    public Pignon pignonDroit;
-    public Pignon pignonGauche;
-    public Rallonge rallonge;
+    private Toit toit;
+    private Pignon pignonDroit;
+    private Pignon pignonGauche;
+    private Rallonge rallonge;
     private Imperial distanceMin;
-    private ChaletController chaletController;
 
     public Chalet() {
         this.largeur = DEFAULT_LARGEUR;
@@ -48,23 +42,6 @@ public class Chalet implements Serializable{
         this.angleToit = DEFAULT_ANGLE_TOIT;
         this.epaisseurMur = DEFAULT_EPAISSEUR_MUR;
         this.distanceMin = DEFAULT_DISTANCE_MIN;
-        init();
-    }
-
-    public Chalet(Imperial largeur, Imperial longueur, Imperial hauteur, Imperial deltaRainure, Orientation sensDuToit,
-                  int angleToit, Imperial epaisseurMur, Imperial distanceMin) {
-        this.largeur = largeur;
-        this.longueur = longueur;
-        this.hauteur = hauteur;
-        this.deltaRainure = deltaRainure;
-        this.sensDuToit = sensDuToit;
-        this.angleToit = angleToit;
-        this.epaisseurMur = epaisseurMur;
-        this.distanceMin = distanceMin;
-        init();
-    }
-
-    private void init() {
         mursByOrientation.put(Orientation.FACADE, new Mur(this, Orientation.FACADE));
         mursByOrientation.put(Orientation.ARRIERE, new Mur(this, Orientation.ARRIERE));
         mursByOrientation.put(Orientation.GAUCHE, new Mur(this, Orientation.GAUCHE));
@@ -138,15 +115,13 @@ public class Chalet implements Serializable{
                 break;
             case GAUCHE:
                 for (Mur mur : getMurs()) {
-                    if (mur != droiteMur)
-                        components.add(mur);
+                    if (mur != droiteMur) components.add(mur);
                 }
                 components.addAll(gaucheMur.getAccessoires());
                 break;
             case DROITE:
                 for (Mur mur : getMurs()) {
-                    if (mur != gaucheMur)
-                        components.add(mur);
+                    if (mur != gaucheMur) components.add(mur);
                 }
                 components.addAll(droiteMur.getAccessoires());
                 break;
@@ -247,7 +222,22 @@ public class Chalet implements Serializable{
         return mursByOrientation.get(orientation);
     }
 
-    public ChaletController getChaletController() {
-        return chaletController;
+    public void restore(Chalet chalet) {
+        this.largeur = chalet.largeur;
+        this.longueur = chalet.longueur;
+        this.hauteur = chalet.hauteur;
+        this.deltaRainure = chalet.deltaRainure;
+        this.sensDuToit = chalet.sensDuToit;
+        this.angleToit = chalet.angleToit;
+        this.epaisseurMur = chalet.epaisseurMur;
+        this.distanceMin = chalet.distanceMin;
+        this.mursByOrientation.clear();
+        this.mursByOrientation.putAll(chalet.mursByOrientation);
+        this.mursByVue.clear();
+        this.mursByVue.putAll(chalet.mursByVue);
+        this.toit = chalet.toit;
+        this.pignonDroit = chalet.pignonDroit;
+        this.pignonGauche = chalet.pignonGauche;
+        this.rallonge = chalet.rallonge;
     }
 }
