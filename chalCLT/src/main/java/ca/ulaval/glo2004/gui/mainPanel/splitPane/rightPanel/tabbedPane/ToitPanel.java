@@ -1,80 +1,44 @@
 package ca.ulaval.glo2004.gui.mainPanel.splitPane.rightPanel.tabbedPane;
 
 import ca.ulaval.glo2004.domain.Observer;
-import ca.ulaval.glo2004.domain.dtos.ChaletDTO;
+import ca.ulaval.glo2004.domain.dtos.ToitDTO;
 import ca.ulaval.glo2004.gui.MainWindow;
 
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class ToitPanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
-
-    private JLabel errorLabel;
-
-    private JTextField longueurField, hauteurField;
-
-    private ChaletDTO chaletDTO;
+    private JLabel idLabel;
+    private ToitDTO toitDTO;
+    private JButton afficherButton;
 
     public ToitPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
         init();
-        updatefields();
+        updateFields();
     }
 
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(10, 10, 10, 10));
-
-
-        setBorder(BorderFactory.createTitledBorder("Modifier Toit:"));
-
-        JLabel longueurLabel = new JLabel("Longueur:");
-        longueurField = new JTextField(5);
-        JLabel hauteurLabel = new JLabel("Hauteur:");
-        hauteurField = new JTextField(5);
-
-        addFocusListenerToTextField(longueurField);
-        addFocusListenerToTextField(hauteurField);
-
-
-        addComponentToPanel(longueurLabel);
-        addComponentToPanel(longueurField);
-        addComponentToPanel(hauteurLabel);
-        addComponentToPanel(hauteurField);
-
-        errorLabel = new JLabel("");
-        errorLabel.setForeground(Color.RED);
-        addComponentToPanel(errorLabel);
-        mainWindow.getController().registerObserver(this);
-    }
-
-
-    private void addFocusListenerToTextField(JTextField textField) {
-        textField.addFocusListener(new FocusAdapter() {
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                updateChalet(textField);
+        setBorder(BorderFactory.createTitledBorder("Toit:"));
+        JLabel idTitleLabel = new JLabel("ID: ");
+        idLabel = new JLabel("");
+        afficherButton = new JButton("Afficher toit");
+        afficherButton.addActionListener(e -> {
+            if (idLabel.getText() != null) {
+                mainWindow.getController().afficherDrawable(idLabel.getText());
             }
         });
-    }
-
-    private void updateChalet(JTextField textField) {
-
-        String longueur = longueurField.getText();
-        String hauteur = hauteurField.getText();
-
-        ChaletDTO nouveauChalet = new ChaletDTO(chaletDTO.largeur(), longueur, hauteur, chaletDTO.deltaRainure(), chaletDTO.epaisseurMur(), chaletDTO.distanceMin(), chaletDTO.angleToit(), chaletDTO.sensDuToit());
-
-        mainWindow.getController().updateDimensions(nouveauChalet);
+        addComponentToPanel(idTitleLabel);
+        addComponentToPanel(idLabel);
+        addComponentToPanel(afficherButton);
+        mainWindow.getController().registerObserver(this);
+        update();
     }
 
     private void addComponentToPanel(JComponent component) {
@@ -85,16 +49,13 @@ public class ToitPanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-//        chaletDTO = mainWindow.getController().getChalet();
-        updatefields();
-
+        toitDTO = mainWindow.getController().getToitDTO();
+        updateFields();
     }
 
-    private void updatefields() {
-        chaletDTO = mainWindow.getController().getChaletDTO();
-        if (chaletDTO != null) {
-            longueurField.setText(chaletDTO.longueur());
-            hauteurField.setText(chaletDTO.hauteur());
+    private void updateFields() {
+        if (toitDTO != null) {
+            idLabel.setText(toitDTO.id());
         }
     }
 }

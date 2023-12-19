@@ -17,8 +17,6 @@ public class MurPanel extends JPanel implements Observer {
     private JLabel idLabel, orientationLabel;
     private JButton afficherButton;
     private Map<Orientation, MurDTO> mursByOrientation;
-    private String selectedId;
-    private Orientation selectedOrientation;
 
     public MurPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -48,16 +46,22 @@ public class MurPanel extends JPanel implements Observer {
             if (murComboBox.getSelectedItem() != null) {
                 Orientation orientation = Orientation.valueOf(orientationLabel.getText());
                 String id = mursByOrientation.get(orientation).id();
-                mainWindow.getController().afficherDrawable(id, orientation);
+                mainWindow.getController().afficherDrawable(id);
             }
         });
-        add(murComboBox);
-        add(idTitleLabel);
-        add(idLabel);
-        add(orientationTitleLabel);
-        add(orientationLabel);
-        add(afficherButton);
+        addComponentToPanel(murComboBox);
+        addComponentToPanel(idTitleLabel);
+        addComponentToPanel(idLabel);
+        addComponentToPanel(orientationTitleLabel);
+        addComponentToPanel(orientationLabel);
+        addComponentToPanel(afficherButton);
         update();
+    }
+
+    private void addComponentToPanel(JComponent component) {
+        component.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(component);
+        this.add(Box.createRigidArea(new Dimension(0, 5)));
     }
 
     @Override

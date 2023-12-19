@@ -101,36 +101,15 @@ public class Chalet implements Serializable {
 
     public List<Drawable> getVisibleComponents(Vue vue) {
         List<Drawable> components = new ArrayList<>();
-        Mur facadeMur = getMurByOrientation(Orientation.FACADE);
-        Mur gaucheMur = getMurByOrientation(Orientation.GAUCHE);
-        Mur droiteMur = getMurByOrientation(Orientation.DROITE);
-        Mur arriereMur = getMurByOrientation(Orientation.ARRIERE);
 
-        switch (vue) {
-            case PLAN:
-                components.addAll(getMurs());
-                break;
-            case FACADE:
-                components.add(facadeMur);
-                components.addAll(facadeMur.getAccessoires());
-                break;
-            case GAUCHE:
-                for (Mur mur : getMurs()) {
-                    if (mur != droiteMur) components.add(mur);
-                }
-                components.addAll(gaucheMur.getAccessoires());
-                break;
-            case DROITE:
-                for (Mur mur : getMurs()) {
-                    if (mur != gaucheMur) components.add(mur);
-                }
-                components.addAll(droiteMur.getAccessoires());
-                break;
-            case ARRIERE:
-                components.add(arriereMur);
-                components.addAll(arriereMur.getAccessoires());
-                break;
-        }
+        getMurs().stream().filter(mur -> mur.isVisible(vue)).toList().forEach(mur -> {
+            components.add(mur);
+            components.addAll(mur.getAccessoires());
+        });
+        if (toit.isVisible(vue)) components.add(toit);
+        if (pignonDroit.isVisible(vue)) components.add(pignonDroit);
+        if (pignonGauche.isVisible(vue)) components.add(pignonGauche);
+        if (rallonge.isVisible(vue)) components.add(rallonge);
 
         return components;
     }

@@ -278,12 +278,16 @@ public class ChaletController implements Observable, Serializable {
         notifyObservers();
     }
 
-    public void afficherDrawable(String id, Orientation orientation) {
-        List<Drawable> components = chalet.getVisibleComponents(orientation.toVue());
-        Optional<Drawable> drawable = components.stream().findAny().filter(drawable1 -> drawable1.getId().equals(id));
-        drawable.ifPresent(drawable1 -> {
-            this.afficheur = new AfficheurDrawable(chalet, afficheur.getVue(), drawable1);
+    public void afficherDrawable(String id) {
+        List<Drawable> components = chalet.getVisibleComponents(afficheur.getVue());
+        Optional<Drawable> drawable = components.stream().filter(component -> component.getId().equals(id)).findAny();
+        drawable.ifPresent(component -> {
+            this.afficheur = new AfficheurDrawable(chalet, afficheur.getVue(), component);
             notifyObservers();
         });
+    }
+
+    public ToitDTO getToitDTO() {
+        return dtoAssembler.toToitDTO(chalet.getToit());
     }
 }
