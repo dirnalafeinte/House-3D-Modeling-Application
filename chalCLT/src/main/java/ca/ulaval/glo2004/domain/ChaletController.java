@@ -307,4 +307,9 @@ public class ChaletController implements Observable, Serializable {
     public PignonDTO getPignonGaucheDTO() {
         return dtoAssembler.toPignonDTO(chalet.getPignonGauche());
     }
+
+    public int getHauteurChalet() {
+        UnitConverter unitConverter = new UnitConverter();
+        return unitConverter.inchesToPixel(chalet.getHauteur().toInches());
+    }
 }

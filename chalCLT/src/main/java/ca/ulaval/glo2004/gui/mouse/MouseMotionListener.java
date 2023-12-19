@@ -23,9 +23,8 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
         List<Drawable> components = controller().getChalet().getVisibleComponents(controller().afficheur.getVue());
         List<Accessoire> accessoires = new ArrayList<>();
         Point mousePoint = e.getPoint();
-        int panelHeight = mainWindow.getMainPanel().getSplitPane().getCenterPanel().getDrawingPanel().getHeight();
-        int invertedY = panelHeight - mousePoint.y;
-
+        int hauteurPixel = mainWindow.getController().getHauteurChalet();
+        int invertedY = hauteurPixel - mousePoint.y;
         Coordonnee mouseCoord = controller().getMousePostionInCoordonnee(mousePoint.x, invertedY);
 
         for (Drawable drawable : components) {
