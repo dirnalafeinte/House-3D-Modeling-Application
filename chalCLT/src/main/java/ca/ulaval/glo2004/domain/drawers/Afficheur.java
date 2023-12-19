@@ -47,18 +47,37 @@ public abstract class Afficheur {
         return sommets.stream().mapToInt(coordonnee -> (unitConverter.inchesToPixel(coordonnee.getY().toInches()))).toArray();
     }
 
-    public void drawGrille(Graphics g, int largeur, int hauteur)
-    {
-        g.setColor(Color.LIGHT_GRAY);
+    public void drawGrille(Graphics2D g2d) {
+        g2d.setColor(Color.LIGHT_GRAY);
 
-        int intervalle = unitConverter.inchesToPixel(zoomFactor * Imperial.fromString(intervalLigne).toInches());
+        int intervalle = unitConverter.inchesToPixel(Imperial.fromString(intervalLigne).toInches());
+        int largeur = 0;
+        int hauteurNegative = 0;
+        int hauteurPositive = 0;
 
-        for (int x = 0; x < largeur; x += intervalle) {
-            g.drawLine(x, 0, x, hauteur);
+        switch (vue) {
+            case PLAN -> {
+                largeur = unitConverter.inchesToPixel(chalet.getLongueur().toInches());
+                hauteurPositive = unitConverter.inchesToPixel(chalet.getLargeur().toInches());
+            }
+            case DROITE, GAUCHE -> {
+                largeur = unitConverter.inchesToPixel(chalet.getLargeur().toInches());
+                hauteurPositive = unitConverter.inchesToPixel(chalet.getHauteur().toInches());
+                hauteurNegative = unitConverter.inchesToPixel(chalet.getToit().getHauteurToit().multiplyBy(-1).toInches());
+            }
+            case FACADE, ARRIERE -> {
+                largeur = unitConverter.inchesToPixel(chalet.getLongueur().toInches());
+                hauteurPositive = unitConverter.inchesToPixel(chalet.getHauteur().toInches());
+                hauteurNegative = unitConverter.inchesToPixel(chalet.getToit().getHauteurToit().multiplyBy(-1).toInches());
+            }
         }
 
-        for (int y = 0; y < hauteur; y += intervalle) {
-            g.drawLine(0, y, largeur, y);
+        for (int x = 0; x < largeur; x += intervalle) {
+            g2d.drawLine(x, hauteurNegative, x, hauteurPositive);
+        }
+
+        for (int y = hauteurNegative; y < hauteurPositive; y += intervalle) {
+            g2d.drawLine(0, y, largeur, y);
         }
     }
 
