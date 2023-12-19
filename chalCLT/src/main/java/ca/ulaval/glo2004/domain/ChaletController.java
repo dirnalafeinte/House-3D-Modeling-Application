@@ -102,11 +102,12 @@ public class ChaletController implements Observable, Serializable {
         Imperial updatedDeltaRainure = Imperial.fromString(chalets.deltaRainure());
         Imperial updatedDistanceMin = Imperial.fromString(chalets.distanceMin());
         double angleToit = Double.parseDouble(chalets.angleToit());
+        Orientation sensDuToit = Orientation.valueOf(chalets.sensDuToit());
 
 
 
 
-        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit);
+        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit, sensDuToit);
         notifyObservers();
     }
 

@@ -75,7 +75,7 @@ public class Chalet implements Serializable{
         this.pignonGauche = new Pignon(this, false);
     }
 
-    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit) {
+    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit, Orientation sensDuToit) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -88,6 +88,7 @@ public class Chalet implements Serializable{
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
         this.angleToit = angleToit;
+        this.sensDuToit = sensDuToit;
 
         for (Mur mur : getMurs()) {
             mur.calculateSommets();
