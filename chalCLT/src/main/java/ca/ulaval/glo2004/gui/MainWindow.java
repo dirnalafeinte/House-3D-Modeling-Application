@@ -35,10 +35,6 @@ public class MainWindow extends JFrame implements Serializable {
         revalidate();
     }
 
-    public void ouvrirFichier(String filePath) {
-        this.controller.importerFichier(filePath);
-    }
-
     public MainPanel getMainPanel() {
         return mainPanel;
     }
