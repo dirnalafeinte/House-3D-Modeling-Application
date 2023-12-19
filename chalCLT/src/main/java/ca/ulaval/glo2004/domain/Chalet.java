@@ -27,10 +27,10 @@ public class Chalet implements Serializable {
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
-    private Toit toit;
-    private Pignon pignonDroit;
-    private Pignon pignonGauche;
-    private Rallonge rallonge;
+    protected Toit toit;
+    protected Pignon pignonDroit;
+    protected Pignon pignonGauche;
+    protected Rallonge rallonge;
     private Imperial distanceMin;
 
     public Chalet() {

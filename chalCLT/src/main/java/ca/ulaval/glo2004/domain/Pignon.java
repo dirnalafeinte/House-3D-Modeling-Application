@@ -117,25 +117,25 @@ public class Pignon extends Drawable implements Serializable {
         return chalet.getEpaisseurMur();
     }
 
-    public Imperial getSmallEpaisseur() {
-        return getEpaisseur().divideBy(2).subtract(chalet.getDeltaRainure().divideBy(2));
-    }
-
-    public Imperial getBigEpaisseur() {
+    private Imperial getBigEpaisseur() {
         return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure().divideBy(2));
-    }
-
-    public Imperial getBigEpaisseurFullDelta() {
-        return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure());
     }
 
     private Imperial getLongueur() {
         return chalet.getLongueur();
     }
 
-
-    public Imperial getLargeur() {
+    private Imperial getLargeur() {
         return chalet.getLargeur();
     }
+
+    public Imperial getHauteurPignon() {
+        return hauteurPignon;
+    }
+
+    public Imperial getLongueurPignon() {
+        return longueurPignon;
+    }
+
 }
 

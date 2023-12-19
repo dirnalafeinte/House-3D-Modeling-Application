@@ -25,6 +25,9 @@ public class SauvegarderMenuItem extends JMenuItem {
         });
     }
 
+    private void init() {
+    }
+
     private void sauvegarderEnFichier() {
         JFileChooser fileChooser = new JFileChooser();
         int selection = fileChooser.showSaveDialog(mainWindow);
@@ -41,7 +44,5 @@ public class SauvegarderMenuItem extends JMenuItem {
            }
 
         }
-    }
-    private void init() {
     }
 }
