@@ -51,13 +51,13 @@ public abstract class Afficheur {
     {
         g.setColor(Color.LIGHT_GRAY);
 
-        Imperial intervalle = Imperial.fromString(intervalLigne);
+        int intervalle = unitConverter.inchesToPixel(Imperial.fromString(intervalLigne).toInches());
 
-        for (int x = 0; x < largeur; x += (int) intervalle.toInches()) {
+        for (int x = 0; x < largeur; x += intervalle) {
             g.drawLine(x, 0, x, hauteur);
         }
 
-        for (int y = 0; y < hauteur; y += (int) intervalle.toInches()) {
+        for (int y = 0; y < hauteur; y += intervalle) {
             g.drawLine(0, y, largeur, y);
         }
     }
