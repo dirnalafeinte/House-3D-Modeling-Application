@@ -1,6 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
 import ca.ulaval.glo2004.domain.util.Coordonnee;
+import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,18 +40,18 @@ public class ExportRetrait extends Export {
             case D:
                 writeStlForD();
                 break;
-//            case T:
-//                writeStlForT();
-//                break;
-//            case R:
-//                writeStlForR();
-//                break;
-//            case PG:
-//                writeStlForPG();
-//                break;
-//            case PD:
-//                writeStlForPD();
-//                break;
+            case T:
+                writeStlForT();
+                break;
+            case R:
+                writeStlForR();
+                break;
+            case PG:
+                writeStlForPG();
+                break;
+            case PD:
+                writeStlForPD();
+                break;
         }
     }
 
@@ -257,22 +258,204 @@ public class ExportRetrait extends Export {
         }
     }
 
-//    protected void writeStlForT() throws IOException {
-//        writer.write("STL data for Panneau T");
-//    }
-//
-//
-//    protected void writeStlForR() throws IOException {
-//        writer.write("STL data for Panneau R");
-//    }
-//
-//
-//    protected void writeStlForPG() throws IOException {
-//        writer.write("STL data for Panneau PG");
-//    }
-//
-//
-//    protected void writeStlForPD() throws IOException {
-//        writer.write("STL data for Panneau PD");
-//    }
+    protected void writeStlForRA(FileWriter writer) throws IOException {
+        Imperial oppose= chalet.rallonge.getHauteurRallonge().subtract(chalet.rallonge.calculerYSommetTriangulation()).negate();
+        writer.write("STL data for Panneau R");
+        writer.write("solid Panneau R\n");
+        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.getHauteurRallonge().toInches(), chalet.getLargeur().toInches(), normalArriere);
+        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), normalArriere);
+        writeStlForFace(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalGauche);
+        writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalHaut);
+
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writeStlForCote(writer, 0, chalet.getHauteur().toInches(), -chalet.rallonge.calculerYSommetTriangulation().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), normalDroite);
+
+        writer.write("facet normal " + normalGauche + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writeStlForCote(writer, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), -chalet.rallonge.calculerYSommetTriangulation().toInches(), chalet.getLargeur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), normalGauche);
+
+        writer.write("facet normal " + normalDroite + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()-getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writeStlForCote(writer, getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), -chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalDroite);
+
+        writer.write("facet normal " + normalGauche + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()-getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writeStlForCote(writer, chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), -chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalGauche);
+
+        writer.write("facet normal " + normalBas + "\n");//haut rallonge
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        writer.write("facet normal " + normalBas + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writer.write("facet normal " + normalBas + "\n");//haut retrait
+        writer.write("outer loop\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+        writer.write("facet normal " + normalBas + "\n");
+        writer.write("outer loop\n");
+        writer.write("vertex " + getSmallEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writer.write("endsolid Panneau R\n");
+    }
+    protected void writeStlForT() throws IOException {
+        int sequentialNumber = 1;
+        Mur mur = chalet.getMurByOrientation(Orientation.FACADE);
+        String nom_fichier = "ChalCLT_Retrait_A";
+
+        // rainure 1
+        File file_rainure1 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure1 = new FileWriter(file_rainure1)) {
+            writeStlRainure1(writer_rainure1, mur);
+            sequentialNumber++;
+        }
+
+        //rainure 2
+        File file_rainure2 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure2 = new FileWriter(file_rainure2);) {
+            writeStlRainure2(writer_rainure2, mur);
+            sequentialNumber++;
+        }
+
+        for (int i = 0; i < mur.getAccessoires().size(); i++) {
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            File file = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+            try (FileWriter writer = new FileWriter(file)) {
+                writeStlAccessoire(writer, accessoryPoints);
+                sequentialNumber++;
+            }
+        }
+    }
+
+
+    protected void writeStlForR() throws IOException {
+        int sequentialNumber = 1;
+        Mur mur = chalet.getMurByOrientation(Orientation.ARRIERE);
+        String nom_fichier = "ChalCLT_Retrait_A";
+
+        // rainure 1
+        File file_rainure1 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure1 = new FileWriter(file_rainure1)) {
+            writeStlRainure1(writer_rainure1, mur);
+            sequentialNumber++;
+        }
+
+        //rainure 2
+        File file_rainure2 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure2 = new FileWriter(file_rainure2);) {
+            writeStlRainure2(writer_rainure2, mur);
+            sequentialNumber++;
+        }
+
+        for (int i = 0; i < mur.getAccessoires().size(); i++) {
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            File file = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+            try (FileWriter writer = new FileWriter(file)) {
+                writeStlAccessoire(writer, accessoryPoints);
+                sequentialNumber++;
+            }
+        }
+    }
+
+
+    protected void writeStlForPG() throws IOException {
+        int sequentialNumber = 1;
+        Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
+        String nom_fichier = "ChalCLT_Retrait_G";
+
+        // rainure 1
+        File file_rainure1 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure1 = new FileWriter(file_rainure1)) {
+            writeStlRainureL1(writer_rainure1, mur);
+            sequentialNumber++;
+        }
+
+        //rainure 2
+        File file_rainure2 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure2 = new FileWriter(file_rainure2);) {
+            writeStlRainureL2(writer_rainure2, mur);
+            sequentialNumber++;
+        }
+
+        for (int i = 0; i < mur.getAccessoires().size(); i++) {
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            File file = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+            try (FileWriter writer = new FileWriter(file)) {
+                writeStlAccessoire(writer, accessoryPoints);
+                sequentialNumber++;
+            }
+        }
+    }
+
+
+    protected void writeStlForPD() throws IOException {
+        int sequentialNumber = 1;
+        Mur mur = chalet.getMurByOrientation(Orientation.DROITE);
+        String nom_fichier = "ChalCLT_Retrait_D";
+
+        // rainure 1
+        File file_rainure1 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure1 = new FileWriter(file_rainure1)) {
+            writeStlRainureL1(writer_rainure1, mur);
+            sequentialNumber++;
+        }
+
+        //rainure 2
+        File file_rainure2 = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+        try (FileWriter writer_rainure2 = new FileWriter(file_rainure2);) {
+            writeStlRainureL2(writer_rainure2, mur);
+            sequentialNumber++;
+        }
+
+        for (int i = 0; i < mur.getAccessoires().size(); i++) {
+            List<Coordonnee> accessoryPoints = mur.getAccessoires().get(i).getSommetsByVue(mur.getCote().toVue());
+            File file = new File(path, String.format("%s_%d.stl", nom_fichier, sequentialNumber));
+            try (FileWriter writer = new FileWriter(file)) {
+                writeStlAccessoire(writer, accessoryPoints);
+                sequentialNumber++;
+            }
+        }
+    }
 }

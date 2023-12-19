@@ -328,7 +328,7 @@ public class ExportFini extends Export {
     }
 
 
-    protected void writeStlForD(FileWriter writer) throws IOException {//TODO: A changer
+    protected void writeStlForD(FileWriter writer) throws IOException {
         Mur mur = chalet.getMurByOrientation(Orientation.GAUCHE);
         List<ArrayList<Coordonnee>> rectangles=prepareRectangleForStl(mur);
         double premiereEpaisseurDuMurRainure = mur.getSmallEpaisseur().toInches();
@@ -405,6 +405,22 @@ public class ExportFini extends Export {
 
         writer.write("facet normal " + normalBas + "\n");//haut face
         writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.toit.getHauteurToit().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()  + " " + chalet.toit.getHauteurToitSecondaire().toInches() + " " + (-chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()  + " " + 0 + " " + (-chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writer.write("facet normal " + normalBas + "\n");//haut face
+        writer.write("outer loop\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()  + " " + -chalet.toit.getHauteurToit().toInches() + " " + 0 + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches()  + " " + (-chalet.toit.getHauteurToit().toInches()-getSmallEpaisseur().toInches()) + " " + 0 + "\n"); //point 1
+        writer.write("vertex " + chalet.getLongueur().toInches()  + " " + 0 + " " + (-chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
+        writer.write("endloop\n");
+        writer.write("endfacet\n");
+
+        writer.write("facet normal " + normalBas + "\n");//haut face
+        writer.write("outer loop\n");
         writer.write("facet normal " + normalBas + "\n");//haut face
         writer.write("outer loop\n");
         writer.write("vertex " + 0 + " " + 0 + " " + (-chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
@@ -428,76 +444,17 @@ public class ExportFini extends Export {
         writer.write("vertex " + 0 + " " + getSmallEpaisseur().toInches() + " " + (-chalet.toit.getLongueurToit().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
-
-
-        //writer.write("vertex " + 0 + " " + chalet.toit.getHauteurToitSecondaire().toInches() + " " + (-chalet.toit.getLongueurToit().toInches()-getSmallEpaisseur().toInches()) + "\n");
-//
-//
-//
-        //writer.write("vertex " + 0 + " " + 0 + " " + -chalet.toit.getLongueurToit().toInches() + "\n");
-        //writer.write("vertex " + 0 + " " + getSmallEpaisseur().toInches() + " " + -chalet.toit.getLongueurToit().toInches() + "\n");
-        //writer.write("vertex " + 0 + " " + -chalet.toit.getHauteurToit().toInches() + " " + 0 + "\n");
-        //
-        //
-//
-//
-//
-//
-//
-        //writer.write("endloop\n");
-        //writer.write("endfacet\n");
-        //writer.write("facet normal " + normalBas + "\n");
-        //writer.write("outer loop\n");
-        //writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (getEpaisseur().toInches()) + "\n");
-        //writer.write("endloop\n");
-        //writer.write("endfacet\n");
-//
-        //writer.write("facet normal " + normalBas + "\n");//haut rallonge
-        //writer.write("outer loop\n");
-        //writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        //writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("endloop\n");
-        //writer.write("endfacet\n");
-        //writer.write("facet normal " + normalBas + "\n");
-        //writer.write("outer loop\n");
-        //writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("endloop\n");
-        //writer.write("endfacet\n");
-//
-        ////writer.write("facet normal " + normalBas + "\n");//haut rallonge
-        ////writer.write("outer loop\n");
-        ////writer.write("vertex " + 0 + " " + (-chalet.rallonge.getHauteurRallonge().toInches()+ oppose.toInches()) + " " + chalet.getLargeur().toInches() + "\n");
-        ////writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + (getSmallEpaisseur().toInches()) + "\n");
-        ////writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + (getSmallEpaisseur().toInches()) + "\n");
-        ////writer.write("endloop\n");
-        ////writer.write("endfacet\n");
-        //writer.write("facet normal " + normalBas + "\n");
-        //writer.write("outer loop\n");
-        //writer.write("vertex " + 0 + " " + (-chalet.rallonge.getHauteurRallonge().toInches()+oppose.toInches()) + " " + chalet.getLargeur().toInches() + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches()+380+ " " + chalet.getLargeur().toInches() + "\n");
-        //writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches()+380 + " " + (getSmallEpaisseur().toInches()) + "\n");
-        //writer.write("endloop\n");
-        //writer.write("endfacet\n");
-//
-        //writer.write("endsolid Panneau T\n");
    }
-//
-//
+
     protected void writeStlForR(FileWriter writer) throws IOException {
         Imperial oppose= chalet.rallonge.getHauteurRallonge().subtract(chalet.rallonge.calculerYSommetTriangulation()).negate();
         writer.write("STL data for Panneau R");
         writer.write("solid Panneau R\n");
-        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.getHauteurRallonge().toInches(), chalet.getLargeur().toInches(), normalArriere);
-        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), normalArriere);
-        writeStlForFace(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalGauche);
+        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.getHauteurRallonge().toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalArriere);
+        writeStlForFace(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches(), chalet.getLargeur().toInches(), normalArriere);
+        writeStlForFace(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(),-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), chalet.getLargeur().toInches()-getBigEpaisseur().toInches(), normalGauche);
         writeStlForUpAndDown(writer, 0, chalet.getLongueur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches(), normalHaut);
-        writeStlForUpAndDown(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalHaut);
-
+        writeStlForUpAndDown(writer, getBigEpaisseur().toInches(), chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches(), normalHaut);
         writer.write("facet normal " + normalDroite + "\n");
         writer.write("outer loop\n");
         writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
@@ -535,36 +492,35 @@ public class ExportFini extends Export {
         writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()-getSmallEpaisseur().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
-
         writeStlForCote(writer, chalet.getLongueur().toInches()-getBigEpaisseur().toInches(), chalet.getHauteur().toInches(), -chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches(), chalet.getLargeur().toInches()-getSmallEpaisseur().toInches(), chalet.getLargeur().toInches()-getEpaisseur().toInches(), normalGauche);
 
         writer.write("facet normal " + normalBas + "\n");//haut rallonge
         writer.write("outer loop\n");
-        writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        writer.write("vertex " + 0 + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()- getBigEpaisseur().toInches()) + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
         writer.write("facet normal " + normalBas + "\n");
         writer.write("outer loop\n");
-        writer.write("vertex " + 0 + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + chalet.getLargeur().toInches() + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + -chalet.rallonge.calculerYSommetTriangulation().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + chalet.getLargeur().toInches() + "\n");
+        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
 
         writer.write("facet normal " + normalBas + "\n");//haut retrait
         writer.write("outer loop\n");
-        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()- oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
         writer.write("facet normal " + normalBas + "\n");
         writer.write("outer loop\n");
-        writer.write("vertex " + 0 + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
-        writer.write("vertex " + chalet.getLongueur().toInches() + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()-getBigEpaisseur().toInches()-oppose.toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + getBigEpaisseur().toInches() + " " + -chalet.rallonge.getHauteurRallonge().toInches() + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.getHauteurRallonge().toInches()) + " " + (chalet.getLargeur().toInches()- getSmallEpaisseur().toInches()) + "\n");
+        writer.write("vertex " + (chalet.getLongueur().toInches()-getBigEpaisseur().toInches()) + " " + (-chalet.rallonge.calculerYSommetTriangulation().toInches()) + " " + (chalet.getLargeur().toInches()- getEpaisseur().toInches()) + "\n");
         writer.write("endloop\n");
         writer.write("endfacet\n");
 
