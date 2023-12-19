@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class TopRightPanel extends JPanel implements ActionListener {
     private static final LayoutManager LAYOUT_MANAGER = new FlowLayout(FlowLayout.RIGHT);
@@ -15,7 +17,13 @@ public class TopRightPanel extends JPanel implements ActionListener {
     public TopRightPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         grilleCheckBox = new GrilleCheckBox(mainWindow);
-        textField = new TextField(4);
+        textField = new TextField("6\"", 10);
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                mainWindow.getController().setIntervalGrid(textField.getText());
+            }
+        });
         init();
     }
 

@@ -16,7 +16,6 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -279,5 +278,10 @@ public class ChaletController implements Observable, Serializable {
             this.afficheur = new AfficheurDrawable(chalet, afficheur.getVue(), drawable1);
             notifyObservers();
         });
+    }
+
+    public void setIntervalGrid(String interval) {
+        afficheur.setInterval(Imperial.fromString(interval));
+        notifyObservers();
     }
 }

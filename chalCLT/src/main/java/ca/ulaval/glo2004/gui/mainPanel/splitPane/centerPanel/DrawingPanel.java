@@ -74,7 +74,7 @@ public class DrawingPanel extends JPanel implements Observer {
 
     private void afficherGrille(Graphics g2d) {
         boolean isGrille = mainWindow.getMainPanel().getTopPanel().getTopRightPanel().isGrille();
-        afficheur().setIntervalLigne(mainWindow.getMainPanel().getTopPanel().getTopRightPanel().getTextField().getText());
+        mainWindow.getController().setIntervalGrid(mainWindow.getMainPanel().getTopPanel().getTopRightPanel().getTextField().getText());
         if (isGrille) {
             afficheur().drawGrille(g2d, getWidth(), getHeight());
         }

@@ -19,8 +19,7 @@ public abstract class Afficheur {
     protected double yOffset = 1000;
     protected double yChalet = 0;
     protected double xChalet = 0;
-    protected String intervalLigne = "10\"";
-
+    protected Imperial interval = Imperial.fromInches(6);
 
     public Afficheur(Chalet chalet, Vue vue) {
         this.chalet = chalet;
@@ -51,7 +50,7 @@ public abstract class Afficheur {
     {
         g.setColor(Color.LIGHT_GRAY);
 
-        int intervalle = unitConverter.inchesToPixel(Imperial.fromString(intervalLigne).toInches());
+        int intervalle = unitConverter.inchesToPixel(zoomFactor * interval.toInches());
 
         for (int x = 0; x < largeur; x += intervalle) {
             g.drawLine(x, 0, x, hauteur);
@@ -121,12 +120,8 @@ public abstract class Afficheur {
         this.chalet = chalet;
     }
 
-    public void setIntervalLigne(String intervalLigne) {
-        this.intervalLigne = intervalLigne;
-    }
-
-    public String getIntervalLigne() {
-        return intervalLigne;
+    public void setInterval(Imperial interval) {
+        this.interval = interval;
     }
 
     public UnitConverter getUnitConverter() {
