@@ -1,5 +1,7 @@
 package ca.ulaval.glo2004.domain;
 
+import ca.ulaval.glo2004.domain.util.Imperial;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +25,18 @@ public abstract class Export {
     }
 
     public abstract void export();
+
+    protected Imperial getEpaisseur() {
+        return chalet.getEpaisseurMur();
+    }
+
+    protected Imperial getSmallEpaisseur() {
+        return getEpaisseur().divideBy(2).subtract(chalet.getDeltaRainure().divideBy(2));
+    }
+
+    protected Imperial getBigEpaisseur() {
+        return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure().divideBy(2));
+    }
 
     protected static void writeStlForFace(FileWriter writer, double debutRectangleX, double endRectangleX, double debutRectangleY, double endRectangleY, double z, String normalVector) throws IOException{
         writer.write("facet normal " + normalVector + "\n");
