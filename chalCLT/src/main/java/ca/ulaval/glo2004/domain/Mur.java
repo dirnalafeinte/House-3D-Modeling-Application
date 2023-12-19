@@ -35,7 +35,11 @@ public class Mur extends Drawable implements Serializable {
 
     @Override
     public Color getColor() {
-        return state.isValid() ? isCoteLong() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
+        return state.isValid() ? isCoteFace() ? DEFAULT_COLOR_1 : DEFAULT_COLOR_2 : DEFAULT_ERROR_COLOR;
+    }
+
+    private boolean isCoteFace() {
+        return cote == Orientation.FACADE || cote == Orientation.ARRIERE;
     }
 
     public boolean contains(Accessoire that) {

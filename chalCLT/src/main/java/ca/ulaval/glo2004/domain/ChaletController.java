@@ -32,6 +32,7 @@ public class ChaletController implements Observable, Serializable {
     private final DTOAssembler dtoAssembler = new DTOAssembler();
     private final AccessoireAssembler accessoireAssembler = new AccessoireAssembler();
     private final ChaletCaretaker caretaker = new ChaletCaretaker();
+    private String nomChalet = "ChaltCLT";
     private Chalet chalet;
 
     public ChaletController() {
@@ -130,9 +131,10 @@ public class ChaletController implements Observable, Serializable {
         notifyObservers();
     }
 
-    public void sauvegarderFichier(String filePath) throws IOException {
+    public void sauvegarderFichier(String filePath, String fileName) throws IOException {
         try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
             objectOutputStream.writeObject(chalet);
+            nomChalet = fileName;
 
 
         }catch (IOException e) {
@@ -145,6 +147,8 @@ public class ChaletController implements Observable, Serializable {
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))){
             chalet = (Chalet) input.readObject();
             afficheur.setChalet(chalet);
+            caretaker.reset();
+            saveState();
             notifyObservers();
             return true;
 
@@ -184,16 +188,19 @@ public class ChaletController implements Observable, Serializable {
 
     public void exportPanneauxBruts(String path) {
         ExportBrut exportBrut = new ExportBrut(chalet, path);
+        exportBrut.setProjectName(nomChalet);
         exportBrut.export();
     }
 
     public void exportPanneauxFinis(String path) {
         ExportFini exportFini = new ExportFini(chalet, path);
+        exportFini.setProjectName(nomChalet);
         exportFini.export();
     }
 
     public void exportRetraits(String path) {
         ExportRetrait exportRetrait = new ExportRetrait(chalet, path);
+        exportRetrait.setProjectName(nomChalet);
         exportRetrait.export();
     }
 

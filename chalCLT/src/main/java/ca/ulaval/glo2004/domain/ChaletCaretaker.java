@@ -7,6 +7,11 @@ public class ChaletCaretaker {
     private final Stack<ChaletMemento> undoHistory = new Stack<>();
     private final Stack<ChaletMemento> redoHistory = new Stack<>();
 
+    public void reset() {
+        undoHistory.clear();
+        redoHistory.clear();
+    }
+
     public void addMemento(ChaletMemento memento) {
         undoHistory.push(memento);
         redoHistory.clear();

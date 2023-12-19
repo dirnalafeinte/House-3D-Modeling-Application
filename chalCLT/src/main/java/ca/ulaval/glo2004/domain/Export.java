@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public abstract class Export implements Serializable {
     private static final String DEFAULT_PROJECT_NAME = "ChalCLT";
-    private final String projectName;
+    private String projectName;
     protected static Chalet chalet;
     protected String path;
     String normalAvant= "0.00000E+000 .00000E+000 -1.00000E+000";
@@ -95,5 +95,9 @@ public abstract class Export implements Serializable {
 
     protected String getFileName(String panelType, Panneau panneau, int sequentialNumber) {
         return String.format("%s_%s_%s_%d.stl", projectName, panelType, panneau, sequentialNumber);
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

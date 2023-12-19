@@ -35,8 +35,9 @@ public class SauvegarderMenuItem extends JMenuItem {
         if (selection
          == JFileChooser.APPROVE_OPTION) {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            String fileName = fileChooser.getSelectedFile().getName();
            try{
-               mainWindow.getController().sauvegarderFichier(filePath);
+               mainWindow.getController().sauvegarderFichier(filePath, fileName);
            } catch (RuntimeException err) {
                err.printStackTrace();
            } catch (IOException e) {
