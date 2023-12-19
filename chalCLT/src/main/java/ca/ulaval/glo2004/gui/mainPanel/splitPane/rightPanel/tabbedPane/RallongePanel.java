@@ -8,8 +8,6 @@ import ca.ulaval.glo2004.gui.MainWindow;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -72,7 +70,7 @@ public class RallongePanel extends JPanel implements Observer {
         String longueur = longueurField.getText();
         String hauteur = hauteurField.getText();
 
-        ChaletDTO nouveauChalet = new ChaletDTO(chaletDTO.largeur(), longueur, hauteur, chaletDTO.deltaRainure(), chaletDTO.epaisseurMur(), chaletDTO.distanceMin());
+        ChaletDTO nouveauChalet = new ChaletDTO(chaletDTO.largeur(), longueur, hauteur, chaletDTO.deltaRainure(), chaletDTO.epaisseurMur(), chaletDTO.distanceMin(), chaletDTO.angleToit(), chaletDTO.sensDuToit());
 
         mainWindow.getController().updateDimensions(nouveauChalet);
     }

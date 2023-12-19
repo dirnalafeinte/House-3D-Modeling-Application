@@ -7,9 +7,10 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Fenetre extends Accessoire {
+public class Fenetre extends Accessoire implements Serializable {
     private static final Color DEFAULT_COLOR = Color.PINK;
 
     public Fenetre(Imperial largeur, Imperial hauteur, Coordonnee coordonnee, Chalet chalet, Mur mur) {

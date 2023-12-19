@@ -105,9 +105,12 @@ public class ChaletController implements Observable, Serializable {
         Imperial updatedEpaisseur = Imperial.fromString(chalets.epaisseurMur());
         Imperial updatedDeltaRainure = Imperial.fromString(chalets.deltaRainure());
         Imperial updatedDistanceMin = Imperial.fromString(chalets.distanceMin());
+        double angleToit = Double.parseDouble(chalets.angleToit());
+        Orientation sensDuToit = Orientation.valueOf(chalets.sensDuToit());
 
 
-        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin);
+
+        chalet.recalculerChalet(updatedLongueur,updatedLargeur,updatedHauteur, updatedEpaisseur, updatedDeltaRainure, updatedDistanceMin, angleToit, sensDuToit);
         saveState();
         notifyObservers();
     }
@@ -115,17 +118,28 @@ public class ChaletController implements Observable, Serializable {
     public void sauvegarderFichier(String filePath) throws IOException {
         try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
             objectOutputStream.writeObject(chalet);
+        }catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void importerFichier(String filePath) {
+    public boolean importerFichier(String filePath) {
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))){
-            ChaletController controller = (ChaletController) input.readObject();
+            chalet = (Chalet) input.readObject();
+            afficheur.setChalet(chalet);
+            notifyObservers();
+            return true;
+
+            //System.out.println(((Chalet)input.readObject()).get);
+            //chalet = (Chalet) input.readObject();
+
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return false;
         }
-        notifyObservers();
+//        notifyObservers();
+//        return null;
     }
 
     public void resetChaletDefaut() {

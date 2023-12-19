@@ -4,17 +4,18 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class Drawable {
+public abstract class Drawable implements Serializable {
     protected static Color DEFAULT_ERROR_COLOR = Color.RED;
     protected final String id;
     protected final Map<Vue, List<Coordonnee>> sommetsByVue = new HashMap<>();
     protected final Chalet chalet;
-    protected DrawableState state = new DrawableState(true);
+    protected transient DrawableState state = new DrawableState(true);
     protected boolean objectSelected;
 
     public Drawable(Chalet chalet) {

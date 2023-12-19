@@ -15,7 +15,7 @@ public class Chalet implements Serializable {
     private static final Imperial DEFAULT_HAUTEUR = Imperial.fromFeet(8);
     private static final Imperial DEFAULT_DELTA_RAINURE = new Imperial();
     private static final Orientation DEFAULT_SENS_DU_TOIT = Orientation.FACADE;
-    private static final int DEFAULT_ANGLE_TOIT = 15;
+    private static final double DEFAULT_ANGLE_TOIT = 15.0;
     private static final Imperial DEFAULT_EPAISSEUR_MUR = Imperial.fromInches(6);
     private static final Imperial DEFAULT_DISTANCE_MIN = Imperial.fromInches(3);
     private Imperial largeur;
@@ -23,7 +23,7 @@ public class Chalet implements Serializable {
     private Imperial hauteur;
     private Imperial deltaRainure;
     private Orientation sensDuToit;
-    private int angleToit;
+    private double angleToit;
     private Imperial epaisseurMur;
     private final Map<Orientation, Mur> mursByOrientation = new HashMap<>();
     private final Map<Orientation, Mur> mursByVue = new HashMap<>();
@@ -52,7 +52,7 @@ public class Chalet implements Serializable {
         this.pignonGauche = new Pignon(this, false);
     }
 
-    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin) {
+    void recalculerChalet(Imperial longueur, Imperial largeur, Imperial hauteur, Imperial epaisseur, Imperial deltaRainure, Imperial distanceMin, double angleToit, Orientation sensDuToit) {
 
         Imperial ratioLargeur = largeur.divide(this.largeur);
         Imperial ratioHauteur = hauteur.divide(this.hauteur);
@@ -64,6 +64,8 @@ public class Chalet implements Serializable {
         this.epaisseurMur = epaisseur;
         this.deltaRainure = deltaRainure;
         this.distanceMin = distanceMin;
+        this.angleToit = angleToit;
+        this.sensDuToit = sensDuToit;
 
         for (Mur mur : getMurs()) {
             mur.calculateSommets();
@@ -182,7 +184,7 @@ public class Chalet implements Serializable {
         this.sensDuToit = sensDuToit;
     }
 
-    public int getAngleToit() {
+    public double getAngleToit() {
         return angleToit;
     }
 

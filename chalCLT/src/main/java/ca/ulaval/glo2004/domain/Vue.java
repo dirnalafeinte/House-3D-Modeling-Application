@@ -1,6 +1,8 @@
 package ca.ulaval.glo2004.domain;
 
-public enum Vue {
+import java.io.Serializable;
+
+public enum Vue implements Serializable {
     PLAN,
     FACADE,
     GAUCHE,

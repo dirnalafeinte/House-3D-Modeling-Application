@@ -7,14 +7,17 @@ import ca.ulaval.glo2004.domain.dtos.*;
 
 public class DTOAssembler {
     public ChaletDTO toChaletDTO(Chalet chalet) {
+        String angleToitString = String.valueOf(chalet.getAngleToit());
+
         return new ChaletDTO(chalet.getLargeur().toString(),
                 chalet.getLongueur().toString(),
                 chalet.getHauteur().toString(),
                 chalet.getDeltaRainure().toString(),
-//                chalet.getSensDuToit().toString(),
-//                chalet.getAngleToit(),
                 chalet.getEpaisseurMur().toString(),
-                chalet.getDistanceMin().toString());
+                chalet.getDistanceMin().toString(),
+                angleToitString,
+                chalet.getSensDuToit().toString()
+        );
     }
 
     public FenetreDTO toFenetreDTO(Fenetre fenetre) {
