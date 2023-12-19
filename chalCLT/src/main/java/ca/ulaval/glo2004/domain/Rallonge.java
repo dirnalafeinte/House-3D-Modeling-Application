@@ -124,7 +124,7 @@ public class Rallonge extends Drawable implements Serializable {
       }
     }
 
-    private Imperial getEpaisseur() {
+    public Imperial getEpaisseur() {
         return chalet.getEpaisseurMur();
     }
 

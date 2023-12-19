@@ -3,7 +3,7 @@ package ca.ulaval.glo2004.gui.mainPanel.splitPane.centerPanel;
 import ca.ulaval.glo2004.domain.Observer;
 import ca.ulaval.glo2004.domain.drawers.Afficheur;
 import ca.ulaval.glo2004.gui.MainWindow;
-import ca.ulaval.glo2004.gui.mouse.AccessoryMovement;
+import ca.ulaval.glo2004.gui.mouse.MouseMotionListener;
 import ca.ulaval.glo2004.gui.mouse.MouseListener;
 import ca.ulaval.glo2004.gui.mouse.ZoomHandler;
 
@@ -17,7 +17,7 @@ public class DrawingPanel extends JPanel implements Observer {
     private final MainWindow mainWindow;
     private final ZoomHandler zoomHandler;
     private final MouseListener mouseListner;
-    private final AccessoryMovement accessoryMovement;
+    private final MouseMotionListener accessoryMovement;
     //private final PanningHandler panningHandler;
 
 
@@ -25,7 +25,7 @@ public class DrawingPanel extends JPanel implements Observer {
         this.mainWindow = mainWindow;
         zoomHandler = new ZoomHandler(mainWindow);
         mouseListner = new MouseListener(mainWindow);
-        accessoryMovement = new AccessoryMovement(mainWindow);
+        accessoryMovement = new MouseMotionListener(mainWindow);
         //panningHandler = new PanningHandler(mainWindow);
         init();
     }

@@ -9,17 +9,35 @@ import java.awt.*;
 public class RightPanel extends JPanel {
     private final MainWindow mainWindow;
     private final TabbedPane tabbedPane;
+    private JTextArea textArea;
+
 
     public RightPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         tabbedPane = new TabbedPane(mainWindow);
+
         init();
     }
 
     private void init() {
 
         setPreferredSize(new Dimension(300, 600));
+        setLayout(new BorderLayout());
 
-        add(tabbedPane);
+        add(tabbedPane, BorderLayout.NORTH);
+
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setLayout(new BorderLayout());
+
+        textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+
+        textAreaPanel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        add(textAreaPanel, BorderLayout.CENTER);
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
     }
 }

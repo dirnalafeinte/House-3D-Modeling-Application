@@ -33,4 +33,8 @@ public class SplitPane extends JSplitPane {
     public CenterPanel getCenterPanel() {
         return centerPanel;
     }
+
+    public RightPanel getRightPanel() {
+        return rightPanel;
+    }
 }

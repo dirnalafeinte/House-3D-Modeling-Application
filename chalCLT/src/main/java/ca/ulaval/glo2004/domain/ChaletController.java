@@ -205,12 +205,15 @@ public class ChaletController implements Observable, Serializable {
         List<Drawable> components = chalet.getVisibleComponents(afficheur.getVue());
         List<Accessoire> accessoires = new ArrayList<>();
         List<Mur> murs = new ArrayList<>();
+        List<Drawable> toits = new ArrayList<>();
 
         for (Drawable drawable : components) {
             if (drawable instanceof Mur)
                 murs.add((Mur) drawable);
             else if (drawable instanceof Accessoire)
                 accessoires.add((Accessoire) drawable);
+            else
+                toits.add(drawable);
         }
 
         for (Accessoire accessoire : accessoires){
@@ -221,6 +224,11 @@ public class ChaletController implements Observable, Serializable {
         for (Mur mur : murs) {
             if (mur.estContenu(afficheur.getVue(), coordonnee))
                 return mur;
+        }
+
+        for (Drawable drawable : toits){
+            if (drawable.estContenu(afficheur.getVue(), coordonnee))
+                return drawable;
         }
 
         return null;
