@@ -15,6 +15,7 @@ import ca.ulaval.glo2004.domain.util.Coordonnee;
 import ca.ulaval.glo2004.domain.util.Imperial;
 import ca.ulaval.glo2004.domain.util.UnitConverter;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +127,10 @@ public class ChaletController implements Observable, Serializable {
     public void sauvegarderFichier(String filePath) throws IOException {
         try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
             objectOutputStream.writeObject(chalet);
+
+
         }catch (IOException e) {
+            //JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la sauvegarde : " + e.getMessage(), "Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
