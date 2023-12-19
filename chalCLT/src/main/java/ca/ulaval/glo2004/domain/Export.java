@@ -32,11 +32,11 @@ public abstract class Export implements Serializable {
     }
 
     protected Imperial getSmallEpaisseur() {
-        return getEpaisseur().divideBy(2).subtract(chalet.getDeltaRainure().divideBy(2));
+        return getEpaisseur().divideBy(2);
     }
 
     protected Imperial getBigEpaisseur() {
-        return getEpaisseur().divideBy(2).add(chalet.getDeltaRainure().divideBy(2));
+        return getEpaisseur().divideBy(2);
     }
 
     protected static void writeStlForFace(FileWriter writer, double debutRectangleX, double endRectangleX, double debutRectangleY, double endRectangleY, double z, String normalVector) throws IOException{

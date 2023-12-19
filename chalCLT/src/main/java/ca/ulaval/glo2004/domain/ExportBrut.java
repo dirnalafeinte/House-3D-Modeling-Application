@@ -39,18 +39,18 @@ public class ExportBrut extends Export {
                 case D:
                     writeStlForD(writer);
                     break;
-                //case PD:
-                //    writeStlForPD(writer);
-                //    break;
-                //case PG:
-                //    writeStlForPG(writer);
-                //    break;
-                //case R:
-                //    writeStlForR(writer);
-                //    break;
-                //case T:
-                //    writeStlForT(writer);
-               //     break;
+                case PD:
+                    writeStlForPD(writer);
+                    break;
+                case PG:
+                    writeStlForPG(writer);
+                    break;
+                case R:
+                    writeStlForR(writer);
+                    break;
+                case T:
+                    writeStlForT(writer);
+                    break;
             }
         }
     }
@@ -134,22 +134,50 @@ public class ExportBrut extends Export {
         writer.write("endsolid Panneau D\n");
     }
 
-    //protected void writeStlForT(FileWriter writer) throws IOException {
+    protected void writeStlForT(FileWriter writer) throws IOException {
+        writer.write("solid Panneau T\n");
+        writeStlForCote(writer, getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), normalDroite);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), normalAvant);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(),normalArriere);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.toit.getHauteurToit().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), normalBas);
+        writer.write("endsolid Panneau T\n");
 
-    //}
-//
-//
-//    protected void writeStlForR(FileWriter writer) throws IOException {
-//        writer.write("STL data for Panneau R");
-//    }
-//
-//
-//    protected void writeStlForPG(FileWriter writer) throws IOException {
-//        writer.write("STL data for Panneau PG");
-//    }
-//
-//
-//    protected void writeStlForPD(FileWriter writer) throws IOException {
-//        writer.write("STL data for Panneau PD");
-//    }
+    }
+
+    protected void writeStlForR(FileWriter writer) throws IOException {
+        writer.write("solid Panneau R\n");
+        writeStlForCote(writer, getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.rallonge.getHauteurRallonge().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.rallonge.getLongueurRallonge().toInches()+getSmallEpaisseur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.rallonge.getHauteurRallonge().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.rallonge.getLongueurRallonge().toInches()+getSmallEpaisseur().toInches(), normalDroite);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.rallonge.getHauteurRallonge().toInches()+chalet.getHauteur().toInches(), chalet.rallonge.getLongueurRallonge().toInches()+getSmallEpaisseur().toInches(), normalAvant);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.rallonge.getHauteurRallonge().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(),normalArriere);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.rallonge.getHauteurRallonge().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.rallonge.getLongueurRallonge().toInches()+getSmallEpaisseur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.toit.getLongueurToit().toInches()+getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.rallonge.getLongueurRallonge().toInches()+getSmallEpaisseur().toInches(), normalBas);
+        writer.write("endsolid Panneau R\n");
+    }
+
+
+    protected void writeStlForPG(FileWriter writer) throws IOException {
+        writer.write("solid Panneau PG\n");
+        writeStlForCote(writer, getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.pignonDroit.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.pignonDroit.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonDroit.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalDroite);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonDroit.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalAvant);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonDroit.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(),normalArriere);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.pignonDroit.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonDroit.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalBas);
+        writer.write("endsolid Panneau PG\n");
+    }
+
+
+    protected void writeStlForPD(FileWriter writer) throws IOException {
+        writer.write("solid Panneau PD\n");
+        writeStlForCote(writer, getSmallEpaisseur().toInches(), chalet.getHauteur().toInches(), chalet.pignonGauche.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalGauche);
+        writeStlForCote(writer, chalet.pignonGauche.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonGauche.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalDroite);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonGauche.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalAvant);
+        writeStlForFace(writer, getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), chalet.pignonGauche.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(),normalArriere);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.pignonGauche.getHauteurPignon().toInches()+chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalHaut);
+        writeStlForUpAndDown(writer, getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+chalet.getHauteur().toInches(), chalet.getHauteur().toInches(), getSmallEpaisseur().toInches(), chalet.pignonGauche.getLongueurPignon().toInches()+getSmallEpaisseur().toInches(), normalBas);
+        writer.write("endsolid Panneau PD\n");
+    }
 }
